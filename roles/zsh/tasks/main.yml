@@ -62,6 +62,7 @@
   ansible.builtin.git:
     repo: "{{ item.repo }}"
     dest: "{{ zsh_config_dir }}/plugins/{{ item.name }}"
+    version: HEAD
     depth: 1
   loop: "{{ zsh_plugins }}"
   when: zsh_plugins is defined and zsh_plugins | length > 0
@@ -74,18 +75,11 @@
   changed_when: false
 
 - name: Set up zsh completion system
-  args:
-    executable: /bin/bash
-  environment:
-  args:
-    executable: /bin/bash
-  environment:
-  args:
-    executable: /bin/bash
-  environment:
-    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+  ansible.builtin.shell: |
     zsh -c "autoload -Uz compinit && compinit -d {{ zsh_cache_dir }}/zcompdump"
   args:
+    executable: /bin/bash
     creates: "{{ zsh_cache_dir }}/zcompdump"
   environment:
+    BASH_ENV: /dev/null
     ZDOTDIR: "{{ zsh_config_dir }}"

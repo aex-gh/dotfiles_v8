@@ -1,0 +1,5 @@
+collections:
+  - name: community.general
+    version: ">=1.0.0"
+  - name: community.crypto
+    version: ">=1.0.0"

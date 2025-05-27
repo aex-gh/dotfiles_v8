@@ -1,13 +1,13 @@
 ---
 - name: Install Neovim via mise
-  ansible.builtin.shell: "mise install neovim@stable"
+  ansible.builtin.command: mise install neovim@stable
   environment:
     PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
   when: setup_neovim | default(true)
   changed_when: false
 
 - name: Set Neovim as global
-  ansible.builtin.shell: "mise global neovim@stable"
+  ansible.builtin.command: mise global neovim@stable
   environment:
     PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
   when: setup_neovim | default(true)
@@ -47,7 +47,7 @@
   when: setup_vim_fallback | default(true)
 
 - name: Install language servers via mise
-  ansible.builtin.shell: "mise install {{ item }}@latest"
+  ansible.builtin.command: mise install {{ item }}@latest
   loop: "{{ language_servers }}"
   environment:
     PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
@@ -55,7 +55,7 @@
   changed_when: false
 
 - name: Install development tools via mise
-  ansible.builtin.shell: "mise install {{ item }}@latest"
+  ansible.builtin.command: mise install {{ item }}@latest
   loop: "{{ dev_tools }}"
   environment:
     PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
@@ -119,7 +119,7 @@
   when: setup_vim_fallback | default(true)
 
 - name: Install Nerd Fonts (macOS)
-  homebrew_cask:
+  community.general.homebrew_cask:
     name: font-jetbrains-mono-nerd-font
     state: present
   when: install_nerd_fonts | default(true) and ansible_os_family == "Darwin"

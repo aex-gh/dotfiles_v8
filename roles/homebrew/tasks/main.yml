@@ -16,12 +16,12 @@
   tags: [homebrew, config]
 
 - name: Update Homebrew
-  community.general.community.general.community.general.homebrew:
-    update_community.general.community.general.community.general.homebrew: true
+  community.general.homebrew:
+    update_homebrew: true
   environment:
     PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
-  tags: [homebrew, update]
   when: homebrew_upgrade_all | default(false)
+  tags: [homebrew, update]
 
 - name: Add Homebrew taps
   ansible.builtin.include_tasks: taps.yml

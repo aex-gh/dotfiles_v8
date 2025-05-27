@@ -6,17 +6,12 @@
     mode: '0755'
 
 - name: Check for system certificates (macOS)
-  args:
-    executable: /bin/bash
-  environment:
-  args:
-    executable: /bin/bash
-  environment:
-  args:
-    executable: /bin/bash
-  environment:
-    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+  ansible.builtin.shell: |
     security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain > "{{ development_cert_directory }}/system-ca-bundle.crt"
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null
   when: ansible_os_family == "Darwin"
   changed_when: false
 

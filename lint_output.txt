@@ -1,0 +1,52 @@
+[2mINFO     Identified [35m/Users/andrew/projects/personal/dotfiles_v8[0m as project root due [1m.git directory[0m.[0m
+[2mINFO     Collection paths was patched to include extra directories /Users/andrew/.ansible/collections,/usr/share/ansible/collections,/opt/homebrew/opt/python@3.13/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages,/opt/homebrew/lib/python3.13/site-packages,/opt/homebrew/Cellar/ansible-lint/25.5.0/libexec/lib/python3.13/site-packages[0m
+[2mINFO     Set ANSIBLE_LIBRARY=/Users/andrew/projects/personal/dotfiles_v8/.ansible/modules:/Users/andrew/.ansible/plugins/modules:/usr/share/ansible/plugins/modules[0m
+[2mINFO     Set ANSIBLE_COLLECTIONS_PATH=/Users/andrew/projects/personal/dotfiles_v8/.ansible/collections:/Users/andrew/.ansible/collections:/usr/share/ansible/collections:/opt/homebrew/opt/python@3.13/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages:/opt/homebrew/lib/python3.13/site-packages:/opt/homebrew/Cellar/ansible-lint/25.5.0/libexec/lib/python3.13/site-packages[0m
+[2mINFO     Set ANSIBLE_ROLES_PATH=/Users/andrew/projects/personal/dotfiles_v8/.ansible/roles:roles:/Users/andrew/projects/personal/dotfiles_v8/roles[0m
+[2mINFO     Loading ignores from .gitignore[0m
+[2mINFO     Loading ignores from .gitignore[0m
+[2mINFO     Executing syntax check on playbook playbooks/bootstrap.yml (0.91s)[0m
+[2mINFO     Executing syntax check on role roles/homebrew (0.96s)[0m
+[2mINFO     Executing syntax check on role roles/zsh (0.98s)[0m
+[2mINFO     Executing syntax check on role roles/common (0.99s)[0m
+[2mINFO     Executing syntax check on role roles/git (1.01s)[0m
+[2mINFO     Executing syntax check on role roles/development (1.01s)[0m
+[2mINFO     Executing syntax check on role roles/python (1.01s)[0m
+[2mINFO     Executing syntax check on role roles/xdg (1.02s)[0m
+[2mINFO     Executing syntax check on playbook site.yml (1.03s)[0m
+[2mINFO     Executing syntax check on role roles/macos (1.05s)[0m
+[2mINFO     Executing syntax check on role roles/linux (0.82s)[0m
+[2mINFO     Executing syntax check on role roles/mise (0.78s)[0m
+[2mINFO     Executing syntax check on role roles/editor (0.78s)[0m
+[2mWARNING  Invalid value (None)for resolved_fqcn attribute of community.general.git_config module.[0m
+[2mWARNING  Invalid value (None)for resolved_fqcn attribute of community.general.pacman module.[0m
+[2mWARNING  Invalid value (None)for resolved_fqcn attribute of community.general.pacman module.[0m
+[2mWARNING  Invalid value (None)for resolved_fqcn attribute of community.general.homebrew_tap module.[0m
+[2mWARNING  Invalid value (None)for resolved_fqcn attribute of pacman module.[0m
+[2mWARNING  Invalid value (None)for resolved_fqcn attribute of pacman module.[0m
+[2mWARNING  Invalid value (None)for resolved_fqcn attribute of community.general.flatpak_remote module.[0m
+[2mWARNING  Invalid value (None)for resolved_fqcn attribute of community.general.flatpak module.[0m
+[2mWARNING  Listing 5 violation(s) that are fatal[0m
+Read [34m]8;;https://ansible.readthedocs.io/projects/lint/configuring/#ignoring-rules-for-entire-files\documentation]8;;\[0m for instructions on how to ignore specific rule violations.
+
+# Rule Violation Summary
+
+  3 [34m]8;;https://ansible.readthedocs.io/projects/lint/rules/\syntax-check]8;;\[0m [2mprofile:min tags:core,unskippable[0m
+  2 [34m]8;;https://ansible.readthedocs.io/projects/lint/rules/\latest]8;;\[0m [2mprofile:min tags:idempotency[0m
+
+[31m[1mFailed[0m[0m: 5 failure(s), 0 warning(s) on 153 files. Profile 'production' was required.
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\syntax-check[unknown-module]]8;;\[0m[2m:[0m [31mcouldn't resolve module/action 'community.general.homebrew'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[35mroles/homebrew/tasks/main.yml[0m:18:3
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/latest/\latest[git]]8;;\[0m[2m:[0m [31mResult of the command may vary on subsequent runs.[0m
+[35mroles/linux/tasks/arch.yml[0m:15 [2mTask/Handler: Install AUR helper (yay)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\syntax-check[unknown-module]]8;;\[0m[2m:[0m [31mcouldn't resolve module/action 'community.general.homebrew'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[35mroles/mise/tasks/main.yml[0m:35:3
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\syntax-check[unknown-module]]8;;\[0m[2m:[0m [31mcouldn't resolve module/action 'community.general.homebrew'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[35mroles/python/tasks/main.yml[0m:47:3
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/latest/\latest[git]]8;;\[0m[2m:[0m [31mResult of the command may vary on subsequent runs.[0m
+[35mroles/zsh/tasks/main.yml[0m:61 [2mTask/Handler: Install zsh plugins[0m
+[0m

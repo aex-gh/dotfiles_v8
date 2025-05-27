@@ -1,6 +1,6 @@
 ---
 - name: Install Homebrew formulas
-  homebrew:
+  community.general.homebrew:
     name: "{{ item }}"
     state: present
   loop: "{{ homebrew_formulas }}"

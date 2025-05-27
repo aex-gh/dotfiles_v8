@@ -1,6 +1,6 @@
 ---
 - name: Install Homebrew casks
-  community.general.community.general.community.general.homebrew_cask:
+  community.general.homebrew_cask:
     name: "{{ item }}"
     state: present
   loop: "{{ homebrew_casks }}"

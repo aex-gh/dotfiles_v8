@@ -11,7 +11,7 @@
 
   pre_tasks:
     - name: Validate required variables
-      assert:
+      ansible.builtin.assert:
         that:
           - ansible_user_id is defined
           - ansible_env.HOME is defined
@@ -19,7 +19,7 @@
       tags: [always]
 
     - name: Create backup directory
-      file:
+      ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ ansible_date_time.epoch }}"
         state: directory
         mode: '0755'
@@ -60,18 +60,17 @@
 
   post_tasks:
     - name: Verify installation
-      debug:
+      ansible.builtin.debug:
         msg: "Dotfiles installation completed successfully"
       tags: [always]
 
     - name: Show next steps
-      debug:
+      ansible.builtin.debug:
         msg: |
           🎉 Installation complete! Next steps:
           1. Restart your terminal or run: source ~/.zshrc
           2. Set up Git credentials: git config --global user.name "Your Name"
           3. Sign into Mac App Store for MAS apps (macOS)
           4. Check mise doctor: mise doctor
-  changed_when: false
       changed_when: false
       tags: [always]

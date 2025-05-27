@@ -33,7 +33,7 @@
   when: setup_git_hooks | default(false)
 
 - name: Install git-lfs (macOS)
-  homebrew:
+  community.general.homebrew:
     name: git-lfs
     state: present
   when: git_lfs_enabled | default(false) and ansible_os_family == "Darwin"
@@ -60,12 +60,12 @@
   when: git_lfs_enabled | default(false) and ansible_distribution == "Fedora"
 
 - name: Initialize git-lfs
-  ansible.builtin.shell: git lfs install --skip-repo
+  ansible.builtin.command: git lfs install --skip-repo
   when: git_lfs_enabled | default(false)
   changed_when: false
 
 - name: Install delta pager (via mise)
-  ansible.builtin.shell: "mise install delta@latest"
+  ansible.builtin.command: mise install delta@latest
   environment:
     PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
   when: setup_delta_pager | default(true)

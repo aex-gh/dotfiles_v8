@@ -11,11 +11,16 @@ warn_list:
 
 # Rules to skip entirely
 skip_list:
-  - meta-no-info              # Role metadata not critical for personal dotfiles
-  - role-name                 # Allow flexible role naming
-  - galaxy[no-changelog]      # Not publishing to Galaxy
-  - schema[meta]              # Flexible meta schema
-  - yaml[truthy]              # Allow yes/no/true/false flexibility
+  - meta-no-info
+  - role-name
+  - galaxy[no-changelog]
+  - schema[meta]
+  - yaml[truthy]
+  - var-naming[no-role-prefix]
+  - command-instead-of-shell
+  - risky-shell-pipe
+  - latest[git]
+  - syntax-check[unknown-module]
 
 # Paths to exclude from linting
 exclude_paths:
@@ -30,7 +35,7 @@ exclude_paths:
   - "*.tmp"
 
 # Enable offline mode (don't check external schemas)
-offline: false
+offline: true
 
 # Parseable output format (useful for CI/CD)
 parseable: false

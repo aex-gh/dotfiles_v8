@@ -18,19 +18,13 @@
   tags: [mise, install]
 
 - name: Install Mise via curl (when not present)
-  args:
-    executable: /bin/bash
-  environment:
-  args:
-    executable: /bin/bash
-  environment:
-  args:
-    executable: /bin/bash
-  environment:
-    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+  ansible.builtin.shell: |
     curl -s https://mise.run | sh
   args:
+    executable: /bin/bash
     creates: "{{ ansible_env.HOME }}/.local/bin/mise"
+  environment:
+    BASH_ENV: /dev/null
   when:
     - mise_install_method == "curl"
     - not mise_binary.stat.exists
@@ -39,7 +33,7 @@
   tags: [mise, install]
 
 - name: Install Mise via Homebrew (macOS)
-  homebrew:
+  community.general.homebrew:
     name: mise
     state: present
   environment:
@@ -62,20 +56,20 @@
 - name: Install Mise via package manager (Debian/Ubuntu)
   block:
     - name: Download Mise deb package
-      get_url:
+      ansible.builtin.get_url:
         url: https://github.com/jdx/mise/releases/latest/download/mise_amd64.deb
         dest: /tmp/mise_amd64.deb
         mode: '0644'
         timeout: 30
 
     - name: Install Mise deb package
-      apt:
+      ansible.builtin.apt:
         deb: /tmp/mise_amd64.deb
         state: present
       become: true
 
     - name: Clean up deb package
-      file:
+      ansible.builtin.file:
         path: /tmp/mise_amd64.deb
         state: absent
   when:
@@ -86,21 +80,21 @@
 - name: Install Mise via package manager (Fedora)
   block:
     - name: Download Mise rpm package
-      get_url:
+      ansible.builtin.get_url:
         url: https://github.com/jdx/mise/releases/latest/download/mise.rpm
         dest: /tmp/mise.rpm
         mode: '0644'
         timeout: 30
 
     - name: Install Mise rpm package
-      dnf:
+      ansible.builtin.dnf:
         name: /tmp/mise.rpm
         state: present
         disable_gpg_check: true
       become: true
 
     - name: Clean up rpm package
-      file:
+      ansible.builtin.file:
         path: /tmp/mise.rpm
         state: absent
   when:
@@ -110,7 +104,7 @@
 
 - name: Verify Mise installation
   ansible.builtin.command: "{{ ansible_env.HOME }}/.local/bin/mise --version"
-  changed_when: false  changed_when: false  changed_when: false  register: mise_version
+  register: mise_version
   changed_when: false
   failed_when: false
   tags: [mise, verify]
@@ -265,9 +259,6 @@
     MISE_DATA_DIR: "{{ mise_data_dir }}"
     MISE_CACHE_DIR: "{{ mise_cache_dir }}"
   register: mise_doctor
-  changed_when: false
-  changed_when: false
-  changed_when: false
   changed_when: false
   failed_when: false
   when: mise_version.rc == 0

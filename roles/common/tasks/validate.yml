@@ -77,16 +77,13 @@
   tags: [validate, network]
 
 - name: Validate disk space
+  ansible.builtin.shell: |
+    set -o pipefail
+    df -h {{ ansible_env.HOME }} | awk 'NR==2 {print $4}' | sed 's/[A-Za-z]//g'
   args:
     executable: /bin/bash
   environment:
-  args:
-    executable: /bin/bash
-  environment:
-  args:
-    executable: /bin/bash
-  environment:
-    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: df -h {{ ansible_env.HOME }} | awk 'NR==2 {print $4}' | sed 's/[A-Za-z]//g'
+    BASH_ENV: /dev/null
   register: available_space
   changed_when: false
   tags: [validate, disk]

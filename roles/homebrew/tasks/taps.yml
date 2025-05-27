@@ -1,6 +1,6 @@
 ---
 - name: Add Homebrew taps
-  homebrew_tap:
+  community.general.homebrew_tap:
     name: "{{ item }}"
     state: present
   loop: "{{ homebrew_taps }}"

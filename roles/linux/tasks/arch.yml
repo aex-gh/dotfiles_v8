@@ -1,11 +1,11 @@
 ---
 - name: Update pacman cache
-  pacman:
+  community.general.pacman:
     update_cache: true
   become: true
 
 - name: Install Arch packages
-  pacman:
+  community.general.pacman:
     name: "{{ item }}"
     state: present
   loop: "{{ pacman_packages | default([]) }}"
@@ -16,6 +16,7 @@
   ansible.builtin.git:
     repo: https://aur.archlinux.org/yay.git
     dest: /tmp/yay
+    version: HEAD
   become: false
 
 - name: Build and install yay
@@ -23,3 +24,4 @@
   become: false
   args:
     creates: /usr/bin/yay
+  changed_when: false
