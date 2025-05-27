@@ -1,0 +1,43 @@
+# Global Mise Tool Configuration
+# This file defines globally available tools and their versions
+
+[tools]
+{% for tool in mise_global_tools %}
+{{ tool.name }} = "{{ tool.version }}"
+{% endfor %}
+
+[env]
+# Global environment variables for all projects
+{% for key, value in mise_env_vars.items() %}
+{{ key }} = "{{ value }}"
+{% endfor %}
+
+[tasks]
+# Global tasks available in all projects
+[tasks.versions]
+description = "Show all installed tool versions"
+run = "mise current"
+
+[tasks.outdated]
+description = "Show outdated tools"
+run = "mise outdated"
+
+[tasks.doctor]
+description = "Run mise doctor"
+run = "mise doctor"
+
+[tasks.sync]
+description = "Install missing tools from .tool-versions"
+run = "mise install"
+
+[tasks.upgrade-all]
+description = "Upgrade all tools to latest versions"
+run = "mise upgrade"
+
+[tasks.clean-cache]
+description = "Clean download cache"
+run = "mise cache clear"
+
+[tasks.list-plugins]
+description = "List all available plugins"
+run = "mise plugin list-all"

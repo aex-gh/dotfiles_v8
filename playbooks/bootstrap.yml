@@ -1,0 +1,27 @@
+---
+- name: Bootstrap dotfiles
+  hosts: all
+  become: false
+  gather_facts: true
+
+  tasks:
+    - name: Include OS-specific variables
+      ansible.builtin.include_vars: "{{ ansible_os_family | lower }}.yml"
+
+    - name: Setup XDG configuration
+      ansible.builtin.include_role:
+        name: xdg
+
+    - name: Setup common configuration
+      ansible.builtin.include_role:
+        name: common
+
+    - name: Setup macOS specific configuration
+      ansible.builtin.include_role:
+        name: macos
+      when: ansible_os_family == "Darwin"
+
+    - name: Setup Linux specific configuration
+      ansible.builtin.include_role:
+        name: linux
+      when: ansible_os_family != "Darwin"

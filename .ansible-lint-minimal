@@ -1,0 +1,8 @@
+---
+# Minimal ansible-lint configuration that should work with any version
+skip_list:
+  - yaml[line-length]
+  - name[casing]
+
+exclude_paths:
+  - .git/

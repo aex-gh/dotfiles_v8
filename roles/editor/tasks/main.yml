@@ -1,0 +1,156 @@
+---
+- name: Install Neovim via mise
+  ansible.builtin.shell: "mise install neovim@stable"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  when: setup_neovim | default(true)
+  changed_when: false
+
+- name: Set Neovim as global
+  ansible.builtin.shell: "mise global neovim@stable"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  when: setup_neovim | default(true)
+  changed_when: false
+
+- name: Install Vim (fallback)
+  ansible.builtin.package:
+    name: vim
+    state: present
+  become: true
+  when: setup_vim_fallback | default(true) and ansible_os_family != "Darwin"
+
+- name: Create Neovim directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ nvim_config_dir }}"
+    - "{{ nvim_data_dir }}"
+    - "{{ nvim_cache_dir }}"
+    - "{{ nvim_config_dir }}/lua"
+    - "{{ nvim_config_dir }}/lua/config"
+    - "{{ nvim_config_dir }}/lua/plugins"
+  when: setup_neovim | default(true)
+
+- name: Create Vim directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ vim_config_dir }}"
+    - "{{ ansible_env.HOME }}/.vim/backup"
+    - "{{ ansible_env.HOME }}/.vim/swap"
+    - "{{ ansible_env.HOME }}/.vim/undo"
+  when: setup_vim_fallback | default(true)
+
+- name: Install language servers via mise
+  ansible.builtin.shell: "mise install {{ item }}@latest"
+  loop: "{{ language_servers }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  when: install_language_servers | default(true)
+  changed_when: false
+
+- name: Install development tools via mise
+  ansible.builtin.shell: "mise install {{ item }}@latest"
+  loop: "{{ dev_tools }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  when: install_dev_tools | default(true)
+  changed_when: false
+
+- name: Set up Neovim init.lua
+  ansible.builtin.template:
+    src: init.lua.j2
+    dest: "{{ nvim_config_dir }}/init.lua"
+    mode: '0644'
+  when: setup_neovim | default(true)
+
+- name: Set up Neovim options
+  ansible.builtin.template:
+    src: options.lua.j2
+    dest: "{{ nvim_config_dir }}/lua/config/options.lua"
+    mode: '0644'
+  when: setup_neovim | default(true)
+
+- name: Set up Neovim keymaps
+  ansible.builtin.template:
+    src: keymaps.lua.j2
+    dest: "{{ nvim_config_dir }}/lua/config/keymaps.lua"
+    mode: '0644'
+  when: setup_neovim | default(true)
+
+- name: Set up Neovim autocmds
+  ansible.builtin.template:
+    src: autocmds.lua.j2
+    dest: "{{ nvim_config_dir }}/lua/config/autocmds.lua"
+    mode: '0644'
+  when: setup_neovim | default(true)
+
+- name: Set up Lazy.nvim plugin manager
+  ansible.builtin.template:
+    src: lazy.lua.j2
+    dest: "{{ nvim_config_dir }}/lua/config/lazy.lua"
+    mode: '0644'
+  when: setup_neovim | default(true) and nvim_plugin_manager == "lazy"
+
+- name: Set up basic plugins configuration
+  ansible.builtin.template:
+    src: plugins.lua.j2
+    dest: "{{ nvim_config_dir }}/lua/plugins/init.lua"
+    mode: '0644'
+  when: setup_neovim | default(true)
+
+- name: Set up Vim configuration
+  ansible.builtin.template:
+    src: vimrc.j2
+    dest: "{{ vim_config_dir }}/vimrc"
+    mode: '0644'
+  when: setup_vim_fallback | default(true)
+
+- name: Create Vim symlink for backwards compatibility
+  ansible.builtin.file:
+    src: "{{ vim_config_dir }}/vimrc"
+    dest: "{{ ansible_env.HOME }}/.vimrc"
+    state: link
+  when: setup_vim_fallback | default(true)
+
+- name: Install Nerd Fonts (macOS)
+  homebrew_cask:
+    name: font-jetbrains-mono-nerd-font
+    state: present
+  when: install_nerd_fonts | default(true) and ansible_os_family == "Darwin"
+
+- name: Set up editor environment variables
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.profile"
+    marker: "# {mark} Editor Environment Variables"
+    block: |
+      export EDITOR="{{ primary_editor }}"
+      export VISUAL="{{ primary_editor }}"
+      export NVIM_CONFIG_DIR="{{ nvim_config_dir }}"
+      export NVIM_DATA_DIR="{{ nvim_data_dir }}"
+      export NVIM_CACHE_DIR="{{ nvim_cache_dir }}"
+    create: true
+    mode: '0644'
+  when: setup_editor_env_vars | default(true)
+
+- name: Add editor aliases to zsh
+  ansible.builtin.blockinfile:
+    path: "{{ zsh_config_dir | default(ansible_env.HOME + '/.config/zsh') }}/zshrc.local"
+    marker: "# {mark} Editor Aliases"
+    block: |
+      # Editor aliases
+      alias vim="nvim"
+      alias vi="nvim"
+      alias v="nvim"
+      alias nv="nvim"
+
+      # Quick config editing
+      alias nvimrc="nvim {{ nvim_config_dir }}/init.lua"
+      alias vimrc="nvim {{ vim_config_dir }}/vimrc"
+    create: true
+    mode: '0644'

@@ -1,0 +1,129 @@
+---
+- name: Ensure SSH directory exists with secure permissions
+  ansible.builtin.file:
+    path: "{{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/ssh"
+    state: directory
+    mode: '0700'
+  tags: [development, ssh, security]
+
+- name: Ensure SSH data directory exists with secure permissions
+  ansible.builtin.file:
+    path: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh"
+    state: directory
+    mode: '0700'
+  tags: [development, ssh, security]
+
+- name: Check if SSH key already exists
+  ansible.builtin.stat:
+    path: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ development_ssh_key_type }}"
+  register: ssh_key_stat
+  tags: [development, ssh]
+
+- name: Backup existing SSH keys
+  ansible.builtin.copy:
+    src: "{{ ansible_env.HOME }}/.ssh/"
+    dest: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ ansible_date_time.epoch }}/ssh/"
+    mode: preserve
+    remote_src: true
+  when:
+    - not skip_backup | default(false)
+    - ansible_env.HOME + '/.ssh' is directory
+  failed_when: false
+  tags: [development, ssh, backup]
+
+- name: Generate secure SSH key pair
+  community.crypto.openssh_keypair:
+    path: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ development_ssh_key_type }}"
+    type: "{{ development_ssh_key_type }}"
+    size: "{{ ssh_key_bits if ssh_key_type == 'rsa' else omit }}"
+    comment: "{{ development_ssh_key_comment }}"
+    mode: '0600'
+    passphrase: "{{ ssh_key_passphrase | default('') }}"
+  when: not ssh_key_stat.stat.exists
+  register: ssh_key_generation
+  tags: [development, ssh, security]
+
+- name: Set secure permissions on SSH private key
+  ansible.builtin.file:
+    path: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ development_ssh_key_type }}"
+    mode: '0600'
+  when: ssh_key_stat.stat.exists or ssh_key_generation is changed
+  tags: [development, ssh, security]
+
+- name: Set permissions on SSH public key
+  ansible.builtin.file:
+    path: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ development_ssh_key_type }}.pub"
+    mode: '0644'
+  when: ssh_key_stat.stat.exists or ssh_key_generation is changed
+  tags: [development, ssh, security]
+
+- name: Template secure SSH config
+  ansible.builtin.template:
+    src: ssh_config.j2
+    dest: "{{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/ssh/config"
+    mode: '0600'
+    backup: true
+  tags: [development, ssh, config]
+
+- name: Create SSH known_hosts file with secure permissions
+  ansible.builtin.file:
+    path: "{{ development_ssh_config_user_known_hosts_file }}"
+    state: touch
+    mode: '0644'
+  tags: [development, ssh, security]
+
+- name: Add common SSH host keys to known_hosts
+  ansible.builtin.known_hosts:
+    name: "{{ item.host }}"
+    key: "{{ item.key }}"
+    path: "{{ development_ssh_config_user_known_hosts_file }}"
+  loop:
+    - host: "github.com"
+      key: "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl"
+    - host: "gitlab.com"
+      key: "gitlab.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAfuCHKVTjquxvLjqbM0M00Q7TpP4uP4M1VKA1zKxCy"
+  when: add_known_hosts | default(true)
+  tags: [development, ssh, security]
+
+- name: Display SSH public key securely
+  ansible.builtin.slurp:
+    src: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ development_ssh_key_type }}.pub"
+  register: ssh_public_key
+  when: not ssh_key_stat.stat.exists and ssh_key_generation is changed
+  no_log: false
+  tags: [development, ssh]
+
+- name: Show SSH public key for setup
+  ansible.builtin.debug:
+    msg: |
+      🔑 SSH Key Generated Successfully!
+
+      Public key location: {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ development_ssh_key_type }}.pub
+
+      Add this key to your Git providers:
+      {{ ssh_public_key.content | b64decode | trim }}
+
+      Quick commands:
+      - Copy to clipboard: ssh-copy-key
+      - View key: cat {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ development_ssh_key_type }}.pub
+  when: not ssh_key_stat.stat.exists and ssh_key_generation is changed
+  tags: [development, ssh]
+
+- name: Create SSH agent configuration
+  ansible.builtin.template:
+    src: ssh_agent.j2
+    dest: "{{ common_shell_config_dir }}/profile.d/ssh-agent.sh"
+    mode: '0644'
+  tags: [development, ssh, shell]
+
+- name: Warn about SSH key passphrase
+  ansible.builtin.debug:
+    msg: |
+      ⚠️  Security Notice:
+      SSH key generated without passphrase for automation.
+      Consider adding a passphrase manually for enhanced security:
+      ssh-keygen -p -f {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ development_ssh_key_type }}
+  when:
+    - ssh_key_passphrase is not defined or ssh_key_passphrase == ""
+    - not ssh_key_stat.stat.exists
+  tags: [development, ssh, security]

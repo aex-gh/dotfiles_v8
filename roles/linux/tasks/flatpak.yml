@@ -1,0 +1,29 @@
+---
+- name: Install Flatpak (Debian/Ubuntu)
+  ansible.builtin.package:
+    name: flatpak
+    state: present
+  become: true
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: Install Flatpak (Fedora)
+  ansible.builtin.package:
+    name: flatpak
+    state: present
+  become: true
+  when: ansible_distribution == "Fedora"
+
+- name: Add Flathub repository
+  community.general.flatpak_remote:
+    name: flathub
+    state: present
+    flatpakrepo_url: https://dl.flathub.org/repo/flathub.flatpakrepo
+    method: user
+
+- name: Install Flatpak applications
+  community.general.flatpak:
+    name: "{{ item }}"
+    state: present
+    method: user
+  loop: "{{ flatpak_packages | default([]) }}"
+  when: flatpak_packages is defined

@@ -1,0 +1,25 @@
+---
+- name: Update pacman cache
+  pacman:
+    update_cache: true
+  become: true
+
+- name: Install Arch packages
+  pacman:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ pacman_packages | default([]) }}"
+  become: true
+  when: pacman_packages is defined
+
+- name: Install AUR helper (yay)
+  ansible.builtin.git:
+    repo: https://aur.archlinux.org/yay.git
+    dest: /tmp/yay
+  become: false
+
+- name: Build and install yay
+  ansible.builtin.shell: cd /tmp/yay && makepkg -si --noconfirm
+  become: false
+  args:
+    creates: /usr/bin/yay

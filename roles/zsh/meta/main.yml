@@ -1,0 +1,32 @@
+---
+dependencies:
+  - role: git
+  - role: editor
+
+galaxy_info:
+  author: your_name
+  description: Comprehensive Zsh configuration with XDG compliance
+  company: personal
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: MacOSX
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: Fedora
+      versions:
+        - all
+    - name: ArchLinux
+      versions:
+        - all
+  galaxy_tags:
+    - zsh
+    - shell
+    - configuration
+    - xdg

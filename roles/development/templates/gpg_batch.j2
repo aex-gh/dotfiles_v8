@@ -1,0 +1,13 @@
+%echo Generating a GPG key
+Key-Type: {{ gpg_key_type }}
+Key-Length: {{ gpg_key_length }}
+Subkey-Type: {{ gpg_key_type }}
+Subkey-Length: {{ gpg_key_length }}
+Key-Usage: {{ gpg_key_usage }}
+Subkey-Usage: {{ gpg_subkey_usage }}
+Name-Real: {{ gpg_name_real }}
+Name-Email: {{ gpg_name_email }}
+Expire-Date: {{ gpg_expire_date }}
+%no-protection
+%commit
+%echo done

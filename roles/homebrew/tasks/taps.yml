@@ -1,0 +1,8 @@
+---
+- name: Add Homebrew taps
+  homebrew_tap:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ homebrew_taps }}"
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"

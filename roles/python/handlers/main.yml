@@ -1,0 +1,10 @@
+---
+- name: Reload shell profile
+  ansible.builtin.shell: source {{ ansible_env.HOME }}/.profile
+  changed_when: false
+
+- name: Update uv
+  ansible.builtin.shell: uv self update
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  changed_when: false

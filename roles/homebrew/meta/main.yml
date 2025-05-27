@@ -1,0 +1,17 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: your_name
+  description: Homebrew package management for macOS
+  company: personal
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: MacOSX
+      versions:
+        - all
+  galaxy_tags:
+    - homebrew
+    - macos
+    - packagemanager

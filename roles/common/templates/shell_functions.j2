@@ -1,0 +1,197 @@
+# Consolidated shell functions
+# This file is sourced by multiple shells
+
+# Make directory and change to it
+mkcd() {
+    mkdir -p "$@" && cd "$_"
+}
+
+# Extract various archive formats
+extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2)   tar xjf "$1"     ;;
+            *.tar.gz)    tar xzf "$1"     ;;
+            *.bz2)       bunzip2 "$1"     ;;
+            *.rar)       unrar x "$1"     ;;
+            *.gz)        gunzip "$1"      ;;
+            *.tar)       tar xf "$1"      ;;
+            *.tbz2)      tar xjf "$1"     ;;
+            *.tgz)       tar xzf "$1"     ;;
+            *.zip)       unzip "$1"       ;;
+            *.Z)         uncompress "$1"  ;;
+            *.7z)        7z x "$1"        ;;
+            *.xz)        unxz "$1"        ;;
+            *.lzma)      unlzma "$1"      ;;
+            *)           echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Find and kill process by name
+killnamed() {
+    ps aux | grep -v grep | grep "$@" | awk '{print $2}' | xargs kill
+}
+
+# Show disk usage of current directory
+usage() {
+    du -h --max-depth=1 | sort -hr
+}
+
+# Quick backup function
+backup() {
+    cp "$1" "$1.backup.$(date +%Y%m%d_%H%M%S)"
+}
+
+# Create a data URL from a file
+dataurl() {
+    local mimeType=$(file -b --mime-type "$1")
+    if [[ $mimeType == text/* ]]; then
+        mimeType="${mimeType};charset=utf-8"
+    fi
+    echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
+}
+
+# Show system information
+sysinfo() {
+    echo "=== System Information ==="
+    echo "Hostname: $(hostname)"
+    echo "OS: $(uname -s)"
+    echo "Kernel: $(uname -r)"
+    echo "Architecture: $(uname -m)"
+    echo "Uptime: $(uptime)"
+    echo "Current User: $(whoami)"
+    echo "Current Directory: $(pwd)"
+    echo "Shell: $SHELL"
+    echo "==========================="
+}
+
+# Quick note taking
+note() {
+    local note_file="$HOME/Documents/notes.txt"
+    if [ $# -eq 0 ]; then
+        cat "$note_file"
+    else
+        echo "$(date '+%Y-%m-%d %H:%M:%S') - $*" >> "$note_file"
+    fi
+}
+
+# Show PATH in readable format
+showpath() {
+    echo "$PATH" | tr ':' '\n' | nl
+}
+
+# Weather function with city parameter
+weather() {
+    local city="${1:-{{ weather_location | default('London') }}}"
+    curl -4 "http://wttr.in/$city"
+}
+
+# Port check function
+port() {
+    lsof -i :"$1"
+}
+
+# Quick HTTP server
+serve() {
+    local port="${1:-8000}"
+    python3 -m http.server "$port"
+}
+
+# Git clone and cd
+gclone() {
+    git clone "$1" && cd "$(basename "$1" .git)"
+}
+
+# Find process by name
+psgrep() {
+    ps aux | grep -v grep | grep "$@"
+}
+
+# Reload shell configuration
+reload() {
+    if [ -n "$ZSH_VERSION" ]; then
+        source ~/.zshrc
+    elif [ -n "$BASH_VERSION" ]; then
+        source ~/.bashrc
+    else
+        source ~/.profile
+    fi
+    echo "Shell configuration reloaded."
+}
+
+# Quick file search
+ff() {
+    find . -name "*$1*" -type f
+}
+
+# Quick directory search
+fd() {
+    find . -name "*$1*" -type d
+}
+
+{% if ansible_os_family == "Darwin" %}
+# macOS specific functions
+flushdns() {
+    sudo dscacheutil -flushcache
+    sudo killall -HUP mDNSResponder
+    echo "DNS cache flushed"
+}
+
+# Open current directory in Finder
+finder() {
+    open "${1:-.}"
+}
+{% endif %}
+
+# Clean up system
+cleanup() {
+    echo "Cleaning up system..."
+    
+    # Clean temporary files
+    sudo rm -rf /tmp/*
+    
+    {% if ansible_os_family == "Darwin" %}
+    # macOS cleanup
+    brew cleanup
+    sudo periodic daily weekly monthly
+    {% else %}
+    # Linux cleanup
+    sudo apt autoremove -y 2>/dev/null || true
+    sudo dnf autoremove -y 2>/dev/null || true
+    sudo pacman -Sc --noconfirm 2>/dev/null || true
+    {% endif %}
+    
+    echo "System cleanup complete"
+}
+
+# Development project creation
+newproject() {
+    local project_type="$1"
+    local project_name="$2"
+    
+    if [[ -z "$project_type" || -z "$project_name" ]]; then
+        echo "Usage: newproject <type> <name>"
+        echo "Types: python, node, go, rust, ansible"
+        return 1
+    fi
+    
+    local template_dir="$XDG_DATA_HOME/templates/$project_type"
+    local project_dir="$DEVELOPMENT_DIR/personal/$project_name"
+    
+    if [[ -d "$project_dir" ]]; then
+        echo "Project $project_name already exists"
+        return 1
+    fi
+    
+    mkdir -p "$project_dir"
+    if [[ -d "$template_dir" ]]; then
+        cp -r "$template_dir"/* "$project_dir/"
+    fi
+    
+    cd "$project_dir"
+    git init
+    echo "Project $project_name created in $project_dir"
+}

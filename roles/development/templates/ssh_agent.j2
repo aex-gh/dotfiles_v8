@@ -1,0 +1,63 @@
+#!/bin/bash
+# SSH Agent configuration
+
+# SSH Agent setup
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    # Check if ssh-agent is already running
+    if pgrep -x "ssh-agent" > /dev/null; then
+        export SSH_AUTH_SOCK=$(find /tmp -name "agent.*" -user "$(whoami)" 2>/dev/null | head -1)
+        export SSH_AGENT_PID=$(pgrep -x ssh-agent)
+    fi
+    
+    # Start ssh-agent if not running
+    if [ -z "$SSH_AUTH_SOCK" ]; then
+        eval "$(ssh-agent -s)" > /dev/null
+        
+        # Add SSH keys automatically
+        ssh_key_file="{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ ssh_key_type }}"
+        if [ -f "$ssh_key_file" ]; then
+            ssh-add "$ssh_key_file" 2>/dev/null
+        fi
+    fi
+fi
+
+# SSH helper functions
+ssh-copy-key() {
+    local key_file="{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ ssh_key_type }}.pub"
+    if [ -f "$key_file" ]; then
+        if command -v pbcopy >/dev/null 2>&1; then
+            cat "$key_file" | pbcopy
+            echo "SSH public key copied to clipboard (macOS)"
+        elif command -v xclip >/dev/null 2>&1; then
+            cat "$key_file" | xclip -selection clipboard
+            echo "SSH public key copied to clipboard (Linux)"
+        elif command -v wl-copy >/dev/null 2>&1; then
+            cat "$key_file" | wl-copy
+            echo "SSH public key copied to clipboard (Wayland)"
+        else
+            echo "SSH public key content:"
+            cat "$key_file"
+        fi
+    else
+        echo "SSH key not found at $key_file"
+    fi
+}
+
+# SSH connection testing
+ssh-test() {
+    local host="${1:-github.com}"
+    echo "Testing SSH connection to $host..."
+    ssh -T "git@$host" 2>&1 | head -5
+}
+
+# SSH config validation
+ssh-check() {
+    echo "Validating SSH configuration..."
+    ssh -G github.com | grep -E "(identityfile|hostname|user|port)"
+}
+
+# Clean up old SSH connections
+ssh-cleanup() {
+    find {{ ansible_env.XDG_CACHE_HOME | default(ansible_env.HOME + '/.cache') }}/ssh -name "*" -type s -mtime +1 -delete 2>/dev/null || true
+    echo "Cleaned up old SSH connections"
+}

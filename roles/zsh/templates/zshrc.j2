@@ -1,0 +1,194 @@
+# =============================================================================
+# Zsh Configuration File
+# Main interactive shell configuration
+# =============================================================================
+
+# Source profile if not already loaded
+[[ -f "${ZDOTDIR}/zprofile" ]] && source "${ZDOTDIR}/zprofile"
+
+# =============================================================================
+# Zsh Options
+# =============================================================================
+
+# History
+setopt HIST_VERIFY                 # Show command with history expansion to user before running it
+setopt SHARE_HISTORY              # Share command history between zsh sessions
+setopt EXTENDED_HISTORY           # Record timestamp of command in HISTFILE
+setopt HIST_EXPIRE_DUPS_FIRST     # Delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt HIST_IGNORE_DUPS           # Ignore duplicated commands history list
+setopt HIST_IGNORE_SPACE          # Ignore commands that start with space
+setopt HIST_FIND_NO_DUPS          # Do not display a line previously found
+setopt INC_APPEND_HISTORY         # Add commands to HISTFILE in order of execution
+
+# Directory navigation
+setopt AUTO_CD                    # If command is a directory, cd to it
+setopt AUTO_PUSHD                 # Make cd push the old directory onto the directory stack
+setopt PUSHD_IGNORE_DUPS          # Don't push multiple copies of the same directory
+setopt PUSHD_MINUS                # Exchanges meanings of +/- when used with a number to specify a directory in the stack
+
+# Completion
+setopt COMPLETE_ALIASES           # Complete aliases
+setopt AUTO_LIST                  # Automatically list choices on ambiguous completion
+setopt AUTO_MENU                  # Show completion menu on successive tab press
+setopt AUTO_PARAM_SLASH           # If completed parameter is a directory, add a trailing slash
+setopt COMPLETE_IN_WORD           # Complete from both ends of a word
+setopt ALWAYS_TO_END              # Move cursor to the end of a completed word
+
+# Correction
+{% if enable_corrections | default(true) %}
+setopt CORRECT                    # Spelling correction for commands
+setopt CORRECT_ALL                # Spelling correction for arguments
+{% endif %}
+
+# Prompt
+setopt PROMPT_SUBST               # Enable parameter expansion, command substitution, and arithmetic expansion in prompts
+
+# Glob
+setopt EXTENDED_GLOB              # Extended globbing
+setopt GLOB_DOTS                  # Include dotfiles in globbing
+
+# =============================================================================
+# Zsh Modules and Features
+# =============================================================================
+
+# Load colours
+autoload -U colors && colors
+
+# Enable completion system
+autoload -Uz compinit
+compinit -d "{{ zsh_cache_dir }}/zcompdump"
+
+# Enable command line editing
+autoload -Uz edit-command-line
+zle -N edit-command-line
+
+# =============================================================================
+# Key Bindings
+# =============================================================================
+
+# Use {{ key_bindings }} key bindings
+{% if key_bindings == "emacs" %}
+bindkey -e
+{% else %}
+bindkey -v
+{% endif %}
+
+# Custom key bindings
+bindkey '^R' history-incremental-search-backward  # Ctrl+R for history search
+bindkey '^[[A' history-search-backward            # Up arrow for history search
+bindkey '^[[B' history-search-forward             # Down arrow for history search
+bindkey '^[m' copy-earlier-word                   # Alt+m to copy earlier word
+bindkey '^xe' edit-command-line                   # Ctrl+x e to edit command line
+
+# =============================================================================
+# Completion Configuration
+# =============================================================================
+
+# Completion styling
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' use-cache true
+zstyle ':completion:*' cache-path "{{ zsh_cache_dir }}/zcompcache"
+
+# Process completion
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm -w -w"
+
+# SSH/SCP completion
+zstyle ':completion:*:(scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+zstyle ':completion:*:(scp|rsync):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
+zstyle ':completion:*:ssh:*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hosts-ipaddr
+
+# =============================================================================
+# Prompt Configuration
+# =============================================================================
+
+{% if prompt_theme == "custom" %}
+# Custom prompt
+autoload -Uz vcs_info
+precmd() { vcs_info }
+
+zstyle ':vcs_info:git:*' formats '%b '
+zstyle ':vcs_info:*' enable git
+
+setopt PROMPT_SUBST
+PROMPT='%F{{{ prompt_user_color }}}%n%f@%F{{{ prompt_host_color }}}%m%f:%F{{{ prompt_dir_color }}}%~%f %F{{{ prompt_git_color }}}${vcs_info_msg_0_}%f%# '
+{% elif prompt_theme == "starship" %}
+# Starship prompt
+if command -v starship >/dev/null 2>&1; then
+    eval "$(starship init zsh)"
+fi
+{% else %}
+# Simple prompt
+PROMPT='%n@%m:%~%# '
+{% endif %}
+
+# =============================================================================
+# Plugin Management
+# =============================================================================
+
+# Manual plugin loading
+{% for plugin in zsh_plugins %}
+if [[ -f "${ZDOTDIR}/plugins/{{ plugin.name }}/{{ plugin.name }}.plugin.zsh" ]]; then
+    source "${ZDOTDIR}/plugins/{{ plugin.name }}/{{ plugin.name }}.plugin.zsh"
+elif [[ -f "${ZDOTDIR}/plugins/{{ plugin.name }}/{{ plugin.name }}.zsh" ]]; then
+    source "${ZDOTDIR}/plugins/{{ plugin.name }}/{{ plugin.name }}.zsh"
+fi
+{% endfor %}
+
+# =============================================================================
+# External Tool Integration
+# =============================================================================
+
+# FZF key bindings and fuzzy completion
+{% if ansible_os_family == "Darwin" %}
+if [[ -f "/opt/homebrew/opt/fzf/shell/key-bindings.zsh" ]]; then
+    source "/opt/homebrew/opt/fzf/shell/key-bindings.zsh"
+fi
+if [[ -f "/opt/homebrew/opt/fzf/shell/completion.zsh" ]]; then
+    source "/opt/homebrew/opt/fzf/shell/completion.zsh"
+fi
+{% else %}
+if [[ -f "/usr/share/fzf/key-bindings.zsh" ]]; then
+    source "/usr/share/fzf/key-bindings.zsh"
+fi
+if [[ -f "/usr/share/fzf/completion.zsh" ]]; then
+    source "/usr/share/fzf/completion.zsh"
+fi
+{% endif %}
+
+# =============================================================================
+# Load Additional Configuration
+# =============================================================================
+
+# Load aliases
+[[ -f "${ZDOTDIR}/aliases" ]] && source "${ZDOTDIR}/aliases"
+
+# Load functions
+[[ -f "${ZDOTDIR}/functions" ]] && source "${ZDOTDIR}/functions"
+
+# Load local configuration
+[[ -f "${ZDOTDIR}/zshrc.local" ]] && source "${ZDOTDIR}/zshrc.local"
+
+# =============================================================================
+# Final Setup
+# =============================================================================
+
+# Update terminal title
+case $TERM in
+    xterm*|rxvt*)
+        precmd() {
+            print -Pn "\e]0;%n@%m: %~\a"
+        }
+        ;;
+esac
+
+# Welcome message
+{% if show_welcome_message | default(false) %}
+echo "Welcome to Zsh! Configuration loaded from ${ZDOTDIR}"
+{% endif %}

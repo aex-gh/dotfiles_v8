@@ -1,0 +1,39 @@
+---
+# SSH configuration
+development_ssh_key_type: "ed25519"
+development_ssh_key_bits: 4096
+development_ssh_key_comment: "{{ ansible_user_id }}@{{ ansible_hostname }}"
+development_ssh_config_strict_host_key_checking: "ask"
+development_ssh_config_user_known_hosts_file: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/known_hosts"
+
+# GPG configuration
+development_gpg_key_type: "RSA"
+development_gpg_key_length: 4096
+development_gpg_key_usage: "sign,cert"
+development_gpg_subkey_usage: "encrypt,auth"
+development_gpg_expire_date: "2y"
+development_gpg_name_real: "{{ git_user_name | default('Your Name') }}"
+development_gpg_name_email: "{{ git_user_email | default('you@example.com') }}"
+
+# Development directories
+development_dev_directories:
+  - "{{ ansible_env.HOME }}/Development"
+  - "{{ ansible_env.HOME }}/Development/personal"
+  - "{{ ansible_env.HOME }}/Development/work"
+  - "{{ ansible_env.HOME }}/Development/opensource"
+  - "{{ ansible_env.HOME }}/Development/scratch"
+
+# Certificate management
+development_setup_certificates: true
+development_cert_directory: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/certificates"
+
+# Development tools configuration
+development_configure_git_signing: true
+development_setup_development_aliases: true
+development_create_project_templates: true
+
+# Feature toggles
+development_setup_ssh_keys: true
+development_setup_gpg_keys: true
+development_setup_development_directories: true
+development_configure_development_environment: true

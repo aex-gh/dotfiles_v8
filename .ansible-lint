@@ -1,0 +1,66 @@
+---
+# Ansible-lint configuration for dotfiles_v8
+profile: production
+
+# Rules to treat as warnings (won't fail the build)
+warn_list:
+  - yaml[line-length]           # Long lines are sometimes unavoidable
+  - name[casing]               # Allow flexible task naming
+  - risky-file-permissions     # We manage permissions explicitly
+  - no-changed-when           # Some tasks legitimately don't report changes
+
+# Rules to skip entirely
+skip_list:
+  - meta-no-info              # Role metadata not critical for personal dotfiles
+  - role-name                 # Allow flexible role naming
+  - galaxy[no-changelog]      # Not publishing to Galaxy
+  - schema[meta]              # Flexible meta schema
+  - yaml[truthy]              # Allow yes/no/true/false flexibility
+
+# Paths to exclude from linting
+exclude_paths:
+  - .git/
+  - .github/
+  - .cache/
+  - .pytest_cache/
+  - tmp/
+  - temp/
+  - files/backup/
+  - "*.pyc"
+  - "*.tmp"
+
+# Enable offline mode (don't check external schemas)
+offline: false
+
+# Parseable output format (useful for CI/CD)
+parseable: false
+
+# Show progress bar
+progressive: true
+
+# Verbosity level (0-2)
+verbosity: 1
+
+# Custom rules directory (if you have custom rules)
+# rulesdir:
+#   - ~/.ansible-lint/custom-rules/
+
+# Write lint results to file
+# write_list:
+#   - all
+
+# Enable specific rule sets
+enable_list:
+  - yaml
+  - ansible
+  - formatting
+
+# Mock modules/plugins for testing
+mock_modules:
+  - community.general.homebrew
+  - community.general.homebrew_cask
+  - community.crypto.openssh_keypair
+
+# Mock roles for testing
+mock_roles:
+  - geerlingguy.homebrew

@@ -1,0 +1,6 @@
+---
+# Ultra-minimal ansible-lint configuration
+skip_list:
+  - name[missing]
+exclude_paths:
+  - .git/

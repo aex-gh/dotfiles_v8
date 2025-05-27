@@ -1,0 +1,27 @@
+# {{ project_name | default('Ansible Project') }}
+
+An Ansible project template.
+
+## Setup
+
+```bash
+ansible-galaxy install -r requirements.yml
+```
+
+## Usage
+
+```bash
+ansible-playbook -i inventory.yml site.yml
+```
+
+## Testing
+
+```bash
+ansible-playbook -i inventory.yml site.yml --check
+```
+
+## Vault
+
+```bash
+ansible-vault encrypt group_vars/all/vault.yml
+```

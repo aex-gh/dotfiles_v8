@@ -1,0 +1,30 @@
+---
+# Common packages across all platforms
+common_packages:
+  - curl
+  - wget
+  - git
+  - tree
+  - htop
+  - unzip
+  - zip
+  - rsync
+
+# Package lists (standardised naming)
+homebrew_formulas: []
+homebrew_casks: []
+apt_packages: []
+pacman_packages: []
+dnf_packages: []
+
+# XDG directories
+xdg_config_home: "{{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}"
+xdg_data_home: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}"
+xdg_cache_home: "{{ ansible_env.XDG_CACHE_HOME | default(ansible_env.HOME + '/.cache') }}"
+xdg_state_home: "{{ ansible_env.XDG_STATE_HOME | default(ansible_env.HOME + '/.local/state') }}"
+
+# Feature flags
+use_uv_python: true
+setup_development_environment: true
+configure_shell_completion: true
+install_nerd_fonts: true

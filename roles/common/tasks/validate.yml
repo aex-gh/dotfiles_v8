@@ -1,0 +1,131 @@
+---
+- name: Validate Ansible version
+  ansible.builtin.assert:
+    that:
+      - ansible_version.full is version('2.9', '>=')
+    fail_msg: "Minimum Ansible version 2.9 required, found {{ ansible_version.full }}"
+  tags: [validate, always]
+
+- name: Validate XDG directories are writable
+  ansible.builtin.file:
+    path: "{{ item }}/.dotfiles_test"
+    state: touch
+    mode: '0644'
+  loop:
+    - "{{ xdg_config_home }}"
+    - "{{ xdg_data_home }}"
+    - "{{ xdg_cache_home }}"
+  register: xdg_write_test
+  failed_when: false
+  tags: [validate, xdg]
+
+- name: Remove test files
+  ansible.builtin.file:
+    path: "{{ item }}/.dotfiles_test"
+    state: absent
+  loop:
+    - "{{ xdg_config_home }}"
+    - "{{ xdg_data_home }}"
+    - "{{ xdg_cache_home }}"
+  tags: [validate, xdg]
+
+- name: Validate Git configuration
+  ansible.builtin.assert:
+    that:
+      - git_user_name is defined
+      - git_user_name != ""
+      - git_user_email is defined
+      - git_user_email != ""
+      - git_user_email is match("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+    fail_msg: |
+      Git configuration invalid. Please set:
+      git_user_name: "Your Name"
+      git_user_email: "valid@email.com"
+  when: validate_git_config | default(true)
+  tags: [validate, git]
+
+- name: Validate Python versions
+  ansible.builtin.assert:
+    that:
+      - python_versions is defined
+      - python_versions | length > 0
+      - python_default_version in python_versions
+    fail_msg: "Python configuration invalid - default version must be in versions list"
+  when: use_uv_python | default(true)
+  tags: [validate, python]
+
+- name: Check network connectivity
+  ansible.builtin.uri:
+    url: "{{ item }}"
+    method: HEAD
+    timeout: 10
+  loop:
+    - "https://github.com"
+    - "https://astral.sh"
+    - "https://mise.run"
+  register: network_check
+  failed_when: false
+  tags: [validate, network]
+
+- name: Warn about network issues
+  ansible.builtin.debug:
+    msg: |
+      ⚠️  Network connectivity issues detected:
+      Some downloads may fail. Check your internet connection.
+      Failed URLs: {{ network_check.results | selectattr('failed', 'equalto', true) | map(attribute='item') | list }}
+  when: network_check.results | selectattr('failed', 'equalto', true) | list | length > 0
+  tags: [validate, network]
+
+- name: Validate disk space
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: df -h {{ ansible_env.HOME }} | awk 'NR==2 {print $4}' | sed 's/[A-Za-z]//g'
+  register: available_space
+  changed_when: false
+  tags: [validate, disk]
+
+- name: Check minimum disk space
+  ansible.builtin.assert:
+    that:
+      - available_space.stdout | int > 1000
+    fail_msg: "Insufficient disk space. At least 1GB free space required in home directory"
+  tags: [validate, disk]
+
+- name: Validate package manager availability
+  ansible.builtin.command: "{{ item }}"
+  loop:
+    - "{{ 'brew --version' if ansible_os_family == 'Darwin' else 'echo skip' }}"
+    - "{{ 'apt --version' if ansible_distribution in ['Debian', 'Ubuntu'] else 'echo skip' }}"
+    - "{{ 'pacman --version' if ansible_distribution == 'Archlinux' else 'echo skip' }}"
+    - "{{ 'dnf --version' if ansible_distribution == 'Fedora' else 'echo skip' }}"
+  register: package_manager_check
+  failed_when: false
+  changed_when: false
+  tags: [validate, packages]
+
+- name: Create validation report
+  ansible.builtin.template:
+    src: validation_report.j2
+    dest: "{{ xdg_cache_home }}/dotfiles_validation.txt"
+    mode: '0644'
+  tags: [validate, report]
+
+- name: Display validation summary
+  ansible.builtin.debug:
+    msg: |
+      🔍 Validation Summary:
+      ✅ Ansible version: {{ ansible_version.full }}
+      ✅ XDG directories: {{ 'OK' if xdg_write_test is not failed else 'FAILED' }}
+      ✅ Git config: {{ 'OK' if git_user_name is defined and git_user_email is defined else 'NEEDS SETUP' }}
+      ✅ Network: {{ 'OK' if (network_check.results | selectattr('failed', 'equalto', true) | list | length == 0) else 'ISSUES DETECTED' }}
+      ✅ Disk space: {{ available_space.stdout }}MB available
+
+      Full report: {{ xdg_cache_home }}/dotfiles_validation.txt
+  tags: [validate, summary]

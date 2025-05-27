@@ -1,0 +1,70 @@
+---
+# Homebrew taps
+homebrew_taps:
+  - homebrew/cask-fonts
+  - homebrew/services
+  - jesseduffield/lazygit
+
+# Homebrew formulas (standardised naming)
+homebrew_formulas:
+  - neovim
+  - tmux
+  - zsh
+  - zsh-completions
+  - zsh-syntax-highlighting
+  - zsh-autosuggestions
+  - git-delta
+  - lazygit
+  - gh
+  - glab
+  - jq
+  - yq
+  - tree-sitter
+  - gnupg
+  - pinentry-mac
+  - mas
+  - duti
+  - switchaudio-osx
+  - stats
+  - rectangle
+  - alt-tab
+
+# Homebrew casks (standardised naming)
+homebrew_casks:
+  - font-jetbrains-mono-nerd-font
+  - font-fira-code-nerd-font
+  - font-hack-nerd-font
+  - visual-studio-code
+  - iterm2
+  - warp
+  - docker
+  - firefox
+  - google-chrome
+  - slack
+  - discord
+  - spotify
+  - 1password
+  - raycast
+  - cleanmymac
+  - keka
+  - appcleaner
+  - handbrake
+  - vlc
+  - imageoptim
+  - pixelmator-pro
+
+# Mac App Store packages
+mas_packages:
+  - { name: "Xcode", id: 497799835 }
+  - { name: "TestFlight", id: 899247664 }
+  - { name: "Keynote", id: 409183694 }
+  - { name: "Numbers", id: 409203825 }
+  - { name: "Pages", id: 409201541 }
+  - { name: "Logic Pro", id: 634148309 }
+  - { name: "Final Cut Pro", id: 424389933 }
+
+# macOS specific settings
+macos_dock_autohide: true
+macos_dock_orientation: "bottom"
+macos_show_hidden_files: true
+macos_screenshot_location: "{{ ansible_env.HOME }}/Desktop/Screenshots"

@@ -1,0 +1,99 @@
+# =============================================================================
+# Zsh Profile Configuration
+# Executed for login shells
+# =============================================================================
+
+# Set environment variables for login shells
+export LANG="{{ zsh_locale }}"
+export LC_ALL="{{ zsh_locale }}"
+
+# Set default programs
+export EDITOR="{{ editor }}"
+export VISUAL="{{ visual_editor }}"
+export PAGER="{{ pager }}"
+
+# History configuration
+export HISTFILE="{{ zsh_history_file }}"
+export HISTSIZE={{ zsh_histsize }}
+export SAVEHIST={{ zsh_savehist }}
+
+# Development environment managers
+{% if enable_mise | default(true) %}
+# Mise (development environment manager)
+if command -v mise >/dev/null 2>&1; then
+    eval "$(mise activate zsh)"
+fi
+{% endif %}
+
+{% if enable_direnv | default(false) %}
+# Direnv
+if command -v direnv >/dev/null 2>&1; then
+    eval "$(direnv hook zsh)"
+fi
+{% endif %}
+
+# Python configuration
+{% if ansible_os_family == "Darwin" %}
+export PYTHON_CONFIGURE_OPTS="--enable-framework"
+{% endif %}
+
+# Node.js configuration
+export NODE_REPL_HISTORY="{{ zsh_data_dir }}/node_repl_history"
+
+# Go configuration
+{% if ansible_os_family == "Darwin" %}
+export GOPATH="{{ ansible_env.HOME }}/go"
+export GOPROXY="https://proxy.golang.org,direct"
+{% endif %}
+
+# Rust configuration
+export CARGO_HOME="{{ zsh_data_dir }}/cargo"
+export RUSTUP_HOME="{{ zsh_data_dir }}/rustup"
+
+# Docker configuration
+export DOCKER_CONFIG="{{ zsh_config_dir }}/docker"
+
+# AWS configuration
+export AWS_CONFIG_FILE="{{ zsh_config_dir }}/aws/config"
+export AWS_SHARED_CREDENTIALS_FILE="{{ zsh_config_dir }}/aws/credentials"
+
+# GPG configuration
+export GNUPGHOME="{{ zsh_data_dir }}/gnupg"
+
+# Less configuration
+export LESS="-R"
+export LESSHISTFILE="{{ zsh_cache_dir }}/lesshst"
+
+# FZF configuration
+export FZF_DEFAULT_OPTS="--height 40% --reverse --border"
+if command -v fd >/dev/null 2>&1; then
+    export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git"
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+fi
+
+# Zoxide configuration
+if command -v zoxide >/dev/null 2>&1; then
+    eval "$(zoxide init zsh)"
+fi
+
+{% if ansible_os_family == "Darwin" %}
+# macOS specific configurations
+# Add user's private bin to PATH
+export PATH="$HOME/.local/bin:$PATH"
+
+# Homebrew completions
+if [[ -d "/opt/homebrew/share/zsh/site-functions" ]]; then
+    FPATH="/opt/homebrew/share/zsh/site-functions:$FPATH"
+fi
+{% else %}
+# Linux specific configurations
+export PATH="$HOME/.local/bin:$PATH"
+
+# Add system completion directories
+if [[ -d "/usr/share/zsh/site-functions" ]]; then
+    FPATH="/usr/share/zsh/site-functions:$FPATH"
+fi
+{% endif %}
+
+# Add custom completions directory
+FPATH="${ZDOTDIR}/completions:$FPATH"

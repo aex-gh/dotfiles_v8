@@ -1,0 +1,28 @@
+#compdef _custom_completion custom-command
+
+# Custom completion for a hypothetical command
+_custom_completion() {
+    local context state line
+    
+    _arguments \
+        '1: :->command' \
+        '*: :->args' && return 0
+    
+    case $state in
+        command)
+            compadd "$@" start stop restart status
+            ;;
+        args)
+            case ${line[1]} in
+                start|stop|restart)
+                    compadd "$@" --verbose --quiet --force
+                    ;;
+                status)
+                    compadd "$@" --detailed --json
+                    ;;
+            esac
+            ;;
+    esac
+}
+
+_custom_completion "$@"

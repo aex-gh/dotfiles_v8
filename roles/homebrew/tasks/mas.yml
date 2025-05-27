@@ -1,0 +1,29 @@
+---
+- name: Install mas CLI if not present
+  homebrew:
+    name: mas
+    state: present
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+
+- name: Check if signed into Mac App Store
+  ansible.builtin.shell: mas account
+  register: mas_account
+  failed_when: false
+  changed_when: false
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+
+- name: Install Mac App Store applications
+  ansible.builtin.shell: mas install {{ item.id }}
+  loop: "{{ mas_packages }}"
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+  when: mas_account.rc == 0
+  register: mas_install
+  changed_when: "'Already installed' not in mas_install.stdout"
+
+- name: Warning about Mac App Store login
+  ansible.builtin.debug:
+    msg: "Warning: Not signed into Mac App Store. Skipping MAS app installations. Sign in via App Store app first."
+  when: mas_account.rc != 0

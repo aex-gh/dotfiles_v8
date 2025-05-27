@@ -1,0 +1,64 @@
+Host *
+    # Security settings
+    AddKeysToAgent yes
+    UseKeychain yes
+    IdentitiesOnly yes
+    IdentityFile {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ ssh_key_type }}
+    UserKnownHostsFile {{ ssh_config_user_known_hosts_file }}
+    StrictHostKeyChecking {{ ssh_config_strict_host_key_checking }}
+    
+    # Connection settings
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    TCPKeepAlive yes
+    
+    # Performance
+    Compression yes
+    ControlMaster auto
+    ControlPath {{ ansible_env.XDG_CACHE_HOME | default(ansible_env.HOME + '/.cache') }}/ssh/%r@%h:%p
+    ControlPersist 600
+    
+    # Security hardening
+    Protocol 2
+    Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+    MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha2-512
+    KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512
+    HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa
+    
+    # Disable weak authentication methods
+    PubkeyAuthentication yes
+    PasswordAuthentication no
+    ChallengeResponseAuthentication no
+    GSSAPIAuthentication no
+
+# GitHub
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ ssh_key_type }}
+    MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com
+
+# GitLab
+Host gitlab.com
+    HostName gitlab.com
+    User git
+    IdentityFile {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ ssh_key_type }}
+
+# Bitbucket
+Host bitbucket.org
+    HostName bitbucket.org
+    User git
+    IdentityFile {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ ssh_key_type }}
+
+# Personal servers (example)
+Host personal-*
+    User {{ ansible_user_id }}
+    Port 22
+    IdentityFile {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ ssh_key_type }}
+
+# Work servers (example)  
+Host work-*
+    User {{ ansible_user_id }}
+    Port 22
+    IdentityFile {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ ssh_key_type }}
+    ProxyJump bastion.company.com

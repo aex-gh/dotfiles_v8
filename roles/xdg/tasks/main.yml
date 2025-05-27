@@ -1,0 +1,249 @@
+---
+- name: Detect existing dotfiles
+  ansible.builtin.find:
+    paths: "{{ ansible_env.HOME }}"
+    patterns: ".*rc,.*profile,.*env"
+    file_type: file
+    hidden: true
+  register: existing_dotfiles
+  tags: [xdg, backup]
+
+- name: Backup existing dotfiles
+  ansible.builtin.copy:
+    src: "{{ item.path }}"
+    dest: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ ansible_date_time.epoch }}/{{ item.path | basename }}"
+    mode: preserve
+    remote_src: true
+  loop: "{{ existing_dotfiles.files }}"
+  when:
+    - not skip_backup | default(false)
+    - existing_dotfiles.files | length > 0
+  tags: [xdg, backup]
+
+- name: Set XDG base directories (Linux - proper XDG)
+  ansible.builtin.set_fact:
+    xdg_config_home: "{{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}"
+    xdg_data_home: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}"
+    xdg_cache_home: "{{ ansible_env.XDG_CACHE_HOME | default(ansible_env.HOME + '/.cache') }}"
+    xdg_state_home: "{{ ansible_env.XDG_STATE_HOME | default(ansible_env.HOME + '/.local/state') }}"
+    xdg_runtime_dir: "{{ ansible_env.XDG_RUNTIME_DIR | default('/tmp/user-' + ansible_user_id) }}"
+    xdg_bin_home: "{{ ansible_env.HOME }}/.local/bin"
+  when: ansible_os_family != "Darwin"
+  tags: [xdg, config]
+
+- name: Set XDG equivalent directories (macOS - Apple conventions)
+  ansible.builtin.set_fact:
+    xdg_config_home: "{{ ansible_env.HOME }}/.config"
+    xdg_data_home: "{{ ansible_env.HOME }}/.local/share"
+    xdg_cache_home: "{{ ansible_env.HOME }}/Library/Caches"
+    xdg_state_home: "{{ ansible_env.HOME }}/.local/state"
+    xdg_runtime_dir: "{{ ansible_env.TMPDIR | default('/tmp') }}"
+    xdg_bin_home: "{{ ansible_env.HOME }}/.local/bin"
+    # macOS specific directories
+    macos_app_support: "{{ ansible_env.HOME }}/Library/Application Support"
+    macos_preferences: "{{ ansible_env.HOME }}/Library/Preferences"
+  when: ansible_os_family == "Darwin"
+  tags: [xdg, config]
+
+- name: Create XDG base directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ xdg_config_home }}"
+    - "{{ xdg_data_home }}"
+    - "{{ xdg_cache_home }}"
+    - "{{ xdg_state_home }}"
+    - "{{ xdg_bin_home }}"
+  tags: [xdg, directories]
+
+- name: Create macOS specific directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ macos_app_support }}"
+    - "{{ macos_preferences }}"
+  when: ansible_os_family == "Darwin"
+  tags: [xdg, directories, macos]
+
+- name: Create XDG user directories (Linux)
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ ansible_env.HOME }}/Desktop"
+    - "{{ ansible_env.HOME }}/Documents"
+    - "{{ ansible_env.HOME }}/Downloads"
+    - "{{ ansible_env.HOME }}/Music"
+    - "{{ ansible_env.HOME }}/Pictures"
+    - "{{ ansible_env.HOME }}/Videos"
+    - "{{ ansible_env.HOME }}/Templates"
+    - "{{ ansible_env.HOME }}/Public"
+  when:
+    - ansible_os_family != "Darwin"
+    - create_user_dirs | default(true)
+  tags: [xdg, directories, linux]
+
+- name: Create additional XDG subdirectories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop: "{{ xdg_additional_dirs | default([]) }}"
+  tags: [xdg, directories]
+
+- name: Create environment.d directory (systemd systems)
+  ansible.builtin.file:
+    path: "{{ xdg_config_home }}/environment.d"
+    state: directory
+    mode: '0755'
+  when:
+    - ansible_os_family != "Darwin"
+    - ansible_service_mgr == "systemd"
+  tags: [xdg, systemd]
+
+- name: Set up shell environment variables (systemd)
+  ansible.builtin.template:
+    src: xdg_environment.j2
+    dest: "{{ xdg_config_home }}/environment.d/xdg.conf"
+    mode: '0644'
+    backup: true
+  when:
+    - ansible_os_family != "Darwin"
+    - setup_environment | default(true)
+    - ansible_service_mgr == "systemd"
+  tags: [xdg, systemd, environment]
+
+- name: Add XDG variables to shell profile
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.profile"
+    marker: "# {mark} XDG Base Directory Specification"
+    block: |
+      # XDG Base Directory Specification
+      export XDG_CONFIG_HOME="{{ xdg_config_home }}"
+      export XDG_DATA_HOME="{{ xdg_data_home }}"
+      export XDG_CACHE_HOME="{{ xdg_cache_home }}"
+      export XDG_STATE_HOME="{{ xdg_state_home }}"
+      export XDG_RUNTIME_DIR="{{ xdg_runtime_dir }}"
+      export XDG_BIN_HOME="{{ xdg_bin_home }}"
+
+      # Add local bin to PATH
+      export PATH="{{ xdg_bin_home }}:$PATH"
+
+      {% if ansible_os_family == "Darwin" %}
+      # macOS specific paths
+      export MACOS_APP_SUPPORT="{{ macos_app_support }}"
+      export MACOS_PREFERENCES="{{ macos_preferences }}"
+      {% endif %}
+    create: true
+    mode: '0644'
+    backup: true
+  when: setup_shell_profile | default(true)
+  tags: [xdg, shell, environment]
+
+- name: Create XDG directories for common applications
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    # Version control
+    - "{{ xdg_config_home }}/git"
+    - "{{ xdg_data_home }}/git"
+    # Editors
+    - "{{ xdg_config_home }}/vim"
+    - "{{ xdg_config_home }}/nvim"
+    - "{{ xdg_data_home }}/vim"
+    - "{{ xdg_data_home }}/nvim"
+    - "{{ xdg_cache_home }}/vim"
+    - "{{ xdg_cache_home }}/nvim"
+    # Shell
+    - "{{ xdg_config_home }}/zsh"
+    - "{{ xdg_config_home }}/bash"
+    - "{{ xdg_data_home }}/bash"
+    - "{{ xdg_data_home }}/zsh"
+    - "{{ xdg_cache_home }}/zsh"
+    # Development tools
+    - "{{ xdg_config_home }}/mise"
+    - "{{ xdg_data_home }}/mise"
+    - "{{ xdg_cache_home }}/mise"
+    # System
+    - "{{ xdg_config_home }}/fontconfig"
+    - "{{ xdg_config_home }}/shell"
+    # SSH/Security
+    - "{{ xdg_config_home }}/ssh"
+    - "{{ xdg_data_home }}/ssh"
+    # Templates and projects
+    - "{{ xdg_data_home }}/templates"
+    - "{{ xdg_data_home }}/certificates"
+  when: create_app_dirs | default(true)
+  tags: [xdg, directories, applications]
+
+- name: Create systemd user directory (Linux only)
+  ansible.builtin.file:
+    path: "{{ xdg_config_home }}/systemd/user"
+    state: directory
+    mode: '0755'
+  when:
+    - create_app_dirs | default(true)
+    - ansible_os_family != "Darwin"
+    - ansible_service_mgr == "systemd"
+  tags: [xdg, systemd]
+
+- name: Set runtime directory permissions (Linux)
+  ansible.builtin.file:
+    path: "{{ xdg_runtime_dir }}"
+    state: directory
+    mode: '0700'
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+  when:
+    - ansible_os_family != "Darwin"
+    - xdg_runtime_dir != ansible_env.XDG_RUNTIME_DIR | default('')
+    - xdg_runtime_dir.startswith('/tmp/')
+  become: true
+  tags: [xdg, permissions]
+
+- name: Include user directories configuration
+  ansible.builtin.include_tasks: user_dirs.yml
+  when:
+    - setup_user_dirs_config | default(true)
+    - ansible_os_family != "Darwin"
+  tags: [xdg, user-dirs]
+
+- name: Create XDG compatibility symlinks for legacy applications
+  ansible.builtin.file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    force: "{{ force_overwrite | default(false) }}"
+  loop:
+    - { src: "{{ xdg_config_home }}/zsh/zshrc", dest: "{{ ansible_env.HOME }}/.zshrc" }
+    - { src: "{{ xdg_config_home }}/git/config", dest: "{{ ansible_env.HOME }}/.gitconfig" }
+  when:
+    - create_legacy_symlinks | default(true)
+    - not ansible_check_mode
+  failed_when: false
+  tags: [xdg, compatibility]
+
+- name: Set up XDG environment for current session
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    export XDG_CONFIG_HOME="{{ xdg_config_home }}"
+    export XDG_DATA_HOME="{{ xdg_data_home }}"
+    export XDG_CACHE_HOME="{{ xdg_cache_home }}"
+    export XDG_STATE_HOME="{{ xdg_state_home }}"
+  changed_when: false
+  tags: [xdg, environment]

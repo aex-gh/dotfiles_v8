@@ -1,0 +1,91 @@
+---
+- name: Ensure zsh is installed
+  ansible.builtin.package:
+    name: zsh
+    state: present
+  become: true
+  when: ansible_os_family != "Darwin"
+
+- name: Set zsh as default shell
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    shell: "{{ zsh_path }}"
+  become: true
+  when: change_default_shell | default(true)
+
+- name: Create zsh configuration directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ zsh_config_dir }}"
+    - "{{ zsh_data_dir }}"
+    - "{{ zsh_cache_dir }}"
+    - "{{ zsh_config_dir }}/completions"
+
+- name: Deploy zsh configuration files from templates
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop:
+    - src: zshrc.j2
+      dest: "{{ zsh_config_dir }}/zshrc"
+    - src: zshenv.j2
+      dest: "{{ ansible_env.HOME }}/.zshenv"
+    - src: zprofile.j2
+      dest: "{{ zsh_config_dir }}/zprofile"
+  notify: reload zsh
+
+- name: Deploy static zsh files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode | default('0644') }}"
+  loop:
+    - src: aliases
+      dest: "{{ zsh_config_dir }}/aliases"
+    - src: functions
+      dest: "{{ zsh_config_dir }}/functions"
+  notify: reload zsh
+
+- name: Deploy custom completions
+  ansible.builtin.copy:
+    src: "completions/"
+    dest: "{{ zsh_config_dir }}/completions/"
+    mode: '0644'
+  when: install_custom_completions | default(true)
+  notify: reload zsh
+
+- name: Install zsh plugins
+  ansible.builtin.git:
+    repo: "{{ item.repo }}"
+    dest: "{{ zsh_config_dir }}/plugins/{{ item.name }}"
+    depth: 1
+  loop: "{{ zsh_plugins }}"
+  when: zsh_plugins is defined and zsh_plugins | length > 0
+
+- name: Create zsh history file
+  ansible.builtin.file:
+    path: "{{ zsh_history_file }}"
+    state: touch
+    mode: '0600'
+  changed_when: false
+
+- name: Set up zsh completion system
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    zsh -c "autoload -Uz compinit && compinit -d {{ zsh_cache_dir }}/zcompdump"
+  args:
+    creates: "{{ zsh_cache_dir }}/zcompdump"
+  environment:
+    ZDOTDIR: "{{ zsh_config_dir }}"

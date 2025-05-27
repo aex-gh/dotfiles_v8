@@ -1,0 +1,291 @@
+---
+- name: Create Mise directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ mise_config_dir }}"
+    - "{{ mise_data_dir }}"
+    - "{{ mise_cache_dir }}"
+    - "{{ ansible_env.HOME }}/.local/bin"
+  tags: [mise, config]
+
+- name: Check if Mise is already installed
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.local/bin/mise"
+  register: mise_binary
+  tags: [mise, install]
+
+- name: Install Mise via curl (when not present)
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    curl -s https://mise.run | sh
+  args:
+    creates: "{{ ansible_env.HOME }}/.local/bin/mise"
+  when:
+    - mise_install_method == "curl"
+    - not mise_binary.stat.exists
+  register: mise_curl_install
+  failed_when: mise_curl_install.rc != 0
+  tags: [mise, install]
+
+- name: Install Mise via Homebrew (macOS)
+  homebrew:
+    name: mise
+    state: present
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+  when:
+    - mise_install_method == "homebrew"
+    - ansible_os_family == "Darwin"
+  tags: [mise, install]
+
+- name: Install Mise via package manager (Arch Linux)
+  ansible.builtin.package:
+    name: mise
+    state: present
+  become: true
+  when:
+    - mise_install_method == "package_manager"
+    - ansible_distribution == "Archlinux"
+  tags: [mise, install]
+
+- name: Install Mise via package manager (Debian/Ubuntu)
+  block:
+    - name: Download Mise deb package
+      get_url:
+        url: https://github.com/jdx/mise/releases/latest/download/mise_amd64.deb
+        dest: /tmp/mise_amd64.deb
+        mode: '0644'
+        timeout: 30
+
+    - name: Install Mise deb package
+      apt:
+        deb: /tmp/mise_amd64.deb
+        state: present
+      become: true
+
+    - name: Clean up deb package
+      file:
+        path: /tmp/mise_amd64.deb
+        state: absent
+  when:
+    - mise_install_method == "package_manager"
+    - ansible_distribution in ["Debian", "Ubuntu"]
+  tags: [mise, install]
+
+- name: Install Mise via package manager (Fedora)
+  block:
+    - name: Download Mise rpm package
+      get_url:
+        url: https://github.com/jdx/mise/releases/latest/download/mise.rpm
+        dest: /tmp/mise.rpm
+        mode: '0644'
+        timeout: 30
+
+    - name: Install Mise rpm package
+      dnf:
+        name: /tmp/mise.rpm
+        state: present
+        disable_gpg_check: true
+      become: true
+
+    - name: Clean up rpm package
+      file:
+        path: /tmp/mise.rpm
+        state: absent
+  when:
+    - mise_install_method == "package_manager"
+    - ansible_distribution == "Fedora"
+  tags: [mise, install]
+
+- name: Verify Mise installation
+  ansible.builtin.command: "{{ ansible_env.HOME }}/.local/bin/mise --version"
+  changed_when: false  changed_when: false  changed_when: false  register: mise_version
+  changed_when: false
+  failed_when: false
+  tags: [mise, verify]
+
+- name: Ensure Mise is in PATH
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.profile"
+    line: 'export PATH="$HOME/.local/bin:$PATH"'
+    create: true
+    mode: '0644'
+    state: present
+  when: mise_install_method == "curl"
+  tags: [mise, config]
+
+- name: Create Mise configuration file
+  ansible.builtin.template:
+    src: config.toml.j2
+    dest: "{{ mise_config_dir }}/config.toml"
+    mode: '0644'
+    backup: true
+  when: setup_mise_config | default(true)
+  notify: reload mise
+  tags: [mise, config]
+
+- name: Create global mise.toml for tools
+  ansible.builtin.template:
+    src: mise.toml.j2
+    dest: "{{ ansible_env.HOME }}/.config/mise.toml"
+    mode: '0644'
+    backup: true
+  when: install_global_tools | default(true)
+  notify: reload mise
+  tags: [mise, config, tools]
+
+- name: Install global tools with Mise (with retry)
+  ansible.builtin.shell: "mise install {{ item.name }}@{{ item.version }}"
+  loop: "{{ mise_global_tools }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+    MISE_CONFIG_DIR: "{{ mise_config_dir }}"
+    MISE_DATA_DIR: "{{ mise_data_dir }}"
+    MISE_CACHE_DIR: "{{ mise_cache_dir }}"
+  when:
+    - install_global_tools | default(true)
+    - mise_version.rc == 0
+  register: mise_tool_install
+  until: mise_tool_install.rc == 0
+  retries: 3
+  delay: 5
+  failed_when: false
+  changed_when: "'already installed' not in mise_tool_install.stdout"
+  tags: [mise, tools]
+
+- name: Set global tool versions
+  ansible.builtin.shell: "mise global {{ item.name }}@{{ item.version }}"
+  loop: "{{ mise_global_tools }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+    MISE_CONFIG_DIR: "{{ mise_config_dir }}"
+    MISE_DATA_DIR: "{{ mise_data_dir }}"
+    MISE_CACHE_DIR: "{{ mise_cache_dir }}"
+  when:
+    - install_global_tools | default(true)
+    - mise_version.rc == 0
+  register: mise_global_set
+  failed_when: false
+  changed_when: "'unchanged' not in mise_global_set.stdout"
+  tags: [mise, tools]
+
+- name: Add Mise environment variables to shell profile
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.profile"
+    marker: "# {mark} Mise Environment Variables"
+    block: |
+      {% for key, value in mise_env_vars.items() %}
+      export {{ key }}="{{ value }}"
+      {% endfor %}
+    create: true
+    mode: '0644'
+    backup: true
+  tags: [mise, config, shell]
+
+- name: Create ZSH config directory
+  ansible.builtin.file:
+    path: "{{ zsh_config_dir | default(ansible_env.HOME + '/.config/zsh') }}"
+    state: directory
+    mode: '0755'
+  tags: [mise, shell]
+
+- name: Add Mise shell integration to zshrc
+  ansible.builtin.blockinfile:
+    path: "{{ zsh_config_dir | default(ansible_env.HOME + '/.config/zsh') }}/zshrc.local"
+    marker: "# {mark} Mise Shell Integration"
+    block: |
+      # Mise activation
+      if command -v mise >/dev/null 2>&1; then
+          eval "$(mise activate zsh)"
+
+          # Mise completion
+          eval "$(mise completion zsh)"
+
+          # Mise aliases
+          alias mls="mise ls"
+          alias mlsr="mise ls-remote"
+          alias mi="mise install"
+          alias mu="mise uninstall"
+          alias mg="mise global"
+          alias ml="mise local"
+          alias msh="mise shell"
+          alias mw="mise which"
+          alias mwh="mise where"
+          alias mup="mise upgrade"
+          alias mpl="mise plugin list"
+          alias mpi="mise plugin install"
+          alias mpu="mise plugin update"
+          alias mpr="mise plugin remove"
+          alias mx="mise exec"
+          alias mr="mise run"
+          alias mt="mise trust"
+          alias mc="mise current"
+          alias mco="mise config"
+          alias mdo="mise doctor"
+          alias mrn="mise reshim"
+      fi
+    create: true
+    mode: '0644'
+    backup: true
+  when: setup_shell_integration | default(true)
+  tags: [mise, shell, zsh]
+
+- name: Add Mise shell integration to bashrc
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    marker: "# {mark} Mise Shell Integration"
+    block: |
+      # Mise activation
+      if command -v mise >/dev/null 2>&1; then
+          eval "$(mise activate bash)"
+          eval "$(mise completion bash)"
+      fi
+    create: true
+    mode: '0644'
+    backup: true
+  when: setup_shell_integration | default(true)
+  tags: [mise, shell, bash]
+
+- name: Run Mise doctor to verify installation
+  ansible.builtin.shell: "mise doctor"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+    MISE_CONFIG_DIR: "{{ mise_config_dir }}"
+    MISE_DATA_DIR: "{{ mise_data_dir }}"
+    MISE_CACHE_DIR: "{{ mise_cache_dir }}"
+  register: mise_doctor
+  changed_when: false
+  changed_when: false
+  changed_when: false
+  changed_when: false
+  failed_when: false
+  when: mise_version.rc == 0
+  tags: [mise, verify]
+
+- name: Display Mise doctor output
+  ansible.builtin.debug:
+    var: mise_doctor.stdout_lines
+  when:
+    - mise_doctor is defined
+    - mise_doctor.stdout_lines is defined
+  tags: [mise, verify]
+
+- name: Report Mise installation issues
+  ansible.builtin.debug:
+    msg: |
+      ⚠️  Mise installation issues detected:
+      {{ mise_version.stderr | default('Unknown error') }}
+      Some tools may not be available.
+  when: mise_version.rc != 0
+  tags: [mise, verify]

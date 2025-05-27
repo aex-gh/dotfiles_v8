@@ -1,0 +1,32 @@
+---
+# Linux package lists
+apt_packages: []
+pacman_packages: []
+dnf_packages: []
+
+# Flatpak packages
+flatpak_packages: []
+
+# Nerd Fonts to install
+nerd_fonts:
+  - JetBrainsMono
+  - FiraCode
+  - Hack
+  - SourceCodePro
+
+# Systemd services to enable
+systemd_services: []
+
+# Repository management
+apt_repositories: []
+enable_rpmfusion: false
+
+# Feature toggles
+install_nerd_fonts: true
+setup_flatpak: true
+enable_systemd_services: true
+
+# Desktop environment
+linux_desktop_theme: "dark"
+linux_icon_theme: "Papirus-Dark"
+linux_cursor_theme: "Adwaita"

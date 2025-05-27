@@ -1,0 +1,84 @@
+---
+- name: Validate system requirements
+  ansible.builtin.include_tasks: validate.yml
+  when: validate_system | default(true)
+  tags: [validate]
+
+- name: Create shell integration directory
+  ansible.builtin.file:
+    path: "{{ common_shell_config_dir }}"
+    state: directory
+    mode: '0755'
+  tags: [common, shell]
+
+- name: Create consolidated shell environment file
+  ansible.builtin.template:
+    src: shell_environment.j2
+    dest: "{{ common_shell_config_dir }}/environment"
+    mode: '0644'
+    backup: true
+  tags: [common, shell, environment]
+
+- name: Create consolidated shell aliases file
+  ansible.builtin.template:
+    src: shell_aliases.j2
+    dest: "{{ common_shell_config_dir }}/aliases"
+    mode: '0644'
+    backup: true
+  tags: [common, shell, aliases]
+
+- name: Create consolidated shell functions file
+  ansible.builtin.template:
+    src: shell_functions.j2
+    dest: "{{ common_shell_config_dir }}/functions"
+    mode: '0644'
+    backup: true
+  tags: [common, shell, functions]
+
+- name: Ensure common directories exist
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ xdg_config_home }}"
+    - "{{ xdg_data_home }}"
+    - "{{ xdg_cache_home }}"
+    - "{{ xdg_bin_home }}"
+  tags: [common, directories]
+
+- name: Set up common dotfiles
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode | default('0644') }}"
+    backup: true
+  loop: "{{ common_dotfiles | default([]) }}"
+  when: common_dotfiles is defined and common_dotfiles | length > 0
+  tags: [common, dotfiles]
+
+- name: Install common system packages (Linux)
+  ansible.builtin.package:
+    name: "{{ common_packages }}"
+    state: present
+  become: true
+  when:
+    - ansible_os_family != "Darwin"
+    - common_packages is defined
+    - common_packages | length > 0
+  tags: [common, packages, linux]
+
+- name: Create profile.d directory for system-wide environment
+  ansible.builtin.file:
+    path: "{{ common_shell_config_dir }}/profile.d"
+    state: directory
+    mode: '0755'
+  tags: [common, shell]
+
+- name: Set up base shell profile
+  ansible.builtin.template:
+    src: profile.j2
+    dest: "{{ ansible_env.HOME }}/.profile"
+    mode: '0644'
+    backup: true
+  tags: [common, shell, profile]

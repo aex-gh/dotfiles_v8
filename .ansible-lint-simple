@@ -1,0 +1,25 @@
+---
+# Simplified ansible-lint configuration
+warn_list:
+  - yaml[line-length]
+  - name[casing]
+  - risky-file-permissions
+  - no-changed-when
+
+skip_list:
+  - meta-no-info
+  - role-name
+  - galaxy[no-changelog]
+  - schema[meta]
+  - yaml[truthy]
+
+exclude_paths:
+  - .git/
+  - .cache/
+  - tmp/
+
+# Basic settings
+offline: false
+colored: true
+parseable: false
+verbosity: 1

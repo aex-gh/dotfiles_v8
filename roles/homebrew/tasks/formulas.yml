@@ -1,0 +1,8 @@
+---
+- name: Install Homebrew formulas
+  homebrew:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ homebrew_formulas }}"
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"

@@ -1,0 +1,75 @@
+---
+# Editor preferences
+primary_editor: "nvim"  # nvim, vim, code
+
+# Neovim configuration
+nvim_config_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Application Support/nvim
+  {% else %}
+  {{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/nvim
+  {% endif %}
+
+nvim_data_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Application Support/nvim
+  {% else %}
+  {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/nvim
+  {% endif %}
+
+nvim_cache_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Caches/nvim
+  {% else %}
+  {{ ansible_env.XDG_CACHE_HOME | default(ansible_env.HOME + '/.cache') }}/nvim
+  {% endif %}
+
+# Vim configuration
+vim_config_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Application Support/vim
+  {% else %}
+  {{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/vim
+  {% endif %}
+
+# Plugin manager
+nvim_plugin_manager: "lazy"  # lazy, packer, vim-plug
+
+# Basic editor settings
+editor_tab_width: 4
+editor_expand_tabs: true
+editor_show_line_numbers: true
+editor_highlight_current_line: true
+editor_wrap_lines: false
+editor_colorscheme: "tokyonight"
+editor_font_family: "JetBrainsMono Nerd Font"
+editor_font_size: 14
+
+# Language servers and tools
+install_language_servers: true
+language_servers:
+  - "lua-language-server"
+  - "typescript-language-server"
+  - "pyright"
+  - "rust-analyzer"
+  - "gopls"
+  - "json-lsp"
+  - "yaml-language-server"
+  - "dockerfile-language-server"
+  - "bash-language-server"
+
+# Development tools
+install_dev_tools: true
+dev_tools:
+  - "tree-sitter-cli"
+  - "ripgrep"
+  - "fd"
+  - "fzf"
+  - "bat"
+  - "lazygit"
+
+# Feature toggles
+setup_neovim: true
+setup_vim_fallback: true
+install_nerd_fonts: true
+setup_editor_env_vars: true

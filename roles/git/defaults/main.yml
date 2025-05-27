@@ -1,0 +1,75 @@
+---
+# Git user configuration
+git_user_name: ""
+git_user_email: ""
+git_signing_key: ""
+
+# Git directories (XDG compliant)
+git_config_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Application Support/git
+  {% else %}
+  {{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/git
+  {% endif %}
+
+# Git configuration
+git_init_default_branch: "main"
+git_push_default: "simple"
+git_pull_rebase: true
+git_merge_tool: "vimdiff"
+git_diff_tool: "vimdiff"
+git_editor: "nvim"
+git_pager: "delta"
+
+# Git aliases
+git_aliases:
+  st: "status"
+  co: "checkout"
+  br: "branch"
+  ci: "commit"
+  unstage: "reset HEAD --"
+  last: "log -1 HEAD"
+  visual: "!gitk"
+  logs: "log --oneline --graph --decorate --all"
+  uncommit: "reset --soft HEAD~1"
+  amend: "commit --amend"
+  fixup: "commit --fixup"
+  squash: "commit --squash"
+  wip: "commit -am 'WIP: work in progress'"
+  save: "!git add -A && git commit -m 'SAVEPOINT'"
+  undo: "reset HEAD~1 --mixed"
+  wipe: "!git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard"
+  lg: "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+  sync: "!git fetch origin && git rebase origin/$(git branch --show-current)"
+
+# Git commit signing
+git_commit_gpg_sign: false
+git_tag_gpg_sign: false
+
+# Git URL rewrites
+git_url_rewrites:
+  - match: "https://github.com/"
+    replace: "git@github.com:"
+  - match: "https://gitlab.com/"
+    replace: "git@gitlab.com:"
+
+# Git hooks
+git_hooks_enabled: true
+git_hooks_path: "{{ git_config_dir }}/hooks"
+
+# Git LFS
+git_lfs_enabled: false
+
+# Delta configuration (if using delta as pager)
+delta_features: "line-numbers decorations"
+delta_syntax_theme: "Dracula"
+delta_line_numbers: true
+delta_decorations_commit_decoration_style: "bold yellow box ul"
+delta_decorations_file_decoration_style: "none"
+
+# Feature toggles
+setup_git_config: true
+setup_git_aliases: true
+setup_git_hooks: false
+install_git_lfs: false
+setup_delta_pager: true

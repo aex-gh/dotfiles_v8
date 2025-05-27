@@ -1,0 +1,4 @@
+---
+- name: Reload zsh configuration
+  ansible.builtin.debug:
+    msg: "Zsh configuration updated. Run 'exec zsh' to reload."

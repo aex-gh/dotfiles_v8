@@ -1,0 +1,24 @@
+#compdef _git_enhanced git
+
+# Enhanced Git completion with additional functionality
+_git_enhanced() {
+    # Use the built-in git completion first
+    _git
+    
+    # Add custom completions for common workflows
+    case ${CURRENT} in
+        2)
+            # Add custom git aliases/shortcuts
+            local custom_commands
+            custom_commands=(
+                'quick-commit:Add all changes and commit with message'
+                'push-new:Push current branch and set upstream'
+                'clean-branches:Delete merged branches'
+                'sync:Pull latest changes and rebase'
+            )
+            _describe 'custom git commands' custom_commands
+            ;;
+    esac
+}
+
+_git_enhanced "$@"

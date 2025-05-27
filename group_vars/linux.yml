@@ -1,0 +1,121 @@
+---
+# Linux distribution packages
+apt_packages:
+  - neovim
+  - tmux
+  - zsh
+  - git
+  - curl
+  - wget
+  - build-essential
+  - software-properties-common
+  - apt-transport-https
+  - ca-certificates
+  - gnupg
+  - lsb-release
+  - tree
+  - htop
+  - unzip
+  - zip
+  - rsync
+  - fd-find
+  - ripgrep
+  - bat
+  - exa
+  - zoxide
+  - fzf
+  - jq
+  - python3
+  - python3-pip
+  - python3-venv
+  - nodejs
+  - npm
+  - snapd
+  - flatpak
+  - fontconfig
+
+pacman_packages:
+  - neovim
+  - tmux
+  - zsh
+  - git
+  - curl
+  - wget
+  - base-devel
+  - tree
+  - htop
+  - unzip
+  - zip
+  - rsync
+  - fd
+  - ripgrep
+  - bat
+  - exa
+  - zoxide
+  - fzf
+  - jq
+  - python
+  - python-pip
+  - nodejs
+  - npm
+  - flatpak
+  - fontconfig
+  - ttf-jetbrains-mono-nerd
+  - ttf-firacode-nerd
+  - ttf-hack-nerd
+
+dnf_packages:
+  - neovim
+  - tmux
+  - zsh
+  - git
+  - curl
+  - wget
+  - tree
+  - htop
+  - unzip
+  - zip
+  - rsync
+  - fd-find
+  - ripgrep
+  - bat
+  - jq
+  - python3
+  - python3-pip
+  - nodejs
+  - npm
+  - flatpak
+  - fontconfig
+  - dnf-plugins-core
+
+# Flatpak applications
+flatpak_packages:
+  - com.visualstudio.code
+  - org.mozilla.firefox
+  - com.google.Chrome
+  - com.slack.Slack
+  - com.discordapp.Discord
+  - com.spotify.Client
+  - org.videolan.VLC
+  - org.gimp.GIMP
+  - org.inkscape.Inkscape
+  - org.blender.Blender
+  - com.obsidian.Obsidian
+
+# Nerd Fonts to install
+nerd_fonts:
+  - JetBrainsMono
+  - FiraCode
+  - Hack
+  - SourceCodePro
+
+# Systemd services to enable
+systemd_services:
+  - NetworkManager
+  - bluetooth
+  - docker
+
+# Linux desktop environment settings
+linux_desktop_theme: "dark"
+linux_icon_theme: "Papirus-Dark"
+linux_cursor_theme: "Adwaita"

@@ -1,0 +1,18 @@
+---
+create_user_dirs: true
+create_app_dirs: true
+setup_environment: true
+setup_shell_profile: true
+setup_user_dirs_config: true
+
+xdg_additional_dirs: []
+
+xdg_user_dirs:
+  desktop: "Desktop"
+  download: "Downloads"
+  templates: "Templates"
+  publicshare: "Public"
+  documents: "Documents"
+  music: "Music"
+  pictures: "Pictures"
+  videos: "Videos"

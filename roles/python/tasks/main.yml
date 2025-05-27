@@ -1,0 +1,279 @@
+---
+- name: Create UV directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ uv_cache_dir }}"
+    - "{{ uv_data_dir }}"
+    - "{{ uv_config_dir }}"
+  tags: [python, uv, directories]
+
+- name: Check if UV is already installed
+  ansible.builtin.stat:
+    path: "{{ ansible_env.HOME }}/.local/bin/uv"
+  register: uv_binary
+  tags: [python, uv, check]
+
+- name: Install UV via curl (when not present)
+  block:
+    - name: Download UV installer
+      get_url:
+        url: https://astral.sh/uv/install.sh
+        dest: /tmp/uv_install.sh
+        mode: '0755'
+        timeout: "{{ network_timeout | default(30) }}"
+
+    - name: Install UV
+      shell: /tmp/uv_install.sh
+      environment:
+        UV_INSTALL_DIR: "{{ ansible_env.HOME }}/.local/bin"
+      register: uv_curl_install
+
+    - name: Clean up installer
+      file:
+        path: /tmp/uv_install.sh
+        state: absent
+  when:
+    - uv_install_method == "curl"
+    - not uv_binary.stat.exists
+  rescue:
+    - name: UV installation failed via curl
+      debug:
+        msg: "UV installation via curl failed, trying alternative method"
+  tags: [python, uv, install]
+
+- name: Install UV via Homebrew (macOS)
+  homebrew:
+    name: uv
+    state: present
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+  when:
+    - uv_install_method == "homebrew"
+    - ansible_os_family == "Darwin"
+  tags: [python, uv, install, homebrew]
+
+- name: Install UV via package manager (Arch Linux)
+  ansible.builtin.package:
+    name: uv
+    state: present
+  become: true
+  when:
+    - uv_install_method == "package_manager"
+    - ansible_distribution == "Archlinux"
+  tags: [python, uv, install, arch]
+
+- name: Install UV via package manager (Debian/Ubuntu)
+  block:
+    - name: Add UV repository key
+      apt_key:
+        url: https://astral.sh/uv/gpg-key
+        state: present
+      become: true
+
+    - name: Add UV repository
+      apt_repository:
+        repo: "deb https://astral.sh/uv/deb stable main"
+        state: present
+      become: true
+
+    - name: Install UV
+      apt:
+        name: uv
+        state: present
+        update_cache: true
+      become: true
+  when:
+    - uv_install_method == "package_manager"
+    - ansible_distribution in ["Debian", "Ubuntu"]
+  rescue:
+    - name: Install UV via pip as fallback
+      pip:
+        name: uv
+        executable: pip3
+        extra_args: --user
+  tags: [python, uv, install, debian]
+
+- name: Install UV via package manager (Fedora)
+  block:
+    - name: Add UV repository
+      yum_repository:
+        name: uv
+        description: UV Python package manager
+        baseurl: https://astral.sh/uv/rpm
+        gpgkey: https://astral.sh/uv/gpg-key
+        gpgcheck: true
+      become: true
+
+    - name: Install UV
+      dnf:
+        name: uv
+        state: present
+      become: true
+  when:
+    - uv_install_method == "package_manager"
+    - ansible_distribution == "Fedora"
+  rescue:
+    - name: Install UV via pip as fallback
+      pip:
+        name: uv
+        executable: pip3
+        extra_args: --user
+  tags: [python, uv, install, fedora]
+
+- name: Verify UV installation
+  ansible.builtin.command: "{{ ansible_env.HOME }}/.local/bin/uv --version"
+  changed_when: false  changed_when: false  changed_when: false  register: uv_version_check
+  changed_when: false
+  failed_when: false
+  tags: [python, uv, verify]
+
+- name: Ensure UV is in PATH
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.profile"
+    line: 'export PATH="$HOME/.local/bin:$PATH"'
+    create: true
+    mode: '0644'
+    state: present
+  when: uv_install_method == "curl"
+  tags: [python, uv, path]
+
+- name: Install Python versions with retry
+  ansible.builtin.shell: "uv python install {{ item }}"
+  loop: "{{ python_versions }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+    UV_CACHE_DIR: "{{ uv_cache_dir }}"
+  register: python_install
+  until: python_install.rc == 0
+  retries: "{{ max_retries | default(3) }}"
+  delay: "{{ retry_delay | default(5) }}"
+  when: uv_version_check.rc == 0
+  failed_when: false
+  changed_when: "'already installed' not in python_install.stdout"
+  tags: [python, versions]
+
+- name: Set default Python version
+  ansible.builtin.shell: "uv python pin {{ python_default_version }}"
+  args:
+    chdir: "{{ ansible_env.HOME }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+    UV_CACHE_DIR: "{{ uv_cache_dir }}"
+  when: uv_version_check.rc == 0
+  register: python_pin
+  changed_when: "'Pinned' in python_pin.stdout"
+  failed_when: false
+  tags: [python, default]
+
+- name: Install global tools with UV (with retry and error handling)
+  ansible.builtin.shell: "uv tool install {{ item.name }}{% if item.version != 'latest' %}=={{ item.version }}{% endif %}"
+  loop: "{{ uv_global_tools }}"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+    UV_CACHE_DIR: "{{ uv_cache_dir }}"
+  when:
+    - install_global_tools | default(true)
+    - uv_version_check.rc == 0
+  register: uv_tool_install
+  until: uv_tool_install.rc == 0 or 'already installed' in uv_tool_install.stdout
+  retries: "{{ max_retries | default(3) }}"
+  delay: "{{ retry_delay | default(5) }}"
+  failed_when: false
+  changed_when: "'Successfully installed' in uv_tool_install.stdout"
+  tags: [python, tools]
+
+- name: Create UV configuration file
+  ansible.builtin.template:
+    src: uv.toml.j2
+    dest: "{{ uv_config_dir }}/uv.toml"
+    mode: '0644'
+    backup: true
+  when: setup_uv_config | default(true)
+  tags: [python, config]
+
+- name: Create profile.d entry for Python environment
+  ansible.builtin.template:
+    src: python_profile.j2
+    dest: "{{ common_shell_config_dir }}/profile.d/python.sh"
+    mode: '0644'
+  tags: [python, shell]
+
+- name: Add UV shell integration to zshrc
+  ansible.builtin.blockinfile:
+    path: "{{ zsh_config_dir | default(ansible_env.HOME + '/.config/zsh') }}/zshrc.local"
+    marker: "# {mark} UV Shell Integration"
+    block: |
+      # UV completion
+      if command -v uv >/dev/null 2>&1; then
+          eval "$(uv generate-shell-completion zsh)"
+      fi
+
+      # UV aliases
+      alias uvs="uv sync"
+      alias uva="uv add"
+      alias uvr="uv remove"
+      alias uvl="uv lock"
+      alias uvi="uv init"
+      alias uvp="uv python"
+      alias uvt="uv tool"
+      alias uvx="uv run"
+      alias uvenv="uv venv"
+      alias uvact="source .venv/bin/activate"
+    create: true
+    mode: '0644'
+    backup: true
+  when: configure_shell_integration | default(true)
+  tags: [python, shell, zsh]
+
+- name: Create Python project template directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.local/share/templates/python"
+    state: directory
+    mode: '0755'
+  tags: [python, templates]
+
+- name: Create enhanced pyproject.toml template
+  ansible.builtin.template:
+    src: pyproject.toml.j2
+    dest: "{{ ansible_env.HOME }}/.local/share/templates/python/pyproject.toml"
+    mode: '0644'
+  tags: [python, templates]
+
+- name: Create Python development tools validation
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    tools_ok=true
+    for tool in ruff black mypy; do
+      if ! command -v "$tool" >/dev/null 2>&1; then
+        echo "Warning: $tool not available"
+        tools_ok=false
+      fi
+    done
+    $tools_ok
+  register: python_tools_check
+  failed_when: false
+  changed_when: false
+  when: uv_version_check.rc == 0
+  tags: [python, validate]
+
+- name: Report Python environment status
+  ansible.builtin.debug:
+    msg: |
+      Python Environment Status:
+      - UV Version: {{ uv_version_check.stdout | default('Not installed') }}
+      - Python Versions: {{ python_versions | join(', ') }}
+      - Default Python: {{ python_default_version }}
+      - Tools Status: {{ 'OK' if python_tools_check.rc == 0 else 'Some tools missing' }}
+  when: uv_version_check.rc == 0
+  tags: [python, status]

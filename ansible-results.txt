@@ -1,0 +1,1388 @@
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use common_ as a prefix. (vars: shell_config_dir)[0m
+[35mroles/common/defaults/main.yml[0m:3:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use common_ as a prefix. (vars: base_environment)[0m
+[35mroles/common/defaults/main.yml[0m:9:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use common_ as a prefix. (vars: setup_shell_integration)[0m
+[35mroles/common/defaults/main.yml[0m:17:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use common_ as a prefix. (vars: create_profile_backup)[0m
+[35mroles/common/defaults/main.yml[0m:18:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (systemd).[0m
+[35mroles/common/handlers/main.yml[0m:3:3 [2mUse `ansible.builtin.systemd` or `ansible.legacy.systemd` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/common/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (include_tasks).[0m
+[35mroles/common/tasks/main.yml[0m:3:3 [2mUse `ansible.builtin.include_tasks` or `ansible.legacy.include_tasks` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/common/tasks/main.yml[0m:8:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/common/tasks/main.yml[0m:15:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/common/tasks/main.yml[0m:23:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/common/tasks/main.yml[0m:31:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/common/tasks/main.yml[0m:39:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/common/tasks/main.yml[0m:51:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (package).[0m
+[35mroles/common/tasks/main.yml[0m:61:3 [2mUse `ansible.builtin.package` or `ansible.legacy.package` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/common/tasks/main.yml[0m:65
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/common/tasks/main.yml[0m:72:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/common/tasks/main.yml[0m:79:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (assert).[0m
+[35mroles/common/tasks/validate.yml[0m:3:3 [2mUse `ansible.builtin.assert` or `ansible.legacy.assert` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/common/tasks/validate.yml[0m:10:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/common/tasks/validate.yml[0m:23:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (assert).[0m
+[35mroles/common/tasks/validate.yml[0m:33:3 [2mUse `ansible.builtin.assert` or `ansible.legacy.assert` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (assert).[0m
+[35mroles/common/tasks/validate.yml[0m:48:3 [2mUse `ansible.builtin.assert` or `ansible.legacy.assert` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (uri).[0m
+[35mroles/common/tasks/validate.yml[0m:58:3 [2mUse `ansible.builtin.uri` or `ansible.legacy.uri` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/common/tasks/validate.yml[0m:71:3 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/risky-shell-pipe/\risky-shell-pipe]8;;\[0m[2m:[0m [31mShells that use pipes should set the pipefail option.[0m
+[35mroles/common/tasks/validate.yml[0m:79 [2mTask/Handler: Validate disk space[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/common/tasks/validate.yml[0m:80:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (assert).[0m
+[35mroles/common/tasks/validate.yml[0m:86:3 [2mUse `ansible.builtin.assert` or `ansible.legacy.assert` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (command).[0m
+[35mroles/common/tasks/validate.yml[0m:93:3 [2mUse `ansible.builtin.command` or `ansible.legacy.command` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/common/tasks/validate.yml[0m:105:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/common/tasks/validate.yml[0m:112:3 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/common/tasks/validate.yml[0m:120
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: ssh_key_type)[0m
+[35mroles/development/defaults/main.yml[0m:3:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: ssh_key_bits)[0m
+[35mroles/development/defaults/main.yml[0m:4:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: ssh_key_comment)[0m
+[35mroles/development/defaults/main.yml[0m:5:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: ssh_config_strict_host_key_checking)[0m
+[35mroles/development/defaults/main.yml[0m:6:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: ssh_config_user_known_hosts_file)[0m
+[35mroles/development/defaults/main.yml[0m:7:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: gpg_key_type)[0m
+[35mroles/development/defaults/main.yml[0m:10:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: gpg_key_length)[0m
+[35mroles/development/defaults/main.yml[0m:11:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: gpg_key_usage)[0m
+[35mroles/development/defaults/main.yml[0m:12:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: gpg_subkey_usage)[0m
+[35mroles/development/defaults/main.yml[0m:13:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: gpg_expire_date)[0m
+[35mroles/development/defaults/main.yml[0m:14:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: gpg_name_real)[0m
+[35mroles/development/defaults/main.yml[0m:15:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: gpg_name_email)[0m
+[35mroles/development/defaults/main.yml[0m:16:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: dev_directories)[0m
+[35mroles/development/defaults/main.yml[0m:19:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: setup_certificates)[0m
+[35mroles/development/defaults/main.yml[0m:27:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: cert_directory)[0m
+[35mroles/development/defaults/main.yml[0m:28:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: configure_git_signing)[0m
+[35mroles/development/defaults/main.yml[0m:31:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: setup_development_aliases)[0m
+[35mroles/development/defaults/main.yml[0m:32:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: create_project_templates)[0m
+[35mroles/development/defaults/main.yml[0m:33:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: setup_ssh_keys)[0m
+[35mroles/development/defaults/main.yml[0m:36:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: setup_gpg_keys)[0m
+[35mroles/development/defaults/main.yml[0m:37:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: setup_development_directories)[0m
+[35mroles/development/defaults/main.yml[0m:38:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use development_ as a prefix. (vars: configure_development_environment)[0m
+[35mroles/development/defaults/main.yml[0m:39:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/development/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[line-length]]8;;\[0m[2m:[0m [31mLine too long (173 > 160 characters)[0m
+[35mroles/development/tasks/gpg.yml[0m:4
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/risky-shell-pipe/\risky-shell-pipe]8;;\[0m[2m:[0m [31mShells that use pipes should set the pipefail option.[0m
+[35mroles/development/tasks/gpg.yml[0m:8 [2mTask/Handler: Check if GPG key already exists[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/no-changed-when/\no-changed-when]8;;\[0m[2m:[0m [31mCommands should not change things if nothing needs doing.[0m
+[35mroles/development/tasks/gpg.yml[0m:22 [2mTask/Handler: Generate GPG key pair[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/risky-shell-pipe/\risky-shell-pipe]8;;\[0m[2m:[0m [31mShells that use pipes should set the pipefail option.[0m
+[35mroles/development/tasks/gpg.yml[0m:33 [2mTask/Handler: Get GPG key ID[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/development/tasks/gpg.yml[0m:62
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/development/tasks/ssh.yml[0m:3:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/development/tasks/ssh.yml[0m:10:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (stat).[0m
+[35mroles/development/tasks/ssh.yml[0m:17:3 [2mUse `ansible.builtin.stat` or `ansible.legacy.stat` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (copy).[0m
+[35mroles/development/tasks/ssh.yml[0m:23:3 [2mUse `ansible.builtin.copy` or `ansible.legacy.copy` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/development/tasks/ssh.yml[0m:28
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/development/tasks/ssh.yml[0m:47:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/development/tasks/ssh.yml[0m:54:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/development/tasks/ssh.yml[0m:61:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/development/tasks/ssh.yml[0m:69:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (known_hosts).[0m
+[35mroles/development/tasks/ssh.yml[0m:76:3 [2mUse `ansible.builtin.known_hosts` or `ansible.legacy.known_hosts` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/development/tasks/ssh.yml[0m:83
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (slurp).[0m
+[35mroles/development/tasks/ssh.yml[0m:89:3 [2mUse `ansible.builtin.slurp` or `ansible.legacy.slurp` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/development/tasks/ssh.yml[0m:97:3 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/development/tasks/ssh.yml[0m:100
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/development/tasks/ssh.yml[0m:102
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/development/tasks/ssh.yml[0m:105
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/development/tasks/ssh.yml[0m:113:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/development/tasks/ssh.yml[0m:120:3 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/development/tasks/ssh.yml[0m:126
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: primary_editor)[0m
+[35mroles/editor/defaults/main.yml[0m:3:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: nvim_config_dir)[0m
+[35mroles/editor/defaults/main.yml[0m:6:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: nvim_data_dir)[0m
+[35mroles/editor/defaults/main.yml[0m:13:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: nvim_cache_dir)[0m
+[35mroles/editor/defaults/main.yml[0m:20:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: vim_config_dir)[0m
+[35mroles/editor/defaults/main.yml[0m:28:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: nvim_plugin_manager)[0m
+[35mroles/editor/defaults/main.yml[0m:36:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: install_language_servers)[0m
+[35mroles/editor/defaults/main.yml[0m:49:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: language_servers)[0m
+[35mroles/editor/defaults/main.yml[0m:50:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/editor/defaults/main.yml[0m:52
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: install_dev_tools)[0m
+[35mroles/editor/defaults/main.yml[0m:62:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: dev_tools)[0m
+[35mroles/editor/defaults/main.yml[0m:63:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: setup_neovim)[0m
+[35mroles/editor/defaults/main.yml[0m:72:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: setup_vim_fallback)[0m
+[35mroles/editor/defaults/main.yml[0m:73:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: install_nerd_fonts)[0m
+[35mroles/editor/defaults/main.yml[0m:74:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use editor_ as a prefix. (vars: setup_editor_env_vars)[0m
+[35mroles/editor/defaults/main.yml[0m:75:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/editor/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/editor/tasks/main.yml[0m:2 [2mTask/Handler: Install Neovim via mise[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/editor/tasks/main.yml[0m:3:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/editor/tasks/main.yml[0m:9 [2mTask/Handler: Set Neovim as global[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/editor/tasks/main.yml[0m:10:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (package).[0m
+[35mroles/editor/tasks/main.yml[0m:17:3 [2mUse `ansible.builtin.package` or `ansible.legacy.package` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/editor/tasks/main.yml[0m:24:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/editor/tasks/main.yml[0m:38:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/editor/tasks/main.yml[0m:49 [2mTask/Handler: Install language servers via mise[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/editor/tasks/main.yml[0m:50:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/editor/tasks/main.yml[0m:57 [2mTask/Handler: Install development tools via mise[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/editor/tasks/main.yml[0m:58:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/editor/tasks/main.yml[0m:66:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/editor/tasks/main.yml[0m:73:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/editor/tasks/main.yml[0m:80:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/editor/tasks/main.yml[0m:87:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/editor/tasks/main.yml[0m:94:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/editor/tasks/main.yml[0m:101:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/editor/tasks/main.yml[0m:108:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/editor/tasks/main.yml[0m:115:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (blockinfile).[0m
+[35mroles/editor/tasks/main.yml[0m:128:3 [2mUse `ansible.builtin.blockinfile` or `ansible.legacy.blockinfile` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (blockinfile).[0m
+[35mroles/editor/tasks/main.yml[0m:142:3 [2mUse `ansible.builtin.blockinfile` or `ansible.legacy.blockinfile` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/editor/tasks/main.yml[0m:151
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/editor/tasks/main.yml[0m:152
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use git_ as a prefix. (vars: delta_features)[0m
+[35mroles/git/defaults/main.yml[0m:64:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use git_ as a prefix. (vars: delta_syntax_theme)[0m
+[35mroles/git/defaults/main.yml[0m:65:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use git_ as a prefix. (vars: delta_line_numbers)[0m
+[35mroles/git/defaults/main.yml[0m:66:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use git_ as a prefix. (vars: delta_decorations_commit_decoration_style)[0m
+[35mroles/git/defaults/main.yml[0m:67:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use git_ as a prefix. (vars: delta_decorations_file_decoration_style)[0m
+[35mroles/git/defaults/main.yml[0m:68:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use git_ as a prefix. (vars: setup_git_config)[0m
+[35mroles/git/defaults/main.yml[0m:71:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use git_ as a prefix. (vars: setup_git_aliases)[0m
+[35mroles/git/defaults/main.yml[0m:72:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use git_ as a prefix. (vars: setup_git_hooks)[0m
+[35mroles/git/defaults/main.yml[0m:73:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use git_ as a prefix. (vars: install_git_lfs)[0m
+[35mroles/git/defaults/main.yml[0m:74:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use git_ as a prefix. (vars: setup_delta_pager)[0m
+[35mroles/git/defaults/main.yml[0m:75:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[new-line-at-end-of-file]]8;;\[0m[2m:[0m [31mNo new line character at the end of file[0m
+[35mroles/git/handlers/main.yml[0m:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/meta-no-tags/\meta-no-tags]8;;\[0m[2m:[0m [31mTags must contain lowercase letters and digits only., invalid: 'version-control'[0m
+[35mroles/git/meta/main.yml[0m:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/git/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (package).[0m
+[35mroles/git/tasks/main.yml[0m:3:3 [2mUse `ansible.builtin.package` or `ansible.legacy.package` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/git/tasks/main.yml[0m:10:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/git/tasks/main.yml[0m:16:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/git/tasks/main.yml[0m:23:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/git/tasks/main.yml[0m:29:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (apt).[0m
+[35mroles/git/tasks/main.yml[0m:49:3 [2mUse `ansible.builtin.apt` or `ansible.legacy.apt` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (dnf).[0m
+[35mroles/git/tasks/main.yml[0m:56:3 [2mUse `ansible.builtin.dnf` or `ansible.legacy.dnf` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/git/tasks/main.yml[0m:62 [2mTask/Handler: Initialize git-lfs[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/git/tasks/main.yml[0m:63:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/git/tasks/main.yml[0m:67 [2mTask/Handler: Install delta pager (via mise)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/git/tasks/main.yml[0m:68:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/git/tasks/main.yml[0m:68
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (blockinfile).[0m
+[35mroles/git/tasks/main.yml[0m:75:3 [2mUse `ansible.builtin.blockinfile` or `ansible.legacy.blockinfile` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/git/tasks/main.yml[0m:84:3 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/homebrew/defaults/main.yml[0m:8
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use homebrew_ as a prefix. (vars: mas_packages)[0m
+[35mroles/homebrew/defaults/main.yml[0m:12:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use homebrew_ as a prefix. (vars: install_homebrew_formulas)[0m
+[35mroles/homebrew/defaults/main.yml[0m:24:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use homebrew_ as a prefix. (vars: install_homebrew_casks)[0m
+[35mroles/homebrew/defaults/main.yml[0m:25:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use homebrew_ as a prefix. (vars: install_mas_packages)[0m
+[35mroles/homebrew/defaults/main.yml[0m:26:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use homebrew_ as a prefix. (vars: manage_homebrew_services)[0m
+[35mroles/homebrew/defaults/main.yml[0m:27:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/homebrew/handlers/main.yml[0m:2 [2mTask/Handler: Restart Homebrew services[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/no-changed-when/\no-changed-when]8;;\[0m[2m:[0m [31mCommands should not change things if nothing needs doing.[0m
+[35mroles/homebrew/handlers/main.yml[0m:2 [2mTask/Handler: Restart Homebrew services[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/homebrew/handlers/main.yml[0m:3:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/meta-no-tags/\meta-no-tags]8;;\[0m[2m:[0m [31mTags must contain lowercase letters and digits only., invalid: 'package-manager'[0m
+[35mroles/homebrew/meta/main.yml[0m:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/homebrew/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/syntax-check/\syntax-check[unknown-module]]8;;\[0m[2m:[0m [31mcouldn't resolve module/action 'homebrew'. This often indicates a misspelling, missing collection, or incorrect module path.[0m
+[35mroles/homebrew/tasks/main.yml[0m:18:3
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/homebrew/tasks/mas.yml[0m:9 [2mTask/Handler: Check if signed into Mac App Store[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/homebrew/tasks/mas.yml[0m:10:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/homebrew/tasks/mas.yml[0m:17 [2mTask/Handler: Install Mac App Store applications[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/homebrew/tasks/mas.yml[0m:18:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/homebrew/tasks/mas.yml[0m:27:3 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/homebrew/tasks/services.yml[0m:2 [2mTask/Handler: Start and enable Homebrew services[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/homebrew/tasks/services.yml[0m:3:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: apt_packages)[0m
+[35mroles/linux/defaults/main.yml[0m:3:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: pacman_packages)[0m
+[35mroles/linux/defaults/main.yml[0m:4:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: dnf_packages)[0m
+[35mroles/linux/defaults/main.yml[0m:5:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: flatpak_packages)[0m
+[35mroles/linux/defaults/main.yml[0m:8:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: nerd_fonts)[0m
+[35mroles/linux/defaults/main.yml[0m:11:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: systemd_services)[0m
+[35mroles/linux/defaults/main.yml[0m:18:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: apt_repositories)[0m
+[35mroles/linux/defaults/main.yml[0m:21:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: enable_rpmfusion)[0m
+[35mroles/linux/defaults/main.yml[0m:22:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: install_nerd_fonts)[0m
+[35mroles/linux/defaults/main.yml[0m:25:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: setup_flatpak)[0m
+[35mroles/linux/defaults/main.yml[0m:26:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use linux_ as a prefix. (vars: enable_systemd_services)[0m
+[35mroles/linux/defaults/main.yml[0m:27:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (systemd).[0m
+[35mroles/linux/handlers/main.yml[0m:3:3 [2mUse `ansible.builtin.systemd` or `ansible.legacy.systemd` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/linux/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/latest/\latest[git]]8;;\[0m[2m:[0m [31mResult of the command may vary on subsequent runs.[0m
+[35mroles/linux/tasks/arch.yml[0m:15 [2mTask/Handler: Install AUR helper (yay)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (git).[0m
+[35mroles/linux/tasks/arch.yml[0m:16:3 [2mUse `ansible.builtin.git` or `ansible.legacy.git` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/linux/tasks/arch.yml[0m:22:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (apt).[0m
+[35mroles/linux/tasks/debian.yml[0m:3:3 [2mUse `ansible.builtin.apt` or `ansible.legacy.apt` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (apt).[0m
+[35mroles/linux/tasks/debian.yml[0m:9:3 [2mUse `ansible.builtin.apt` or `ansible.legacy.apt` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (apt_repository).[0m
+[35mroles/linux/tasks/debian.yml[0m:17:3 [2mUse `ansible.builtin.apt_repository` or `ansible.legacy.apt_repository` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (dnf).[0m
+[35mroles/linux/tasks/fedora.yml[0m:3:3 [2mUse `ansible.builtin.dnf` or `ansible.legacy.dnf` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (dnf).[0m
+[35mroles/linux/tasks/fedora.yml[0m:11:3 [2mUse `ansible.builtin.dnf` or `ansible.legacy.dnf` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/no-handler/\no-handler]8;;\[0m[2m:[0m [31mTasks that run when changed should likely be handlers.[0m
+[35mroles/linux/tasks/fonts.yml[0m:20:9 [2mTask/Handler: Update font cache[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/linux/tasks/fonts.yml[0m:34
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (include_tasks).[0m
+[35mroles/linux/tasks/main.yml[0m:2:3 [2mUse `ansible.builtin.include_tasks` or `ansible.legacy.include_tasks` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (include_tasks).[0m
+[35mroles/linux/tasks/main.yml[0m:5:3 [2mUse `ansible.builtin.include_tasks` or `ansible.legacy.include_tasks` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (include_tasks).[0m
+[35mroles/linux/tasks/main.yml[0m:8:3 [2mUse `ansible.builtin.include_tasks` or `ansible.legacy.include_tasks` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (include_tasks).[0m
+[35mroles/linux/tasks/main.yml[0m:11:3 [2mUse `ansible.builtin.include_tasks` or `ansible.legacy.include_tasks` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (include_tasks).[0m
+[35mroles/linux/tasks/main.yml[0m:14:3 [2mUse `ansible.builtin.include_tasks` or `ansible.legacy.include_tasks` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (systemd).[0m
+[35mroles/linux/tasks/main.yml[0m:18:3 [2mUse `ansible.builtin.systemd` or `ansible.legacy.systemd` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use macos_ as a prefix. (vars: configure_macos_defaults)[0m
+[35mroles/macos/defaults/main.yml[0m:2:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/macos/handlers/main.yml[0m:2 [2mTask/Handler: Restart Homebrew services[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/no-changed-when/\no-changed-when]8;;\[0m[2m:[0m [31mCommands should not change things if nothing needs doing.[0m
+[35mroles/macos/handlers/main.yml[0m:2 [2mTask/Handler: Restart Homebrew services[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/macos/handlers/main.yml[0m:3:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/macos/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/macos/tasks/main.yml[0m:3:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[truthy]]8;;\[0m[2m:[0m [31mTruthy value should be one of [false, true][0m
+[35mroles/mise/defaults/main.yml[0m:106
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: setup_shell_integration)[0m
+[35mroles/mise/defaults/main.yml[0m:133:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: install_global_tools)[0m
+[35mroles/mise/defaults/main.yml[0m:134:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: setup_mise_config)[0m
+[35mroles/mise/defaults/main.yml[0m:135:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: create_shims)[0m
+[35mroles/mise/defaults/main.yml[0m:136:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: pin_tool_versions)[0m
+[35mroles/mise/defaults/main.yml[0m:137:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: install_critical_tools_only)[0m
+[35mroles/mise/defaults/main.yml[0m:138:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: retry_failed_installs)[0m
+[35mroles/mise/defaults/main.yml[0m:139:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: validate_tool_versions)[0m
+[35mroles/mise/defaults/main.yml[0m:140:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: network_timeout)[0m
+[35mroles/mise/defaults/main.yml[0m:143:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: max_retries)[0m
+[35mroles/mise/defaults/main.yml[0m:144:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use mise_ as a prefix. (vars: retry_delay)[0m
+[35mroles/mise/defaults/main.yml[0m:145:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/name/\name[casing]]8;;\[0m[2m:[0m [31mAll names should start with an uppercase letter.[0m
+[35mroles/mise/handlers/main.yml[0m:2:9 [2mTask/Handler: reload mise[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/no-changed-when/\no-changed-when]8;;\[0m[2m:[0m [31mCommands should not change things if nothing needs doing.[0m
+[35mroles/mise/handlers/main.yml[0m:2 [2mTask/Handler: reload mise[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/mise/handlers/main.yml[0m:3:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/meta-no-tags/\meta-no-tags]8;;\[0m[2m:[0m [31mTags must contain lowercase letters and digits only., invalid: 'version-manager'[0m
+[35mroles/mise/meta/main.yml[0m:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/mise/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/mise/tasks/main.yml[0m:3:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (stat).[0m
+[35mroles/mise/tasks/main.yml[0m:15:3 [2mUse `ansible.builtin.stat` or `ansible.legacy.stat` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-module/\command-instead-of-module]8;;\[0m[2m:[0m [31mcurl used in place of get_url or uri module[0m
+[35mroles/mise/tasks/main.yml[0m:20 [2mTask/Handler: Install Mise via curl (when not present)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/risky-shell-pipe/\risky-shell-pipe]8;;\[0m[2m:[0m [31mShells that use pipes should set the pipefail option.[0m
+[35mroles/mise/tasks/main.yml[0m:20 [2mTask/Handler: Install Mise via curl (when not present)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/mise/tasks/main.yml[0m:21:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:25
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:38
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:39
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (package).[0m
+[35mroles/mise/tasks/main.yml[0m:44:3 [2mUse `ansible.builtin.package` or `ansible.legacy.package` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:48
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:49
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/key-order/\key-order[task]]8;;\[0m[2m:[0m [31mYou can improve the task key order to: name, when, tags, block[0m
+[35mroles/mise/tasks/main.yml[0m:53 [2mTask/Handler: Install Mise via package manager (Debian/Ubuntu)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (get_url).[0m
+[35mroles/mise/tasks/main.yml[0m:56:7 [2mUse `ansible.builtin.get_url` or `ansible.legacy.get_url` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:61
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (apt).[0m
+[35mroles/mise/tasks/main.yml[0m:63:7 [2mUse `ansible.builtin.apt` or `ansible.legacy.apt` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:67
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/mise/tasks/main.yml[0m:69:7 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:72
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:73
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/key-order/\key-order[task]]8;;\[0m[2m:[0m [31mYou can improve the task key order to: name, when, tags, block[0m
+[35mroles/mise/tasks/main.yml[0m:77 [2mTask/Handler: Install Mise via package manager (Fedora)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (get_url).[0m
+[35mroles/mise/tasks/main.yml[0m:80:7 [2mUse `ansible.builtin.get_url` or `ansible.legacy.get_url` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:85
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (dnf).[0m
+[35mroles/mise/tasks/main.yml[0m:87:7 [2mUse `ansible.builtin.dnf` or `ansible.legacy.dnf` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:92
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/mise/tasks/main.yml[0m:94:7 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:97
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:98
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (command).[0m
+[35mroles/mise/tasks/main.yml[0m:103:3 [2mUse `ansible.builtin.command` or `ansible.legacy.command` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (lineinfile).[0m
+[35mroles/mise/tasks/main.yml[0m:110:3 [2mUse `ansible.builtin.lineinfile` or `ansible.legacy.lineinfile` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/mise/tasks/main.yml[0m:120:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/mise/tasks/main.yml[0m:130:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/mise/tasks/main.yml[0m:139 [2mTask/Handler: Install global tools with Mise (with retry)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/mise/tasks/main.yml[0m:140:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:147
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/mise/tasks/main.yml[0m:158 [2mTask/Handler: Set global tool versions[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/mise/tasks/main.yml[0m:159:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:161
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:166
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (blockinfile).[0m
+[35mroles/mise/tasks/main.yml[0m:175:3 [2mUse `ansible.builtin.blockinfile` or `ansible.legacy.blockinfile` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/mise/tasks/main.yml[0m:188:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (blockinfile).[0m
+[35mroles/mise/tasks/main.yml[0m:195:3 [2mUse `ansible.builtin.blockinfile` or `ansible.legacy.blockinfile` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:202
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:205
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:212
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (blockinfile).[0m
+[35mroles/mise/tasks/main.yml[0m:236:3 [2mUse `ansible.builtin.blockinfile` or `ansible.legacy.blockinfile` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/mise/tasks/main.yml[0m:251 [2mTask/Handler: Run Mise doctor to verify installation[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/mise/tasks/main.yml[0m:252:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/mise/tasks/main.yml[0m:265:3 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/mise/tasks/main.yml[0m:267
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/mise/tasks/main.yml[0m:273:3 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use python_ as a prefix. (vars: uv_install_method)[0m
+[35mroles/python/defaults/main.yml[0m:10:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use python_ as a prefix. (vars: uv_version)[0m
+[35mroles/python/defaults/main.yml[0m:11:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use python_ as a prefix. (vars: uv_cache_dir)[0m
+[35mroles/python/defaults/main.yml[0m:14:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use python_ as a prefix. (vars: uv_data_dir)[0m
+[35mroles/python/defaults/main.yml[0m:21:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use python_ as a prefix. (vars: uv_config_dir)[0m
+[35mroles/python/defaults/main.yml[0m:28:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use python_ as a prefix. (vars: uv_global_tools)[0m
+[35mroles/python/defaults/main.yml[0m:36:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use python_ as a prefix. (vars: setup_python_environment)[0m
+[35mroles/python/defaults/main.yml[0m:59:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use python_ as a prefix. (vars: install_global_tools)[0m
+[35mroles/python/defaults/main.yml[0m:60:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use python_ as a prefix. (vars: configure_shell_integration)[0m
+[35mroles/python/defaults/main.yml[0m:61:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use python_ as a prefix. (vars: setup_uv_config)[0m
+[35mroles/python/defaults/main.yml[0m:62:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/python/handlers/main.yml[0m:2 [2mTask/Handler: reload shell profile[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/name/\name[casing]]8;;\[0m[2m:[0m [31mAll names should start with an uppercase letter.[0m
+[35mroles/python/handlers/main.yml[0m:2:9 [2mTask/Handler: reload shell profile[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/python/handlers/main.yml[0m:3:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/python/handlers/main.yml[0m:6 [2mTask/Handler: update uv[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/name/\name[casing]]8;;\[0m[2m:[0m [31mAll names should start with an uppercase letter.[0m
+[35mroles/python/handlers/main.yml[0m:6:9 [2mTask/Handler: update uv[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/python/handlers/main.yml[0m:7:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/meta-no-tags/\meta-no-tags]8;;\[0m[2m:[0m [31mTags must contain lowercase letters and digits only., invalid: 'package-manager'[0m
+[35mroles/python/meta/main.yml[0m:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/python/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/python/tasks/main.yml[0m:3:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (stat).[0m
+[35mroles/python/tasks/main.yml[0m:14:3 [2mUse `ansible.builtin.stat` or `ansible.legacy.stat` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/key-order/\key-order[task]]8;;\[0m[2m:[0m [31mYou can improve the task key order to: name, when, tags, block, rescue[0m
+[35mroles/python/tasks/main.yml[0m:19 [2mTask/Handler: Install UV via curl (when not present)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (get_url).[0m
+[35mroles/python/tasks/main.yml[0m:22:7 [2mUse `ansible.builtin.get_url` or `ansible.legacy.get_url` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:27
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/python/tasks/main.yml[0m:28 [2mTask/Handler: Install UV[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/no-changed-when/\no-changed-when]8;;\[0m[2m:[0m [31mCommands should not change things if nothing needs doing.[0m
+[35mroles/python/tasks/main.yml[0m:28 [2mTask/Handler: Install UV[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/python/tasks/main.yml[0m:29:7 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:33
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/python/tasks/main.yml[0m:35:7 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:38
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/python/tasks/main.yml[0m:43:7 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:53
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:54
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (package).[0m
+[35mroles/python/tasks/main.yml[0m:59:3 [2mUse `ansible.builtin.package` or `ansible.legacy.package` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:63
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:64
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/key-order/\key-order[task]]8;;\[0m[2m:[0m [31mYou can improve the task key order to: name, when, tags, block, rescue[0m
+[35mroles/python/tasks/main.yml[0m:68 [2mTask/Handler: Install UV via package manager (Debian/Ubuntu)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (apt_key).[0m
+[35mroles/python/tasks/main.yml[0m:71:7 [2mUse `ansible.builtin.apt_key` or `ansible.legacy.apt_key` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:75
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (apt_repository).[0m
+[35mroles/python/tasks/main.yml[0m:77:7 [2mUse `ansible.builtin.apt_repository` or `ansible.legacy.apt_repository` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:81
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (apt).[0m
+[35mroles/python/tasks/main.yml[0m:83:7 [2mUse `ansible.builtin.apt` or `ansible.legacy.apt` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:88
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:89
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (pip).[0m
+[35mroles/python/tasks/main.yml[0m:93:7 [2mUse `ansible.builtin.pip` or `ansible.legacy.pip` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/key-order/\key-order[task]]8;;\[0m[2m:[0m [31mYou can improve the task key order to: name, when, tags, block, rescue[0m
+[35mroles/python/tasks/main.yml[0m:99 [2mTask/Handler: Install UV via package manager (Fedora)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (yum_repository).[0m
+[35mroles/python/tasks/main.yml[0m:102:7 [2mUse `ansible.builtin.yum_repository` or `ansible.legacy.yum_repository` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:109
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (dnf).[0m
+[35mroles/python/tasks/main.yml[0m:111:7 [2mUse `ansible.builtin.dnf` or `ansible.legacy.dnf` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:115
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:116
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (pip).[0m
+[35mroles/python/tasks/main.yml[0m:120:7 [2mUse `ansible.builtin.pip` or `ansible.legacy.pip` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (command).[0m
+[35mroles/python/tasks/main.yml[0m:127:3 [2mUse `ansible.builtin.command` or `ansible.legacy.command` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (lineinfile).[0m
+[35mroles/python/tasks/main.yml[0m:134:3 [2mUse `ansible.builtin.lineinfile` or `ansible.legacy.lineinfile` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/python/tasks/main.yml[0m:143 [2mTask/Handler: Install Python versions with retry[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/python/tasks/main.yml[0m:144:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/python/tasks/main.yml[0m:158 [2mTask/Handler: Set default Python version[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/python/tasks/main.yml[0m:159:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/command-instead-of-shell/\command-instead-of-shell]8;;\[0m[2m:[0m [31mUse shell only when shell functionality is required.[0m
+[35mroles/python/tasks/main.yml[0m:171 [2mTask/Handler: Install global tools with UV (with retry and error handling)[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/python/tasks/main.yml[0m:172:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:177
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/python/tasks/main.yml[0m:189:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/python/tasks/main.yml[0m:198:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (blockinfile).[0m
+[35mroles/python/tasks/main.yml[0m:205:3 [2mUse `ansible.builtin.blockinfile` or `ansible.legacy.blockinfile` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/python/tasks/main.yml[0m:213
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/python/tasks/main.yml[0m:232:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/python/tasks/main.yml[0m:239:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/python/tasks/main.yml[0m:246:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/python/tasks/main.yml[0m:262:3 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use xdg_ as a prefix. (vars: create_user_dirs)[0m
+[35mroles/xdg/defaults/main.yml[0m:2:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use xdg_ as a prefix. (vars: create_app_dirs)[0m
+[35mroles/xdg/defaults/main.yml[0m:3:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use xdg_ as a prefix. (vars: setup_environment)[0m
+[35mroles/xdg/defaults/main.yml[0m:4:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use xdg_ as a prefix. (vars: setup_shell_profile)[0m
+[35mroles/xdg/defaults/main.yml[0m:5:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use xdg_ as a prefix. (vars: setup_user_dirs_config)[0m
+[35mroles/xdg/defaults/main.yml[0m:6:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/defaults/main.yml[0m:12
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (systemd).[0m
+[35mroles/xdg/handlers/main.yml[0m:3:3 [2mUse `ansible.builtin.systemd` or `ansible.legacy.systemd` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/xdg/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (find).[0m
+[35mroles/xdg/tasks/main.yml[0m:3:3 [2mUse `ansible.builtin.find` or `ansible.legacy.find` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (copy).[0m
+[35mroles/xdg/tasks/main.yml[0m:12:3 [2mUse `ansible.builtin.copy` or `ansible.legacy.copy` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:18
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (set_fact).[0m
+[35mroles/xdg/tasks/main.yml[0m:24:3 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (set_fact).[0m
+[35mroles/xdg/tasks/main.yml[0m:35:3 [2mUse `ansible.builtin.set_fact` or `ansible.legacy.set_fact` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/xdg/tasks/main.yml[0m:49:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/xdg/tasks/main.yml[0m:62:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/xdg/tasks/main.yml[0m:73:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:86
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:87
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/xdg/tasks/main.yml[0m:92:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/xdg/tasks/main.yml[0m:100:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:104
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/xdg/tasks/main.yml[0m:110:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:115
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:116
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (blockinfile).[0m
+[35mroles/xdg/tasks/main.yml[0m:122:3 [2mUse `ansible.builtin.blockinfile` or `ansible.legacy.blockinfile` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:133
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:136
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/xdg/tasks/main.yml[0m:149:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/xdg/tasks/main.yml[0m:187:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:191
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:192
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/xdg/tasks/main.yml[0m:198:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:204
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:205
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (include_tasks).[0m
+[35mroles/xdg/tasks/main.yml[0m:212:3 [2mUse `ansible.builtin.include_tasks` or `ansible.legacy.include_tasks` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:213
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:214
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/xdg/tasks/main.yml[0m:219:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35mroles/xdg/tasks/main.yml[0m:227
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/xdg/tasks/main.yml[0m:234:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (apt).[0m
+[35mroles/xdg/tasks/user_dirs.yml[0m:10:3 [2mUse `ansible.builtin.apt` or `ansible.legacy.apt` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (dnf).[0m
+[35mroles/xdg/tasks/user_dirs.yml[0m:17:3 [2mUse `ansible.builtin.dnf` or `ansible.legacy.dnf` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/xdg/tasks/user_dirs.yml[0m:24:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (copy).[0m
+[35mroles/xdg/tasks/user_dirs.yml[0m:30:3 [2mUse `ansible.builtin.copy` or `ansible.legacy.copy` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (command).[0m
+[35mroles/xdg/tasks/user_dirs.yml[0m:37:3 [2mUse `ansible.builtin.command` or `ansible.legacy.command` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: change_default_shell)[0m
+[35mroles/zsh/defaults/main.yml[0m:34:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: editor)[0m
+[35mroles/zsh/defaults/main.yml[0m:45:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: visual_editor)[0m
+[35mroles/zsh/defaults/main.yml[0m:46:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: pager)[0m
+[35mroles/zsh/defaults/main.yml[0m:47:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: key_bindings)[0m
+[35mroles/zsh/defaults/main.yml[0m:50:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: enable_corrections)[0m
+[35mroles/zsh/defaults/main.yml[0m:53:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: enable_mise)[0m
+[35mroles/zsh/defaults/main.yml[0m:56:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: enable_direnv)[0m
+[35mroles/zsh/defaults/main.yml[0m:57:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: prompt_theme)[0m
+[35mroles/zsh/defaults/main.yml[0m:60:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: prompt_user_color)[0m
+[35mroles/zsh/defaults/main.yml[0m:61:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: prompt_host_color)[0m
+[35mroles/zsh/defaults/main.yml[0m:62:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: prompt_dir_color)[0m
+[35mroles/zsh/defaults/main.yml[0m:63:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: prompt_git_color)[0m
+[35mroles/zsh/defaults/main.yml[0m:64:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[empty-lines]]8;;\[0m[2m:[0m [31mToo many blank lines (3 > 2)[0m
+[35mroles/zsh/defaults/main.yml[0m:67
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: install_custom_completions)[0m
+[35mroles/zsh/defaults/main.yml[0m:78:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/var-naming/\var-naming[no-role-prefix]]8;;\[0m[2m:[0m [31mVariables names from within roles should use zsh_ as a prefix. (vars: show_welcome_message)[0m
+[35mroles/zsh/defaults/main.yml[0m:79:1
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35mroles/zsh/handlers/main.yml[0m:3:3 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/schema/\schema[meta]]8;;\[0m[2m:[0m [31m$.galaxy_info.min_ansible_version 2.9 is not of type 'string'. See https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#using-role-dependencies[0m
+[35mroles/zsh/meta/main.yml[0m:1 [2m Returned errors will not include exact line numbers, but they will mention
+the schema name being used as a tag, like ``schema[playbook]``,
+``schema[tasks]``.
+
+This rule is not skippable and stops further processing of the file.
+
+If incorrect schema was picked, you might want to either:
+
+* move the file to standard location, so its file is detected correctly.
+* use ``kinds:`` option in linter config to help it pick correct file type.
+[/]
+[0m[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (package).[0m
+[35mroles/zsh/tasks/main.yml[0m:3:3 [2mUse `ansible.builtin.package` or `ansible.legacy.package` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (user).[0m
+[35mroles/zsh/tasks/main.yml[0m:10:3 [2mUse `ansible.builtin.user` or `ansible.legacy.user` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/zsh/tasks/main.yml[0m:17:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (template).[0m
+[35mroles/zsh/tasks/main.yml[0m:28:3 [2mUse `ansible.builtin.template` or `ansible.legacy.template` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (copy).[0m
+[35mroles/zsh/tasks/main.yml[0m:42:3 [2mUse `ansible.builtin.copy` or `ansible.legacy.copy` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (copy).[0m
+[35mroles/zsh/tasks/main.yml[0m:54:3 [2mUse `ansible.builtin.copy` or `ansible.legacy.copy` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[empty-lines]]8;;\[0m[2m:[0m [31mToo many blank lines (3 > 2)[0m
+[35mroles/zsh/tasks/main.yml[0m:62
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/latest/\latest[git]]8;;\[0m[2m:[0m [31mResult of the command may vary on subsequent runs.[0m
+[35mroles/zsh/tasks/main.yml[0m:63 [2mTask/Handler: Install zsh plugins[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (git).[0m
+[35mroles/zsh/tasks/main.yml[0m:64:3 [2mUse `ansible.builtin.git` or `ansible.legacy.git` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35mroles/zsh/tasks/main.yml[0m:72:3 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (shell).[0m
+[35mroles/zsh/tasks/main.yml[0m:79:3 [2mUse `ansible.builtin.shell` or `ansible.legacy.shell` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:6
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:11
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (assert).[0m
+[35msite.yml[0m:14:7 [2mUse `ansible.builtin.assert` or `ansible.legacy.assert` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:20
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (file).[0m
+[35msite.yml[0m:22:7 [2mUse `ansible.builtin.file` or `ansible.legacy.file` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:28
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:32
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:33
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:35
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:39
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:42
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:45
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:48
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:51
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:54
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:57
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35msite.yml[0m:63:7 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/yaml/\yaml[trailing-spaces]]8;;\[0m[2m:[0m [31mTrailing spaces[0m
+[35msite.yml[0m:66
+[0m
+[31m[34m]8;;https://ansible.readthedocs.io/projects/lint/rules/fqcn/\fqcn[action-core]]8;;\[0m[2m:[0m [31mUse FQCN for builtin module actions (debug).[0m
+[35msite.yml[0m:68:7 [2mUse `ansible.builtin.debug` or `ansible.legacy.debug` instead.[0m
+[0m

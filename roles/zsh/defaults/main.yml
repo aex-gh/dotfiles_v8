@@ -1,0 +1,77 @@
+---
+# Zsh Configuration Variables
+
+# XDG directories (OS-specific)
+zsh_config_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Application Support/zsh
+  {% else %}
+  {{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/zsh
+  {% endif %}
+
+zsh_data_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Application Support/zsh
+  {% else %}
+  {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/zsh
+  {% endif %}
+
+zsh_cache_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Caches/zsh
+  {% else %}
+  {{ ansible_env.XDG_CACHE_HOME | default(ansible_env.HOME + '/.cache') }}/zsh
+  {% endif %}
+
+# Shell configuration
+zsh_path: >-
+  {% if ansible_os_family == "Darwin" %}
+  /opt/homebrew/bin/zsh
+  {% else %}
+  /usr/bin/zsh
+  {% endif %}
+
+change_default_shell: true
+
+# History settings
+zsh_history_file: "{{ zsh_data_dir }}/history"
+zsh_histsize: 50000
+zsh_savehist: 50000
+
+# Locale settings
+zsh_locale: en_GB.UTF-8
+
+# Default programs
+editor: nvim
+visual_editor: nvim
+pager: less
+
+# Key bindings (emacs or vi)
+key_bindings: emacs
+
+# Correction settings
+enable_corrections: true
+
+# Tool integrations
+enable_mise: true
+enable_direnv: false
+
+# Prompt configuration
+prompt_theme: custom  # Options: custom, starship, simple
+prompt_user_color: green
+prompt_host_color: blue
+prompt_dir_color: cyan
+prompt_git_color: yellow
+
+# Plugin management (manual plugins)
+zsh_plugins:
+  - name: zsh-syntax-highlighting
+    repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
+  - name: zsh-autosuggestions
+    repo: https://github.com/zsh-users/zsh-autosuggestions.git
+  - name: zsh-completions
+    repo: https://github.com/zsh-users/zsh-completions.git
+
+# Feature toggles
+install_custom_completions: true
+show_welcome_message: false

@@ -1,0 +1,502 @@
+# =============================================================================
+# Zsh Functions
+# Custom shell functions for enhanced productivity
+# =============================================================================
+
+# =============================================================================
+# File and Directory Operations
+# =============================================================================
+
+# Create directory and cd into it
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# Extract various archive formats
+extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2)   tar xjf "$1"     ;;
+            *.tar.gz)    tar xzf "$1"     ;;
+            *.bz2)       bunzip2 "$1"     ;;
+            *.rar)       unrar x "$1"     ;;
+            *.gz)        gunzip "$1"      ;;
+            *.tar)       tar xf "$1"      ;;
+            *.tbz2)      tar xjf "$1"     ;;
+            *.tgz)       tar xzf "$1"     ;;
+            *.zip)       unzip "$1"       ;;
+            *.Z)         uncompress "$1"  ;;
+            *.7z)        7z x "$1"        ;;
+            *.deb)       ar x "$1"        ;;
+            *.tar.xz)    tar xf "$1"      ;;
+            *.tar.zst)   unzstd "$1"      ;;
+            *)           echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Find files by name
+ff() {
+    if command -v fd >/dev/null 2>&1; then
+        fd "$1"
+    else
+        find . -name "*$1*"
+    fi
+}
+
+# Find files and execute command
+fexec() {
+    if [ $# -lt 2 ]; then
+        echo "Usage: fexec <pattern> <command>"
+        return 1
+    fi
+    local pattern="$1"
+    shift
+    if command -v fd >/dev/null 2>&1; then
+        fd "$pattern" -x "$@"
+    else
+        find . -name "*$pattern*" -exec "$@" {} \;
+    fi
+}
+
+# Get file size in human readable format
+fsize() {
+    if [ -f "$1" ]; then
+        if command -v numfmt >/dev/null 2>&1; then
+            local size=$(stat -c%s "$1" 2>/dev/null || stat -f%z "$1" 2>/dev/null)
+            numfmt --to=iec-i --suffix=B "$size"
+        else
+            ls -lh "$1" | awk '{print $5}'
+        fi
+    else
+        echo "File not found: $1"
+    fi
+}
+
+# =============================================================================
+# Text Processing
+# =============================================================================
+
+# Search for text in files
+grep_files() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: grep_files <pattern> [directory]"
+        return 1
+    fi
+    local pattern="$1"
+    local dir="${2:-.}"
+    
+    if command -v rg >/dev/null 2>&1; then
+        rg "$pattern" "$dir"
+    else
+        grep -r "$pattern" "$dir"
+    fi
+}
+
+# Count lines of code in a directory
+loc() {
+    local dir="${1:-.}"
+    if command -v tokei >/dev/null 2>&1; then
+        tokei "$dir"
+    elif command -v cloc >/dev/null 2>&1; then
+        cloc "$dir"
+    else
+        find "$dir" -name '*.py' -o -name '*.js' -o -name '*.go' -o -name '*.rs' -o -name '*.c' -o -name '*.cpp' -o -name '*.java' | xargs wc -l
+    fi
+}
+
+# =============================================================================
+# Git Functions
+# =============================================================================
+
+# Git clone and cd into directory
+gclone() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: gclone <repository-url> [directory-name]"
+        return 1
+    fi
+    
+    local repo="$1"
+    local dir="$2"
+    
+    if [ -z "$dir" ]; then
+        dir=$(basename "$repo" .git)
+    fi
+    
+    git clone "$repo" "$dir" && cd "$dir"
+}
+
+# Git add, commit, and push in one command
+gacp() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: gacp <commit-message>"
+        return 1
+    fi
+    
+    git add -A && git commit -m "$1" && git push
+}
+
+# Git branch with fzf selection
+gbf() {
+    if ! command -v fzf >/dev/null 2>&1; then
+        echo "fzf is required for this function"
+        return 1
+    fi
+    
+    local branch
+    branch=$(git branch --all | grep -v HEAD | sed 's/^..//' | fzf --height 40% --reverse)
+    
+    if [ -n "$branch" ]; then
+        git checkout "$branch"
+    fi
+}
+
+# Git log with fzf selection and preview
+glf() {
+    if ! command -v fzf >/dev/null 2>&1; then
+        echo "fzf is required for this function"
+        return 1
+    fi
+    
+    git log --oneline --color=always | 
+    fzf --ansi --preview 'git show --color=always {1}' --height 80%
+}
+
+# Git status with file selection
+gsf() {
+    if ! command -v fzf >/dev/null 2>&1; then
+        echo "fzf is required for this function"
+        return 1
+    fi
+    
+    local file
+    file=$(git status --porcelain | fzf --height 40% --reverse | awk '{print $2}')
+    
+    if [ -n "$file" ]; then
+        echo "Selected file: $file"
+    fi
+}
+
+# =============================================================================
+# Network Functions
+# =============================================================================
+
+# Get external IP address
+myip() {
+    if command -v curl >/dev/null 2>&1; then
+        curl -s https://ifconfig.me
+    elif command -v wget >/dev/null 2>&1; then
+        wget -qO- https://ifconfig.me
+    else
+        echo "curl or wget is required"
+    fi
+}
+
+# Port scan using nmap
+portscan() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: portscan <host> [port-range]"
+        return 1
+    fi
+    
+    local host="$1"
+    local ports="${2:-1-1000}"
+    
+    if command -v nmap >/dev/null 2>&1; then
+        nmap -p "$ports" "$host"
+    else
+        echo "nmap is required for port scanning"
+    fi
+}
+
+# Simple HTTP server
+serve() {
+    local port="${1:-8000}"
+    local dir="${2:-.}"
+    
+    echo "Starting HTTP server on port $port in directory $dir"
+    echo "Access at http://localhost:$port"
+    
+    if command -v python3 >/dev/null 2>&1; then
+        cd "$dir" && python3 -m http.server "$port"
+    elif command -v python >/dev/null 2>&1; then
+        cd "$dir" && python -m SimpleHTTPServer "$port"
+    else
+        echo "Python is required to run HTTP server"
+    fi
+}
+
+# =============================================================================
+# Development Functions
+# =============================================================================
+
+# Create virtual environment and activate it
+venv_create() {
+    local name="${1:-venv}"
+    
+    if command -v uv >/dev/null 2>&1; then
+        uv venv "$name" && source "$name/bin/activate"
+    else
+        python3 -m venv "$name" && source "$name/bin/activate"
+    fi
+}
+
+# Activate virtual environment
+venv_activate() {
+    local venv_path
+    
+    # Look for common virtual environment directories
+    for dir in venv .venv env .env; do
+        if [ -d "$dir" ] && [ -f "$dir/bin/activate" ]; then
+            venv_path="$dir"
+            break
+        fi
+    done
+    
+    if [ -n "$venv_path" ]; then
+        source "$venv_path/bin/activate"
+        echo "Activated virtual environment: $venv_path"
+    else
+        echo "No virtual environment found in current directory"
+    fi
+}
+
+# Docker functions
+docker_cleanup() {
+    echo "Cleaning up Docker containers, images, and volumes..."
+    docker container prune -f
+    docker image prune -f
+    docker volume prune -f
+    docker network prune -f
+}
+
+docker_stats() {
+    docker stats --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.NetIO}}\t{{.BlockIO}}"
+}
+
+# =============================================================================
+# System Information
+# =============================================================================
+
+# System information
+sysinfo() {
+    echo "System Information:"
+    echo "=================="
+    echo "Hostname: $(hostname)"
+    echo "OS: $(uname -s)"
+    echo "Kernel: $(uname -r)"
+    echo "Architecture: $(uname -m)"
+    echo "Uptime: $(uptime | awk '{print $3,$4}' | sed 's/,//')"
+    echo "Load Average: $(uptime | awk -F'load average:' '{print $2}')"
+    echo "Memory Usage:"
+    if command -v free >/dev/null 2>&1; then
+        free -h
+    else
+        vm_stat | grep -E "(free|wired|active|inactive)" | awk '{print $1 $2 $3}'
+    fi
+    echo "Disk Usage:"
+    df -h | grep -E '^/dev/'
+}
+
+# Process information
+procs() {
+    local pattern="${1:-}"
+    
+    if [ -n "$pattern" ]; then
+        ps aux | grep "$pattern" | grep -v grep
+    else
+        if command -v btop >/dev/null 2>&1; then
+            btop
+        elif command -v htop >/dev/null 2>&1; then
+            htop
+        else
+            top
+        fi
+    fi
+}
+
+# =============================================================================
+# Utility Functions
+# =============================================================================
+
+# Create backup of file
+backup() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: backup <file>"
+        return 1
+    fi
+    
+    local file="$1"
+    local backup_file="${file}.backup.$(date +%Y%m%d_%H%M%S)"
+    
+    cp "$file" "$backup_file" && echo "Backup created: $backup_file"
+}
+
+# Generate random string
+randstr() {
+    local length="${1:-32}"
+    
+    if command -v openssl >/dev/null 2>&1; then
+        openssl rand -base64 "$length" | tr -d "=+/" | cut -c1-"$length"
+    else
+        < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"$length"; echo;
+    fi
+}
+
+# URL encode
+urlencode() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: urlencode <string>"
+        return 1
+    fi
+    
+    local string="$1"
+    local strlen=${#string}
+    local encoded=""
+    local pos c o
+    
+    for (( pos=0 ; pos<strlen ; pos++ )); do
+        c=${string:$pos:1}
+        case "$c" in
+            [-_.~a-zA-Z0-9] ) o="${c}" ;;
+            * )               printf -v o '%%%02x' "'$c"
+        esac
+        encoded+="${o}"
+    done
+    echo "${encoded}"
+}
+
+# URL decode
+urldecode() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: urldecode <string>"
+        return 1
+    fi
+    
+    local url_encoded="${1//+/ }"
+    printf '%b' "${url_encoded//%/\\x}"
+}
+
+# Calculate
+calc() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: calc <expression>"
+        return 1
+    fi
+    
+    local result
+    result=$(echo "scale=2; $*" | bc -l 2>/dev/null)
+    
+    if [ $? -eq 0 ]; then
+        echo "$result"
+    else
+        echo "Error: Invalid expression"
+    fi
+}
+
+# Weather function
+weather() {
+    local location="${1:-}"
+    
+    if command -v curl >/dev/null 2>&1; then
+        if [ -n "$location" ]; then
+            curl -s "wttr.in/$location"
+        else
+            curl -s "wttr.in"
+        fi
+    else
+        echo "curl is required for weather information"
+    fi
+}
+
+# QR code generator
+qr() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: qr <text>"
+        return 1
+    fi
+    
+    local text="$1"
+    
+    if command -v qrencode >/dev/null 2>&1; then
+        qrencode -t ansiutf8 "$text"
+    elif command -v curl >/dev/null 2>&1; then
+        curl -s "qrenco.de/$text"
+    else
+        echo "qrencode or curl is required for QR code generation"
+    fi
+}
+
+# =============================================================================
+# macOS Specific Functions
+# =============================================================================
+
+# macOS specific functions
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # Flush DNS cache
+    flush_dns() {
+        sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder
+        echo "DNS cache flushed"
+    }
+    
+    # Show/hide hidden files in Finder
+    show_hidden() {
+        defaults write com.apple.finder AppleShowAllFiles YES
+        killall Finder
+        echo "Hidden files are now visible"
+    }
+    
+    hide_hidden() {
+        defaults write com.apple.finder AppleShowAllFiles NO
+        killall Finder
+        echo "Hidden files are now hidden"
+    }
+    
+    # Lock screen
+    lock() {
+        /System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend
+    }
+    
+    # Empty trash
+    empty_trash() {
+        sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl
+        echo "Trash emptied"
+    }
+fi
+
+# =============================================================================
+# Linux Specific Functions
+# =============================================================================
+
+# Linux specific functions
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    # Update system packages
+    update_system() {
+        if command -v apt >/dev/null 2>&1; then
+            sudo apt update && sudo apt upgrade
+        elif command -v pacman >/dev/null 2>&1; then
+            sudo pacman -Syu
+        elif command -v dnf >/dev/null 2>&1; then
+            sudo dnf update
+        elif command -v zypper >/dev/null 2>&1; then
+            sudo zypper update
+        else
+            echo "Package manager not supported"
+        fi
+    }
+    
+    # List installed packages
+    list_packages() {
+        if command -v apt >/dev/null 2>&1; then
+            apt list --installed
+        elif command -v pacman >/dev/null 2>&1; then
+            pacman -Q
+        elif command -v dnf >/dev/null 2>&1; then
+            dnf list installed
+        else
+            echo "Package manager not supported"
+        fi
+    }
+fi

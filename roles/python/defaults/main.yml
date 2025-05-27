@@ -1,0 +1,62 @@
+---
+# Python configuration
+python_versions:
+  - "3.12"
+  - "3.11"
+
+python_default_version: "3.12"
+
+# UV configuration
+uv_install_method: "curl"  # curl, homebrew, package_manager
+uv_version: "latest"
+
+# UV directories
+uv_cache_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Caches/uv
+  {% else %}
+  {{ ansible_env.XDG_CACHE_HOME | default(ansible_env.HOME + '/.cache') }}/uv
+  {% endif %}
+
+uv_data_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Application Support/uv
+  {% else %}
+  {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/uv
+  {% endif %}
+
+uv_config_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Application Support/uv
+  {% else %}
+  {{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/uv
+  {% endif %}
+
+# Global tools to install with uv
+uv_global_tools:
+  - name: ruff
+    version: "latest"
+  - name: black
+    version: "latest"
+  - name: mypy
+    version: "latest"
+  - name: ipython
+    version: "latest"
+  - name: cookiecutter
+    version: "latest"
+  - name: pipx
+    version: "latest"
+
+# Environment variables
+python_env_vars:
+  UV_CACHE_DIR: "{{ uv_cache_dir }}"
+  UV_DATA_DIR: "{{ uv_data_dir }}"
+  UV_CONFIG_DIR: "{{ uv_config_dir }}"
+  PYTHONDONTWRITEBYTECODE: "1"
+  PYTHONUNBUFFERED: "1"
+
+# Feature toggles
+setup_python_environment: true
+install_global_tools: true
+configure_shell_integration: true
+setup_uv_config: true

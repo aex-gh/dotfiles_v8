@@ -1,0 +1,145 @@
+---
+# Mise installation method priority order
+mise_install_methods:
+  - curl
+  - package_manager
+  - homebrew
+
+# Mise version (latest or specific version)
+mise_version: "latest"
+mise_min_version: "2024.1.0"
+
+# Mise directories (XDG compliant)
+mise_config_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Application Support/mise
+  {% else %}
+  {{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/mise
+  {% endif %}
+
+mise_data_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Application Support/mise
+  {% else %}
+  {{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/mise
+  {% endif %}
+
+mise_cache_dir: >-
+  {% if ansible_os_family == "Darwin" %}
+  {{ ansible_env.HOME }}/Library/Caches/mise
+  {% else %}
+  {{ ansible_env.XDG_CACHE_HOME | default(ansible_env.HOME + '/.cache') }}/mise
+  {% endif %}
+
+# Global tools and runtimes to install (Python removed to avoid conflict)
+# Version pinning for critical tools
+mise_global_tools:
+  - name: node
+    version: "20.11.0"  # LTS version
+    critical: true
+  - name: go
+    version: "1.21.6"   # Stable version
+    critical: true
+  - name: rust
+    version: "1.75.0"   # Stable version
+    critical: false
+  - name: bun
+    version: "1.0.25"   # Stable version
+    critical: false
+  - name: deno
+    version: "1.40.2"   # Stable version
+    critical: false
+  - name: terraform
+    version: "1.7.0"    # Stable version
+    critical: true
+  - name: kubectl
+    version: "1.29.1"   # Stable k8s version
+    critical: true
+  - name: helm
+    version: "3.14.0"   # Stable version
+    critical: false
+  - name: k9s
+    version: "0.31.7"   # Latest stable
+    critical: false
+  - name: jq
+    version: "1.7.1"    # Stable version
+    critical: true
+  - name: yq
+    version: "4.40.5"   # Stable version
+    critical: true
+  - name: fzf
+    version: "0.46.1"   # Stable version
+    critical: true
+  - name: ripgrep
+    version: "14.1.0"   # Stable version
+    critical: true
+  - name: fd
+    version: "9.0.0"    # Stable version
+    critical: true
+  - name: bat
+    version: "0.24.0"   # Stable version
+    critical: true
+  - name: eza
+    version: "0.18.2"   # Modern ls replacement
+    critical: false
+  - name: delta
+    version: "0.16.5"   # Git diff pager
+    critical: false
+  - name: lazygit
+    version: "0.40.2"   # Git TUI
+    critical: false
+  - name: zoxide
+    version: "0.9.4"    # Smart cd
+    critical: false
+
+# Fallback package sources
+mise_fallback_sources:
+  curl:
+    url: "https://mise.run"
+    backup_url: "https://github.com/jdx/mise/releases/latest/download/mise-linux-x64"
+  github_releases: "https://api.github.com/repos/jdx/mise/releases/latest"
+
+# Mise configuration settings
+mise_config:
+  experimental: true
+  verbose: false
+  yes: false
+  quiet: false
+  plugin_autoupdate_last_check_duration: "7d"
+  always_keep_download: false
+  always_keep_install: false
+  legacy_version_file: true
+  legacy_version_file_disable_tools: []
+  disable_default_shorthands: false
+  disable_tools: []
+  raw: false
+  jobs: 4
+  shorthands_file: "~/.config/mise/shorthands.toml"
+  disable_hints: []
+  task_output: "prefix"
+  paranoid: false
+
+# Environment variables
+mise_env_vars:
+  MISE_CONFIG_DIR: "{{ mise_config_dir }}"
+  MISE_DATA_DIR: "{{ mise_data_dir }}"
+  MISE_CACHE_DIR: "{{ mise_cache_dir }}"
+  MISE_USE_TOML: "1"
+  MISE_EXPERIMENTAL: "1"
+  MISE_LOG_LEVEL: "info"
+  MISE_JOBS: "4"
+
+# Feature toggles
+setup_shell_integration: true
+install_global_tools: true
+setup_mise_config: true
+create_shims: false
+pin_tool_versions: true
+install_critical_tools_only: false
+retry_failed_installs: true
+validate_tool_versions: true
+
+# Network settings
+network_timeout: 30
+max_retries: 3
+retry_delay: 5

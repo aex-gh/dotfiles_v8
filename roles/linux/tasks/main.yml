@@ -1,0 +1,24 @@
+---
+- include_tasks: arch.yml
+  when: ansible_distribution == "Archlinux"
+
+- include_tasks: debian.yml
+  when: ansible_distribution in ["Debian", "Ubuntu"]
+
+- include_tasks: fedora.yml
+  when: ansible_distribution == "Fedora"
+
+- include_tasks: fonts.yml
+  when: install_nerd_fonts | default(true)
+
+- include_tasks: flatpak.yml
+  when: ansible_distribution != "Archlinux"
+
+- name: Enable and start systemd services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop: "{{ systemd_services | default([]) }}"
+  become: true
+  when: systemd_services is defined

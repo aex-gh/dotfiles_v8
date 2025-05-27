@@ -1,0 +1,24 @@
+---
+- name: Create development directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop: "{{ development_dev_directories }}"
+  when: setup_development_directories | default(true)
+
+- name: Include SSH setup tasks
+  ansible.builtin.include_tasks: ssh.yml
+  when: setup_ssh_keys | default(true)
+
+- name: Include GPG setup tasks
+  ansible.builtin.include_tasks: gpg.yml
+  when: setup_gpg_keys | default(true)
+
+- name: Include certificate setup tasks
+  ansible.builtin.include_tasks: certificates.yml
+  when: setup_certificates | default(true)
+
+- name: Include development environment configuration
+  ansible.builtin.include_tasks: environment.yml
+  when: configure_development_environment | default(true)

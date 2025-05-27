@@ -1,0 +1,101 @@
+---
+- name: Ensure GPG directory exists
+  ansible.builtin.file:
+    path: "{{ ansible_env.GNUPGHOME | default(ansible_env.XDG_DATA_HOME + '/gnupg' if ansible_env.XDG_DATA_HOME is defined else ansible_env.HOME + '/.local/share/gnupg') }}"
+    state: directory
+    mode: '0700'
+
+- name: Check if GPG key already exists
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    gpg --list-secret-keys --keyid-format LONG | grep -q "{{ development_gpg_name_email }}"
+  register: gpg_key_exists
+  failed_when: false
+  changed_when: false
+
+- name: Generate GPG key batch file
+  ansible.builtin.template:
+    src: gpg_batch.j2
+    dest: "/tmp/gpg_batch_{{ ansible_date_time.epoch }}"
+    mode: '0600'
+  when: gpg_key_exists.rc != 0
+
+- name: Generate GPG key pair
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    gpg --batch --generate-key /tmp/gpg_batch_{{ ansible_date_time.epoch }}
+  when: gpg_key_exists.rc != 0
+
+- name: Remove GPG batch file
+  ansible.builtin.file:
+    path: "/tmp/gpg_batch_{{ ansible_date_time.epoch }}"
+    state: absent
+  when: gpg_key_exists.rc != 0
+
+- name: Get GPG key ID
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    gpg --list-secret-keys --keyid-format LONG | grep -A 1 "{{ development_gpg_name_email }}" | grep sec | awk '{print $2}' | cut -d'/' -f2
+  register: gpg_key_id
+  changed_when: false
+
+- name: Export GPG public key
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    gpg --armor --export {{ gpg_key_id.stdout }}
+  register: gpg_public_key
+  changed_when: false
+  when: gpg_key_id.stdout != ""
+
+- name: Configure Git to use GPG key
+  community.general.git_config:
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+    scope: global
+  loop:
+    - { name: "user.signingkey", value: "{{ gpg_key_id.stdout }}" }
+    - { name: "commit.gpgsign", value: "true" }
+    - { name: "tag.gpgsign", value: "true" }
+  when: configure_git_signing | default(true) and gpg_key_id.stdout != ""
+
+- name: Display GPG public key
+  ansible.builtin.debug:
+    msg: |
+      GPG public key:
+      {{ gpg_public_key.stdout }}
+
+      GPG Key ID: {{ gpg_key_id.stdout }}
+      Add this key to your Git providers for commit signing.
+  when: gpg_key_exists.rc != 0 and gpg_public_key.stdout is defined

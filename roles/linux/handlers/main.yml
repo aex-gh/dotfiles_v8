@@ -1,0 +1,10 @@
+---
+- name: Restart service
+  ansible.builtin.systemd:
+    name: "{{ service_name }}"
+    state: restarted
+  become: true
+- name: Update font cache
+  ansible.builtin.command: fc-cache -fv
+  changed_when: false
+  listen: "update font cache"

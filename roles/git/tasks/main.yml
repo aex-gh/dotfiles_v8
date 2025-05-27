@@ -1,0 +1,90 @@
+---
+- name: Install git (Linux)
+  ansible.builtin.package:
+    name: git
+    state: present
+  become: true
+  when: ansible_os_family != "Darwin"
+
+- name: Create git config directory
+  ansible.builtin.file:
+    path: "{{ git_config_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Set up git configuration
+  ansible.builtin.template:
+    src: gitconfig.j2
+    dest: "{{ git_config_dir }}/config"
+    mode: '0644'
+  when: setup_git_config | default(true)
+
+- name: Set up git ignore file
+  ansible.builtin.template:
+    src: gitignore.j2
+    dest: "{{ git_config_dir }}/ignore"
+    mode: '0644'
+
+- name: Create git hooks directory
+  ansible.builtin.file:
+    path: "{{ git_hooks_path }}"
+    state: directory
+    mode: '0755'
+  when: setup_git_hooks | default(false)
+
+- name: Install git-lfs (macOS)
+  homebrew:
+    name: git-lfs
+    state: present
+  when: git_lfs_enabled | default(false) and ansible_os_family == "Darwin"
+
+- name: Install git-lfs (Arch Linux)
+  pacman:
+    name: git-lfs
+    state: present
+  become: true
+  when: git_lfs_enabled | default(false) and ansible_distribution == "Archlinux"
+
+- name: Install git-lfs (Debian/Ubuntu)
+  ansible.builtin.apt:
+    name: git-lfs
+    state: present
+  become: true
+  when: git_lfs_enabled | default(false) and ansible_distribution in ["Debian", "Ubuntu"]
+
+- name: Install git-lfs (Fedora)
+  ansible.builtin.dnf:
+    name: git-lfs
+    state: present
+  become: true
+  when: git_lfs_enabled | default(false) and ansible_distribution == "Fedora"
+
+- name: Initialize git-lfs
+  ansible.builtin.shell: git lfs install --skip-repo
+  when: git_lfs_enabled | default(false)
+  changed_when: false
+
+- name: Install delta pager (via mise)
+  ansible.builtin.shell: "mise install delta@latest"
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  when: setup_delta_pager | default(true)
+  changed_when: false
+
+- name: Set up git environment variables
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.profile"
+    marker: "# {mark} Git Environment Variables"
+    block: |
+      export GIT_CONFIG_GLOBAL="{{ git_config_dir }}/config"
+    create: true
+    mode: '0644'
+
+- name: Warn about missing git user configuration
+  ansible.builtin.debug:
+    msg: |
+      WARNING: Git user name and email are not configured.
+      Please update group_vars or host_vars with:
+        git_user_name: "Your Name"
+        git_user_email: "your.email@example.com"
+  when: git_user_name == "" or git_user_email == ""

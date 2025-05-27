@@ -1,0 +1,84 @@
+# Development aliases and functions
+alias dev='cd $DEVELOPMENT_DIR'
+alias work='cd $DEVELOPMENT_DIR/work'
+alias personal='cd $DEVELOPMENT_DIR/personal'
+alias oss='cd $DEVELOPMENT_DIR/opensource'
+alias scratch='cd $DEVELOPMENT_DIR/scratch'
+
+# Git aliases
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git pull'
+alias gd='git diff'
+alias gco='git checkout'
+alias gb='git branch'
+alias gm='git merge'
+alias gr='git rebase'
+alias gst='git stash'
+alias glg='git log --oneline --graph --decorate'
+
+# Docker aliases
+alias d='docker'
+alias dc='docker-compose'
+alias dps='docker ps'
+alias di='docker images'
+alias dr='docker run'
+alias de='docker exec'
+
+# Python aliases
+alias py='python3'
+alias pip='python3 -m pip'
+alias venv='python3 -m venv'
+
+# Quick project creation
+function newproject() {
+    local project_type=$1
+    local project_name=$2
+    
+    if [[ -z "$project_type" || -z "$project_name" ]]; then
+        echo "Usage: newproject <type> <name>"
+        echo "Types: python, node, go, rust, ansible"
+        return 1
+    fi
+    
+    local template_dir="{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/templates/$project_type"
+    local project_dir="$DEVELOPMENT_DIR/personal/$project_name"
+    
+    if [[ -d "$project_dir" ]]; then
+        echo "Project $project_name already exists"
+        return 1
+    fi
+    
+    mkdir -p "$project_dir"
+    if [[ -d "$template_dir" ]]; then
+        cp -r "$template_dir"/* "$project_dir/"
+    fi
+    
+    cd "$project_dir"
+    git init
+    echo "Project $project_name created in $project_dir"
+}
+
+# SSH key management
+function ssh-copy-key() {
+    local key_file="{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/ssh/id_{{ ssh_key_type }}.pub"
+    if [[ -f "$key_file" ]]; then
+        cat "$key_file" | pbcopy 2>/dev/null || xclip -selection clipboard 2>/dev/null || wl-copy 2>/dev/null
+        echo "SSH public key copied to clipboard"
+    else
+        echo "SSH key not found at $key_file"
+    fi
+}
+
+# GPG key management
+function gpg-copy-key() {
+    local key_id=$(gpg --list-secret-keys --keyid-format LONG | grep -A 1 "{{ gpg_name_email }}" | grep sec | awk '{print $2}' | cut -d'/' -f2)
+    if [[ -n "$key_id" ]]; then
+        gpg --armor --export "$key_id" | pbcopy 2>/dev/null || xclip -selection clipboard 2>/dev/null || wl-copy 2>/dev/null
+        echo "GPG public key copied to clipboard"
+    else
+        echo "GPG key not found"
+    fi
+}

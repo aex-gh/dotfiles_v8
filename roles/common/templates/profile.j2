@@ -1,0 +1,55 @@
+#!/bin/bash
+# Base shell profile - sourced by login shells
+# This file coordinates loading of all shell configuration
+
+# Source XDG and base environment
+if [ -f "{{ shell_config_dir }}/environment" ]; then
+    . "{{ shell_config_dir }}/environment"
+fi
+
+# Source shell aliases
+if [ -f "{{ shell_config_dir }}/aliases" ]; then
+    . "{{ shell_config_dir }}/aliases"
+fi
+
+# Source shell functions
+if [ -f "{{ shell_config_dir }}/functions" ]; then
+    . "{{ shell_config_dir }}/functions"
+fi
+
+# Source tool-specific configurations
+for config_file in "{{ shell_config_dir }}/profile.d"/*; do
+    if [ -r "$config_file" ]; then
+        . "$config_file"
+    fi
+done
+
+# Shell-specific configurations
+case "$0" in
+    *zsh*)
+        # ZSH specific profile loading
+        if [ -f "{{ xdg_config_home }}/zsh/zprofile" ]; then
+            . "{{ xdg_config_home }}/zsh/zprofile"
+        fi
+        ;;
+    *bash*)
+        # Bash specific profile loading
+        if [ -f "{{ xdg_config_home }}/bash/bashrc" ]; then
+            . "{{ xdg_config_home }}/bash/bashrc"
+        fi
+        ;;
+esac
+
+# Platform specific profile additions
+{% if ansible_os_family == "Darwin" %}
+# macOS specific
+if [ -f "/opt/homebrew/bin/brew" ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+{% endif %}
+
+# Final PATH cleanup and deduplication
+if command -v perl >/dev/null 2>&1; then
+    PATH=$(echo "$PATH" | perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, scalar <>))')
+    export PATH
+fi

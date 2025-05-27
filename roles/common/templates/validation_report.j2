@@ -1,0 +1,56 @@
+DOTFILES VALIDATION REPORT
+Generated: {{ ansible_date_time.iso8601 }}
+Host: {{ ansible_hostname }}
+User: {{ ansible_user_id }}
+OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+Architecture: {{ ansible_architecture }}
+
+=== SYSTEM REQUIREMENTS ===
+Ansible Version: {{ ansible_version.full }} {{ '✅' if ansible_version.full is version('2.9', '>=') else '❌' }}
+Python Version: {{ ansible_python_version }} {{ '✅' if ansible_python_version is version('3.8', '>=') else '❌' }}
+Available Disk Space: {{ available_space.stdout }}MB {{ '✅' if available_space.stdout | int > 1000 else '❌' }}
+
+=== XDG DIRECTORIES ===
+{% for dir in [xdg_config_home, xdg_data_home, xdg_cache_home] %}
+{{ dir }}: {{ '✅ Writable' if dir + '/.dotfiles_test' in (xdg_write_test.results | selectattr('path') | map(attribute='path') | list) else '❌ Not writable' }}
+{% endfor %}
+
+=== CONFIGURATION ===
+Git User Name: {{ git_user_name | default('❌ NOT SET') }}
+Git User Email: {{ git_user_email | default('❌ NOT SET') }}
+Python Default: {{ python_default_version | default('❌ NOT SET') }}
+Shell: {{ ansible_user_shell }}
+
+=== NETWORK CONNECTIVITY ===
+{% for result in network_check.results %}
+{{ result.item }}: {{ '✅ OK' if not result.failed else '❌ FAILED' }}
+{% endfor %}
+
+=== PACKAGE MANAGERS ===
+{% if ansible_os_family == "Darwin" %}
+Homebrew: {{ '✅ Available' if '/opt/homebrew/bin/brew' in (package_manager_check.results | selectattr('stdout') | map(attribute='stdout') | join('')) else '❌ Not found' }}
+{% endif %}
+{% if ansible_distribution in ["Debian", "Ubuntu"] %}
+APT: {{ '✅ Available' if 'apt' in (package_manager_check.results | selectattr('stdout') | map(attribute='stdout') | join('')) else '❌ Not found' }}
+{% endif %}
+{% if ansible_distribution == "Archlinux" %}
+Pacman: {{ '✅ Available' if 'pacman' in (package_manager_check.results | selectattr('stdout') | map(attribute='stdout') | join('')) else '❌ Not found' }}
+{% endif %}
+{% if ansible_distribution == "Fedora" %}
+DNF: {{ '✅ Available' if 'dnf' in (package_manager_check.results | selectattr('stdout') | map(attribute='stdout') | join('')) else '❌ Not found' }}
+{% endif %}
+
+=== RECOMMENDATIONS ===
+{% if git_user_name is not defined or git_user_email is not defined %}
+- Configure Git credentials in group_vars or host_vars
+{% endif %}
+
+{% if available_space.stdout | int < 2000 %}
+- Consider freeing up disk space (recommended: 2GB+)
+{% endif %}
+
+{% if network_check.results | selectattr('failed', 'equalto', true) | list | length > 0 %}
+- Check internet connection for package downloads
+{% endif %}
+
+Report saved to: {{ xdg_cache_home }}/dotfiles_validation.txt

@@ -1,0 +1,145 @@
+# URL encode function continued...
+    
+    for (( pos=0 ; pos<strlen ; pos++ )); do
+        c=${string:$pos:1}
+        case "$c" in
+            [-_.~a-zA-Z0-9] ) o="${c}" ;;
+            * )               printf -v o '%%%02x' "'$c"
+        esac
+        encoded+="${o}"
+    done
+    echo "${encoded}"
+}
+
+# URL decode
+urldecode() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: urldecode <string>"
+        return 1
+    fi
+    
+    local url_encoded="${1//+/ }"
+    printf '%b' "${url_encoded//%/\\x}"
+}
+
+# Calculate
+calc() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: calc <expression>"
+        return 1
+    fi
+    
+    local result
+    result=$(echo "scale=2; $*" | bc -l 2>/dev/null)
+    
+    if [ $? -eq 0 ]; then
+        echo "$result"
+    else
+        echo "Error: Invalid expression"
+    fi
+}
+
+# Weather function
+weather() {
+    local location="${1:-}"
+    
+    if command -v curl >/dev/null 2>&1; then
+        if [ -n "$location" ]; then
+            curl -s "wttr.in/$location"
+        else
+            curl -s "wttr.in"
+        fi
+    else
+        echo "curl is required for weather information"
+    fi
+}
+
+# QR code generator
+qr() {
+    if [ $# -eq 0 ]; then
+        echo "Usage: qr <text>"
+        return 1
+    fi
+    
+    local text="$1"
+    
+    if command -v qrencode >/dev/null 2>&1; then
+        qrencode -t ansiutf8 "$text"
+    elif command -v curl >/dev/null 2>&1; then
+        curl -s "qrenco.de/$text"
+    else
+        echo "qrencode or curl is required for QR code generation"
+    fi
+}
+
+# =============================================================================
+# macOS Specific Functions
+# =============================================================================
+
+# macOS specific functions
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # Flush DNS cache
+    flush_dns() {
+        sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder
+        echo "DNS cache flushed"
+    }
+    
+    # Show/hide hidden files in Finder
+    show_hidden() {
+        defaults write com.apple.finder AppleShowAllFiles YES
+        killall Finder
+        echo "Hidden files are now visible"
+    }
+    
+    hide_hidden() {
+        defaults write com.apple.finder AppleShowAllFiles NO
+        killall Finder
+        echo "Hidden files are now hidden"
+    }
+    
+    # Lock screen
+    lock() {
+        /System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend
+    }
+    
+    # Empty trash
+    empty_trash() {
+        sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl
+        echo "Trash emptied"
+    }
+fi
+
+# =============================================================================
+# Linux Specific Functions
+# =============================================================================
+
+# Linux specific functions
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    # Update system packages
+    update_system() {
+        if command -v apt >/dev/null 2>&1; then
+            sudo apt update && sudo apt upgrade
+        elif command -v pacman >/dev/null 2>&1; then
+            sudo pacman -Syu
+        elif command -v dnf >/dev/null 2>&1; then
+            sudo dnf update
+        elif command -v zypper >/dev/null 2>&1; then
+            sudo zypper update
+        else
+            echo "Package manager not supported"
+        fi
+    }
+    
+    # List installed packages
+    list_packages() {
+        if command -v apt >/dev/null 2>&1; then
+            apt list --installed
+        elif command -v pacman >/dev/null 2>&1; then
+            pacman -Q
+        elif command -v dnf >/dev/null 2>&1; then
+            dnf list installed
+        else
+            echo "Package manager not supported"
+        fi
+    }
+fi

@@ -1,0 +1,40 @@
+#!/bin/bash
+# Consolidated shell environment variables
+# This file is sourced by multiple shells and tools
+
+# XDG Base Directory Specification
+export XDG_CONFIG_HOME="{{ xdg_config_home }}"
+export XDG_DATA_HOME="{{ xdg_data_home }}"
+export XDG_CACHE_HOME="{{ xdg_cache_home }}"
+export XDG_STATE_HOME="{{ xdg_state_home }}"
+export XDG_BIN_HOME="{{ xdg_bin_home }}"
+
+# Base environment
+{% for key, value in base_environment.items() %}
+export {{ key }}="{{ value }}"
+{% endfor %}
+
+# PATH management
+export PATH="{{ xdg_bin_home }}:$PATH"
+
+# Tool-specific environment variables will be appended below
+# This section is managed by individual roles
+
+# History settings
+export HISTSIZE=50000
+export SAVEHIST=50000
+export HISTCONTROL=ignoreboth
+
+# Development environment
+export DEVELOPMENT_DIR="{{ ansible_env.HOME }}/Development"
+
+# Locale settings
+export LC_ALL="{{ locale | default('en_GB.UTF-8') }}"
+export LANG="{{ locale | default('en_GB.UTF-8') }}"
+
+{% if ansible_os_family == "Darwin" %}
+# macOS specific
+export HOMEBREW_PREFIX="/opt/homebrew"
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+export HOMEBREW_REPOSITORY="/opt/homebrew"
+{% endif %}

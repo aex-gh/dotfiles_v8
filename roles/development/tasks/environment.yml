@@ -1,0 +1,54 @@
+---
+- name: Create shell configuration directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/shell"
+    state: directory
+    mode: '0755'
+
+- name: Template development aliases
+  ansible.builtin.template:
+    src: dev_aliases.j2
+    dest: "{{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/shell/dev_aliases"
+    mode: '0644'
+    backup: true
+  when: setup_development_aliases | default(true)
+
+- name: Create project template directories
+  ansible.builtin.file:
+    path: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/templates/{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - python
+    - node
+    - go
+    - rust
+    - ansible
+  when: create_project_templates | default(true)
+
+- name: Template project templates
+  ansible.builtin.template:
+    src: "templates/{{ item }}.j2"
+    dest: "{{ ansible_env.XDG_DATA_HOME | default(ansible_env.HOME + '/.local/share') }}/templates/{{ item }}/README.md"
+    mode: '0644'
+  loop:
+    - python
+    - node
+    - go
+    - rust
+    - ansible
+  when: create_project_templates | default(true)
+  failed_when: false
+
+- name: Set development environment variables
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/shell/environment"
+    line: "export {{ item.key }}={{ item.value }}"
+    create: true
+    mode: '0644'
+  loop:
+    - { key: "EDITOR", value: "nvim" }
+    - { key: "VISUAL", value: "nvim" }
+    - { key: "PAGER", value: "less" }
+    - { key: "LESS", value: "-R" }
+    - { key: "DEVELOPMENT_DIR", value: "{{ ansible_env.HOME }}/Development" }

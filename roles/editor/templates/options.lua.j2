@@ -1,0 +1,62 @@
+-- Neovim Options Configuration
+
+local opt = vim.opt
+
+-- Leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
+-- General
+opt.mouse = "a"
+opt.clipboard = "unnamedplus"
+opt.swapfile = false
+opt.backup = false
+opt.undofile = true
+opt.undodir = "{{ nvim_cache_dir }}/undo"
+opt.updatetime = 250
+opt.timeoutlen = 300
+
+-- UI
+opt.number = {{ editor_show_line_numbers | lower }}
+opt.relativenumber = true
+opt.cursorline = {{ editor_highlight_current_line | lower }}
+opt.signcolumn = "yes"
+opt.wrap = {{ editor_wrap_lines | lower }}
+opt.scrolloff = 8
+opt.sidescrolloff = 8
+opt.colorcolumn = "80"
+opt.termguicolors = true
+opt.showmode = false
+opt.conceallevel = 0
+opt.pumheight = 10
+
+-- Indentation
+opt.tabstop = {{ editor_tab_width }}
+opt.softtabstop = {{ editor_tab_width }}
+opt.shiftwidth = {{ editor_tab_width }}
+opt.expandtab = {{ editor_expand_tabs | lower }}
+opt.autoindent = true
+opt.smartindent = true
+
+-- Search
+opt.hlsearch = true
+opt.incsearch = true
+opt.ignorecase = true
+opt.smartcase = true
+
+-- Splits
+opt.splitbelow = true
+opt.splitright = true
+
+-- Completion
+opt.completeopt = { "menuone", "noselect" }
+opt.shortmess:append("c")
+
+-- Folding
+opt.foldcolumn = "1"
+opt.foldlevel = 99
+opt.foldlevelstart = 99
+opt.foldenable = true
+
+-- File encoding
+opt.fileencoding = "utf-8"

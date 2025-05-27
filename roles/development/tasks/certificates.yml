@@ -1,0 +1,46 @@
+---
+- name: Create certificate directory
+  ansible.builtin.file:
+    path: "{{ development_cert_directory }}"
+    state: directory
+    mode: '0755'
+
+- name: Check for system certificates (macOS)
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    security find-certificate -a -p /System/Library/Keychains/SystemRootCertificates.keychain > "{{ development_cert_directory }}/system-ca-bundle.crt"
+  when: ansible_os_family == "Darwin"
+  changed_when: false
+
+- name: Check for system certificates (Linux)
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ development_cert_directory }}/system-ca-bundle.crt"
+    remote_src: true
+    mode: '0644'
+  loop:
+    - /etc/ssl/certs/ca-certificates.crt  # Debian/Ubuntu
+    - /etc/pki/tls/certs/ca-bundle.crt   # RHEL/CentOS/Fedora
+    - /etc/ssl/ca-bundle.pem             # Arch
+  when: ansible_os_family != "Darwin"
+  failed_when: false
+
+- name: Set certificate environment variables
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.XDG_CONFIG_HOME | default(ansible_env.HOME + '/.config') }}/shell/environment"
+    line: "export {{ item.key }}={{ item.value }}"
+    create: true
+    mode: '0644'
+  loop:
+    - { key: "SSL_CERT_FILE", value: "{{ development_cert_directory }}/system-ca-bundle.crt" }
+    - { key: "SSL_CERT_DIR", value: "{{ development_cert_directory }}" }
+    - { key: "REQUESTS_CA_BUNDLE", value: "{{ development_cert_directory }}/system-ca-bundle.crt" }
+    - { key: "CURL_CA_BUNDLE", value: "{{ development_cert_directory }}/system-ca-bundle.crt" }

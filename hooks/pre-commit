@@ -1,0 +1,25 @@
+#!/bin/bash
+# Pre-commit hook template for ansible-lint
+# Copy this to .git/hooks/pre-commit and make executable
+
+# Run ansible-lint on staged files
+if command -v ansible-lint >/dev/null 2>&1; then
+    echo "🔍 Running ansible-lint..."
+    
+    # Get staged YAML files
+    staged_files=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(yml|yaml)$' || true)
+    
+    if [[ -n "$staged_files" ]]; then
+        # Run ansible-lint on the entire project
+        if ansible-lint --quiet; then
+            echo "✅ ansible-lint passed"
+        else
+            echo "❌ ansible-lint failed - commit aborted"
+            echo "Run './lint.sh --fix' to auto-fix issues"
+            exit 1
+        fi
+    fi
+else
+    echo "⚠️ ansible-lint not found - skipping lint check"
+    echo "Install with: pip install ansible-lint"
+fi

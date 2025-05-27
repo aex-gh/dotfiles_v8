@@ -1,0 +1,18 @@
+---
+# Shell configuration
+common_shell_config_dir: "{{ xdg_config_home }}/shell"
+
+# Common dotfiles to deploy
+common_dotfiles: []
+
+# Base environment variables
+common_base_environment:
+  EDITOR: "{{ editor | default('nvim') }}"
+  VISUAL: "{{ visual_editor | default('nvim') }}"
+  PAGER: "{{ pager | default('less') }}"
+  LESS: "-R"
+  BROWSER: "{{ browser | default('') }}"
+
+# Feature flags
+common_setup_shell_integration: true
+common_create_profile_backup: true

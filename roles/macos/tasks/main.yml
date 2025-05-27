@@ -1,0 +1,23 @@
+---
+- name: Configure macOS system preferences
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    # Configure macOS system settings
+    defaults write com.apple.dock autohide -bool true
+    defaults write com.apple.dock tilesize -int 36
+    defaults write com.apple.finder ShowPathbar -bool true
+    defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+    defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+    defaults write com.apple.screencapture location -string "{{ ansible_env.HOME }}/Pictures/Screenshots"
+    killall Dock
+    killall Finder
+  changed_when: false
+  when: configure_macos_defaults | default(true)

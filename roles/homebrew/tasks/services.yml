@@ -1,0 +1,9 @@
+---
+- name: Start and enable Homebrew services
+  ansible.builtin.shell: brew services start {{ item }}
+  loop: "{{ homebrew_services }}"
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+  register: service_start
+  changed_when: "'Successfully started' in service_start.stdout"
+  failed_when: false

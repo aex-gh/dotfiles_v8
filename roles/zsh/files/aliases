@@ -1,0 +1,314 @@
+# =============================================================================
+# Zsh Aliases
+# Common shortcuts and command replacements
+# =============================================================================
+
+# =============================================================================
+# Directory Navigation
+# =============================================================================
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias -- -='cd -'
+
+# Directory listings
+if command -v eza >/dev/null 2>&1; then
+    alias ls='eza --color=auto --group-directories-first'
+    alias ll='eza -l --color=auto --group-directories-first'
+    alias la='eza -la --color=auto --group-directories-first'
+    alias lt='eza --tree --color=auto --group-directories-first'
+    alias lta='eza --tree -a --color=auto --group-directories-first'
+elif command -v lsd >/dev/null 2>&1; then
+    alias ls='lsd --color=auto --group-dirs first'
+    alias ll='lsd -l --color=auto --group-dirs first'
+    alias la='lsd -la --color=auto --group-dirs first'
+    alias lt='lsd --tree --color=auto --group-dirs first'
+else
+    alias ls='ls --color=auto'
+    alias ll='ls -l --color=auto'
+    alias la='ls -la --color=auto'
+fi
+
+# =============================================================================
+# File Operations
+# =============================================================================
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rm='rm -iv'
+alias mkdir='mkdir -pv'
+
+# Safe alternatives
+alias rmf='rm -rf'
+alias cpf='cp -rf'
+
+# Archive operations
+alias tgz='tar -czf'
+alias untgz='tar -xzf'
+alias tbz='tar -cjf'
+alias untbz='tar -xjf'
+
+# =============================================================================
+# Text Processing
+# =============================================================================
+if command -v bat >/dev/null 2>&1; then
+    alias cat='bat --paging=never'
+    alias less='bat'
+fi
+
+if command -v rg >/dev/null 2>&1; then
+    alias grep='rg'
+else
+    alias grep='grep --color=auto'
+fi
+
+# =============================================================================
+# System Monitoring
+# =============================================================================
+if command -v btop >/dev/null 2>&1; then
+    alias top='btop'
+elif command -v htop >/dev/null 2>&1; then
+    alias top='htop'
+fi
+
+if command -v dust >/dev/null 2>&1; then
+    alias du='dust'
+fi
+
+if command -v fd >/dev/null 2>&1; then
+    alias find='fd'
+fi
+
+# =============================================================================
+# Network
+# =============================================================================
+alias ping='ping -c 5'
+alias ports='netstat -tulanp'
+
+# HTTP requests
+if command -v httpie >/dev/null 2>&1; then
+    alias GET='http GET'
+    alias POST='http POST'
+    alias PUT='http PUT'
+    alias DELETE='http DELETE'
+fi
+
+# =============================================================================
+# Git Aliases
+# =============================================================================
+alias g='git'
+alias ga='git add'
+alias gaa='git add --all'
+alias gap='git add --patch'
+alias gb='git branch'
+alias gba='git branch --all'
+alias gc='git commit'
+alias gcm='git commit --message'
+alias gca='git commit --amend'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gd='git diff'
+alias gdc='git diff --cached'
+alias gf='git fetch'
+alias gl='git log --oneline --graph --decorate'
+alias gla='git log --oneline --graph --decorate --all'
+alias gll='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset"'
+alias gp='git push'
+alias gpl='git pull'
+alias gr='git remote'
+alias grv='git remote --verbose'
+alias gs='git status'
+alias gss='git status --short'
+alias gst='git stash'
+alias gstp='git stash pop'
+
+# Git shortcuts with fzf integration
+if command -v fzf >/dev/null 2>&1; then
+    alias gbb='git branch | fzf | xargs git checkout'
+    alias gll='git log --oneline | fzf --preview "git show {1}" | cut -d" " -f1 | xargs git show'
+fi
+
+# =============================================================================
+# Docker Aliases
+# =============================================================================
+if command -v docker >/dev/null 2>&1; then
+    alias d='docker'
+    alias dc='docker-compose'
+    alias dcu='docker-compose up'
+    alias dcd='docker-compose down'
+    alias dcl='docker-compose logs'
+    alias dps='docker ps'
+    alias dpsa='docker ps -a'
+    alias di='docker images'
+    alias dex='docker exec -it'
+    alias dlog='docker logs'
+    alias dstop='docker stop $(docker ps -q)'
+    alias drm='docker rm $(docker ps -aq)'
+    alias drmi='docker rmi $(docker images -q)'
+fi
+
+# =============================================================================
+# Development Tools
+# =============================================================================
+
+# Python
+alias py='python3'
+alias pip='python3 -m pip'
+alias venv='python3 -m venv'
+
+# Node.js
+alias ni='npm install'
+alias nid='npm install --save-dev'
+alias nig='npm install --global'
+alias nr='npm run'
+alias ns='npm start'
+alias nt='npm test'
+
+# UV (Python package manager)
+if command -v uv >/dev/null 2>&1; then
+    alias pip='uv pip'
+    alias venv='uv venv'
+fi
+
+# Mise (development environment manager)
+if command -v mise >/dev/null 2>&1; then
+    alias mi='mise'
+    alias mil='mise list'
+    alias mii='mise install'
+    alias miu='mise use'
+fi
+
+# =============================================================================
+# Kubernetes
+# =============================================================================
+if command -v kubectl >/dev/null 2>&1; then
+    alias k='kubectl'
+    alias kgp='kubectl get pods'
+    alias kgs='kubectl get svc'
+    alias kgd='kubectl get deployment'
+    alias kdp='kubectl describe pod'
+    alias kds='kubectl describe svc'
+    alias kdd='kubectl describe deployment'
+    alias kl='kubectl logs'
+    alias klf='kubectl logs -f'
+    alias kex='kubectl exec -it'
+fi
+
+# =============================================================================
+# System Specific Aliases
+# =============================================================================
+
+# macOS specific
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # Homebrew
+    alias br='brew'
+    alias bri='brew install'
+    alias bru='brew uninstall'
+    alias brs='brew search'
+    alias brinfo='brew info'
+    alias brup='brew update && brew upgrade'
+    alias brclean='brew cleanup'
+    
+    # macOS utilities
+    alias show='defaults write com.apple.finder AppleShowAllFiles YES && killall Finder'
+    alias hide='defaults write com.apple.finder AppleShowAllFiles NO && killall Finder'
+    alias desktop='cd ~/Desktop'
+    alias downloads='cd ~/Downloads'
+    alias documents='cd ~/Documents'
+    
+    # Quick Look
+    alias ql='qlmanage -p'
+fi
+
+# Linux specific
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    # Package managers
+    if command -v apt >/dev/null 2>&1; then
+        alias install='sudo apt install'
+        alias update='sudo apt update && sudo apt upgrade'
+        alias search='apt search'
+    elif command -v pacman >/dev/null 2>&1; then
+        alias install='sudo pacman -S'
+        alias update='sudo pacman -Syu'
+        alias search='pacman -Ss'
+    elif command -v dnf >/dev/null 2>&1; then
+        alias install='sudo dnf install'
+        alias update='sudo dnf update'
+        alias search='dnf search'
+    fi
+    
+    # System
+    alias open='xdg-open'
+fi
+
+# =============================================================================
+# Utility Aliases
+# =============================================================================
+
+# Quick edits
+alias zshrc='$EDITOR ${ZDOTDIR:-$HOME}/.zshrc'
+alias zshenv='$EDITOR ~/.zshenv'
+alias vimrc='$EDITOR ~/.vimrc'
+alias nvimrc='$EDITOR ~/.config/nvim/init.vim'
+
+# Quick navigation to common directories
+alias projects='cd ~/projects'
+alias dotfiles='cd ~/dotfiles'
+alias config='cd ~/.config'
+
+# Reload shell
+alias reload='exec zsh'
+alias rl='exec zsh'
+
+# Clear screen
+alias c='clear'
+alias cls='clear'
+
+# Date and time
+alias now='date +"%T"'
+alias nowdate='date +"%d-%m-%Y"'
+alias week='date +%V'
+
+# IP addresses
+alias localip="ipconfig getifaddr en0"
+alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+
+# Disk usage
+alias diskusage='df -h'
+alias foldersize='du -sh'
+
+# Process management
+alias psg='ps aux | grep'
+alias killall='killall -v'
+
+# Memory usage
+alias meminfo='free -m -l -t'
+
+# Weather (requires curl)
+alias weather='curl -s "wttr.in/?format=3"'
+
+# Generate random password
+alias genpass='openssl rand -base64 32'
+
+# =============================================================================
+# Fun Aliases
+# =============================================================================
+
+# ASCII art
+if command -v figlet >/dev/null 2>&1; then
+    alias ascii='figlet'
+fi
+
+# Matrix effect
+if command -v cmatrix >/dev/null 2>&1; then
+    alias matrix='cmatrix'
+fi
+
+# =============================================================================
+# Custom Aliases (add your own here)
+# =============================================================================
+
+# Example: Project-specific shortcuts
+# alias myproject='cd ~/projects/my-important-project'
+# alias serve='python3 -m http.server 8000'
+# alias tunnel='ssh -R 80:localhost:8000 serveo.net'

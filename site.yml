@@ -1,0 +1,77 @@
+---
+- name: Setup dotfiles
+  hosts: all
+  become: false
+  gather_facts: true
+
+  vars:
+    # Global feature flags
+    skip_backup: false
+    force_overwrite: false
+
+  pre_tasks:
+    - name: Validate required variables
+      assert:
+        that:
+          - ansible_user_id is defined
+          - ansible_env.HOME is defined
+        fail_msg: "Required variables not set"
+      tags: [always]
+
+    - name: Create backup directory
+      file:
+        path: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ ansible_date_time.epoch }}"
+        state: directory
+        mode: '0755'
+      when: not skip_backup | default(false)
+      tags: [always, backup]
+
+  roles:
+    # Foundation - XDG directories first
+    - { role: xdg, tags: [xdg, foundation] }
+
+    # Common system setup
+    - { role: common, tags: [common, foundation] }
+
+    # Platform-specific package managers
+    - { role: homebrew, when: ansible_os_family == "Darwin", tags: [homebrew, packages, macos] }
+    - { role: linux, when: ansible_os_family != "Darwin", tags: [linux, packages] }
+
+    # Platform-specific configurations
+    - { role: macos, when: ansible_os_family == "Darwin", tags: [macos, system] }
+
+    # Development tools (mise provides tool runtime management)
+    - { role: mise, tags: [mise, development, tools] }
+
+    # Python environment (only when explicitly enabled)
+    - { role: python, when: use_uv_python | default(true), tags: [python, development, tools] }
+
+    # Version control (depends on mise for delta)
+    - { role: git, tags: [git, development, version-control] }
+
+    # Editor setup (depends on mise for LSP servers)
+    - { role: editor, tags: [editor, development, neovim] }
+
+    # Shell environment (depends on git and editor)
+    - { role: zsh, tags: [zsh, shell, terminal] }
+
+    # Development environment (depends on git and python)
+    - { role: development, tags: [development, security, ssh, gpg] }
+
+  post_tasks:
+    - name: Verify installation
+      debug:
+        msg: "Dotfiles installation completed successfully"
+      tags: [always]
+
+    - name: Show next steps
+      debug:
+        msg: |
+          🎉 Installation complete! Next steps:
+          1. Restart your terminal or run: source ~/.zshrc
+          2. Set up Git credentials: git config --global user.name "Your Name"
+          3. Sign into Mac App Store for MAS apps (macOS)
+          4. Check mise doctor: mise doctor
+  changed_when: false
+      changed_when: false
+      tags: [always]

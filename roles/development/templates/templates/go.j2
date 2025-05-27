@@ -1,0 +1,27 @@
+# {{ project_name | default('Go Project') }}
+
+A Go project template.
+
+## Setup
+
+```bash
+go mod tidy
+```
+
+## Usage
+
+```bash
+go run main.go
+```
+
+## Build
+
+```bash
+go build -o bin/{{ project_name | default('app') }}
+```
+
+## Testing
+
+```bash
+go test ./...
+```

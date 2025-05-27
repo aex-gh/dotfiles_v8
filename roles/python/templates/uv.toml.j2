@@ -1,0 +1,46 @@
+[global]
+# UV Global Configuration
+
+# Python installation preferences
+python-preference = "only-managed"
+
+# Cache settings
+cache-dir = "{{ uv_cache_dir }}"
+
+# Index settings
+index-url = "https://pypi.org/simple"
+extra-index-url = []
+
+# Install settings
+compile-bytecode = true
+no-build-isolation = false
+
+# Dependency resolution
+resolution = "highest"
+prerelease = "disallow"
+
+# Tool settings
+[tool]
+# Global tool installation directory
+install-dir = "{{ ansible_env.HOME }}/.local/bin"
+
+# Workspace settings
+[workspace]
+# Exclude common non-project directories
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "env",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "node_modules",
+    ".DS_Store",
+]
+
+# Build settings
+[build]
+# Build backend preferences
+backends = ["hatchling", "setuptools", "poetry-core", "flit-core"]

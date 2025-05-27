@@ -1,0 +1,82 @@
+# Consolidated shell aliases
+# This file is sourced by multiple shells
+
+# Navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias ~='cd ~'
+alias -- -='cd -'
+
+# Modern alternatives
+alias ls='{{ "eza" if ansible_os_family == "Darwin" else "exa" }}'
+alias ll='{{ "eza" if ansible_os_family == "Darwin" else "exa" }} -l'
+alias la='{{ "eza" if ansible_os_family == "Darwin" else "exa" }} -la'
+alias lt='{{ "eza" if ansible_os_family == "Darwin" else "exa" }} --tree'
+alias cat='bat'
+alias find='fd'
+alias grep='rg'
+alias du='dust'
+alias df='duf'
+alias top='htop'
+alias ps='procs'
+
+# Safety aliases
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Git aliases (basic - detailed ones in git role)
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gp='git push'
+alias gl='git pull'
+
+# Development
+alias v='{{ editor | default("nvim") }}'
+alias vim='{{ editor | default("nvim") }}'
+alias vi='{{ editor | default("nvim") }}'
+
+# System
+alias h='history'
+alias j='jobs -l'
+alias reload='source ~/.profile'
+alias path='echo -e ${PATH//:/\\n}'
+
+# Network
+alias ports='netstat -tulanp'
+alias myip='curl http://ipecho.net/plain; echo'
+
+# Shortcuts
+alias dev='cd $DEVELOPMENT_DIR'
+alias downloads='cd ~/Downloads'
+alias desktop='cd ~/Desktop'
+alias documents='cd ~/Documents'
+
+{% if ansible_os_family == "Darwin" %}
+# macOS specific
+alias brewup='brew update && brew upgrade && brew cleanup'
+alias flushdns='sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder'
+alias showfiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder'
+alias hidefiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder'
+alias screensaver='open -a ScreenSaverEngine'
+{% else %}
+# Linux specific
+alias updatedb='sudo updatedb'
+alias apt-up='sudo apt update && sudo apt upgrade'
+alias dnf-up='sudo dnf upgrade'
+alias pacman-up='sudo pacman -Syu'
+{% endif %}
+
+# Productivity
+alias week='date +%V'
+alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
+alias weather='curl -4 http://wttr.in/{{ weather_location | default("London") }}'
+
+# Quick edits
+alias aliases='{{ editor | default("nvim") }} {{ shell_config_dir }}/aliases'
+alias functions='{{ editor | default("nvim") }} {{ shell_config_dir }}/functions'
+alias profile='{{ editor | default("nvim") }} ~/.profile'
+alias zshrc='{{ editor | default("nvim") }} {{ xdg_config_home }}/zsh/zshrc'

@@ -1,0 +1,22 @@
+---
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+  become: true
+
+- name: Install apt packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ apt_packages | default([]) }}"
+  become: true
+  when: apt_packages is defined
+
+- name: Add additional APT repositories
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+    state: present
+  loop: "{{ apt_repositories | default([]) }}"
+  become: true
+  when: apt_repositories is defined

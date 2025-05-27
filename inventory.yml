@@ -1,0 +1,76 @@
+---
+all:
+  vars:
+    # Global configuration
+    ansible_python_interpreter: auto_silent
+    validate_system: true
+    skip_backup: false
+    force_overwrite: false
+
+    # Network settings
+    network_timeout: 30
+    max_retries: 3
+    retry_delay: 5
+
+    # Feature flags
+    setup_development_environment: true
+    configure_shell_completion: true
+    install_nerd_fonts: true
+
+  children:
+    macos:
+      hosts:
+        localhost:
+          ansible_connection: local
+          ansible_host: 127.0.0.1
+      vars:
+        # macOS specific settings
+        homebrew_upgrade_all: false
+        homebrew_clear_cache: true
+        install_mas_packages: true
+
+    linux:
+      vars:
+        # Linux common settings
+        setup_flatpak: true
+        enable_systemd_services: true
+
+      children:
+        arch:
+          hosts: {}
+          vars:
+            package_manager: pacman
+
+        debian:
+          hosts: {}
+          vars:
+            package_manager: apt
+
+        ubuntu:
+          hosts: {}
+          vars:
+            package_manager: apt
+            setup_ppa_repositories: true
+
+        fedora:
+          hosts: {}
+          vars:
+            package_manager: dnf
+            enable_rpmfusion: false
+
+# Example host-specific configuration
+# Uncomment and modify as needed:
+#
+# macos:
+#   hosts:
+#     my-macbook:
+#       ansible_host: 192.168.1.100
+#       git_user_name: "John Doe"
+#       git_user_email: "john@example.com"
+#
+# ubuntu:
+#   hosts:
+#     my-ubuntu-server:
+#       ansible_host: 192.168.1.101
+#       ansible_user: ubuntu
+#       ansible_ssh_private_key_file: ~/.ssh/server_key

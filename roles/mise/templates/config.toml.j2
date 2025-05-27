@@ -1,0 +1,66 @@
+# Mise Configuration File
+# See https://mise.jdx.dev/configuration.html
+
+{% for key, value in mise_config.items() %}
+{% if value is boolean %}
+{{ key }} = {{ value | lower }}
+{% elif value is number %}
+{{ key }} = {{ value }}
+{% elif value is string %}
+{{ key }} = "{{ value }}"
+{% elif value is iterable %}
+{{ key }} = {{ value | to_json }}
+{% endif %}
+{% endfor %}
+
+[aliases]
+# Tool aliases
+node = "nodejs"
+py = "python"
+rb = "ruby"
+tf = "terraform"
+k8s = "kubectl"
+
+[settings]
+# Plugin settings
+plugin_autoupdate_last_check_duration = "{{ mise_config.plugin_autoupdate_last_check_duration }}"
+always_keep_download = {{ mise_config.always_keep_download | lower }}
+always_keep_install = {{ mise_config.always_keep_install | lower }}
+legacy_version_file = {{ mise_config.legacy_version_file | lower }}
+disable_default_shorthands = {{ mise_config.disable_default_shorthands | lower }}
+raw = {{ mise_config.raw | lower }}
+jobs = {{ mise_config.jobs }}
+
+[plugins]
+# Plugin repositories
+# Add custom plugin repositories here if needed
+
+[env]
+# Global environment variables
+{% for key, value in mise_env_vars.items() %}
+{{ key }} = "{{ value }}"
+{% endfor %}
+
+# Development environment variables
+NODE_ENV = "development"
+PYTHONDONTWRITEBYTECODE = "1"
+PYTHONUNBUFFERED = "1"
+GO111MODULE = "on"
+GOPROXY = "https://proxy.golang.org,direct"
+GOSUMDB = "sum.golang.org"
+
+[tasks]
+# Global tasks that can be run from any directory
+# Example: mise run lint, mise run test
+
+[task.doctor]
+description = "Run mise doctor to check installation"
+run = "mise doctor"
+
+[task.update]
+description = "Update all installed tools"
+run = "mise upgrade"
+
+[task.clean]
+description = "Clean mise cache"
+run = "mise cache clear"

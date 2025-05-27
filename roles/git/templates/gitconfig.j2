@@ -1,0 +1,127 @@
+[user]
+{% if git_user_name != "" %}
+    name = {{ git_user_name }}
+{% endif %}
+{% if git_user_email != "" %}
+    email = {{ git_user_email }}
+{% endif %}
+{% if git_signing_key != "" %}
+    signingkey = {{ git_signing_key }}
+{% endif %}
+
+[init]
+    defaultBranch = {{ git_init_default_branch }}
+
+[push]
+    default = {{ git_push_default }}
+    autoSetupRemote = true
+
+[pull]
+    rebase = {{ git_pull_rebase | lower }}
+
+[merge]
+    tool = {{ git_merge_tool }}
+    conflictstyle = diff3
+
+[diff]
+    tool = {{ git_diff_tool }}
+    colorMoved = default
+
+[core]
+    editor = {{ git_editor }}
+{% if setup_delta_pager | default(true) %}
+    pager = delta
+{% else %}
+    pager = {{ git_pager }}
+{% endif %}
+    excludesfile = {{ git_config_dir }}/ignore
+    autocrlf = input
+    safecrlf = true
+    whitespace = trailing-space,space-before-tab
+
+[color]
+    ui = auto
+
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = cyan
+
+{% if git_commit_gpg_sign | default(false) %}
+[commit]
+    gpgsign = true
+{% endif %}
+
+{% if git_tag_gpg_sign | default(false) %}
+[tag]
+    gpgsign = true
+{% endif %}
+
+{% if git_hooks_enabled | default(false) %}
+[core]
+    hooksPath = {{ git_hooks_path }}
+{% endif %}
+
+[rerere]
+    enabled = true
+
+[help]
+    autocorrect = 1
+
+[fetch]
+    prune = true
+
+[rebase]
+    autoStash = true
+    autoSquash = true
+
+{% if setup_git_aliases | default(true) %}
+[alias]
+{% for alias, command in git_aliases.items() %}
+    {{ alias }} = {{ command }}
+{% endfor %}
+{% endif %}
+
+{% if git_url_rewrites is defined %}
+{% for rewrite in git_url_rewrites %}
+[url "{{ rewrite.replace }}"]
+    insteadOf = {{ rewrite.match }}
+{% endfor %}
+{% endif %}
+
+{% if setup_delta_pager | default(true) %}
+[delta]
+    features = {{ delta_features }}
+    syntax-theme = {{ delta_syntax_theme }}
+    line-numbers = {{ delta_line_numbers | lower }}
+
+[delta "decorations"]
+    commit-decoration-style = {{ delta_decorations_commit_decoration_style }}
+    file-decoration-style = {{ delta_decorations_file_decoration_style }}
+
+[interactive]
+    diffFilter = delta --color-only
+{% endif %}
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+[includeIf "gitdir:~/work/"]
+    path = {{ git_config_dir }}/config-work
+
+[includeIf "gitdir:~/personal/"]
+    path = {{ git_config_dir }}/config-personal

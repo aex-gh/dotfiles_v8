@@ -1,0 +1,27 @@
+---
+# Homebrew Taps
+homebrew_taps: []
+
+# Homebrew formulas (standardised naming)
+homebrew_formulas: []
+
+# Homebrew casks (standardised naming)
+homebrew_casks: []
+
+# Mac App Store Applications
+mas_packages: []
+
+# Services to start/stop
+homebrew_services: []
+homebrew_services_stopped: []
+
+# Installation settings
+homebrew_upgrade_all: false
+homebrew_clear_cache: false
+homebrew_install_path: "/opt/homebrew"
+
+# Feature toggles
+install_homebrew_formulas: true
+install_homebrew_casks: true
+install_mas_packages: true
+manage_homebrew_services: true

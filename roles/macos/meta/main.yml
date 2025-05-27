@@ -1,0 +1,18 @@
+---
+dependencies:
+  - homebrew
+
+galaxy_info:
+  author: your_name
+  description: macOS specific dotfiles configuration
+  company: personal
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: MacOSX
+      versions:
+        - all
+  galaxy_tags:
+    - dotfiles
+    - macos
+    - homebrew

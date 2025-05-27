@@ -1,0 +1,5 @@
+---
+- name: Restart Homebrew services
+  ansible.builtin.shell: brew services restart {{ service_name }}
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"

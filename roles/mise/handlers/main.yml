@@ -1,0 +1,19 @@
+---
+- name: Reload mise
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+  args:
+    executable: /bin/bash
+  environment:
+    BASH_ENV: /dev/null    BASH_ENV: /dev/null    BASH_ENV: /dev/null  ansible.builtin.shell: |
+    if command -v mise >/dev/null 2>&1; then
+      mise reshim
+    fi
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.local/bin:{{ ansible_env.PATH }}"
+  listen: "reload mise"
+  failed_when: false

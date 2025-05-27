@@ -1,0 +1,57 @@
+---
+- name: Ensure Homebrew is installed
+  ansible.builtin.shell: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  args:
+    creates: /opt/homebrew/bin/brew
+  when: ansible_architecture == "arm64"
+  tags: [homebrew, install]
+
+- name: Add Homebrew to PATH for Apple Silicon
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.zprofile"
+    line: 'eval "$(/opt/homebrew/bin/brew shellenv)"'
+    create: true
+    mode: '0644'
+  when: ansible_architecture == "arm64"
+  tags: [homebrew, config]
+
+- name: Update Homebrew
+  community.general.community.general.community.general.homebrew:
+    update_community.general.community.general.community.general.homebrew: true
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+  tags: [homebrew, update]
+  when: homebrew_upgrade_all | default(false)
+
+- name: Add Homebrew taps
+  ansible.builtin.include_tasks: taps.yml
+  when: homebrew_taps is defined and homebrew_taps | length > 0
+  tags: [homebrew, taps]
+
+- name: Install Homebrew formulas
+  ansible.builtin.include_tasks: formulas.yml
+  when: homebrew_formulas is defined and homebrew_formulas | length > 0 and install_homebrew_formulas | default(true)
+  tags: [homebrew, formulas]
+
+- name: Install Homebrew casks
+  ansible.builtin.include_tasks: casks.yml
+  when: homebrew_casks is defined and homebrew_casks | length > 0 and install_homebrew_casks | default(true)
+  tags: [homebrew, casks]
+
+- name: Install Mac App Store packages
+  ansible.builtin.include_tasks: mas.yml
+  when: mas_packages is defined and mas_packages | length > 0 and install_mas_packages | default(true)
+  tags: [homebrew, mas]
+
+- name: Manage Homebrew services
+  ansible.builtin.include_tasks: services.yml
+  when: homebrew_services is defined and homebrew_services | length > 0 and manage_homebrew_services | default(true)
+  tags: [homebrew, services]
+
+- name: Clean Homebrew cache
+  ansible.builtin.shell: brew cleanup
+  environment:
+    PATH: "/opt/homebrew/bin:{{ ansible_env.PATH }}"
+  when: homebrew_clear_cache | default(false)
+  tags: [homebrew, cleanup]
+  changed_when: false
