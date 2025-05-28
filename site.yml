@@ -22,10 +22,10 @@
       ansible.builtin.set_fact:
         backup_timestamp: "{{ ansible_date_time.epoch }}"
       tags: [always, backup]
-
+      
     - name: Create backup root directory
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.dotfiles_backup"
+        path: "{{ ansible_env.HOME }}/.backup"
         state: directory
         mode: "0755"
       when: not skip_backup | default(false)
@@ -33,7 +33,7 @@
 
     - name: Create timestamped backup directory
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ backup_timestamp }}"
+        path: "{{ ansible_env.HOME }}/.backup/dotfiles/{{ backup_timestamp }}"
         state: directory
         mode: "0755"
       when: not skip_backup | default(false)
