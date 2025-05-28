@@ -18,6 +18,11 @@
         fail_msg: "Required variables not set"
       tags: [always]
 
+    - name: Set backup timestamp
+      ansible.builtin.set_fact:
+        backup_timestamp: "{{ ansible_date_time.epoch }}"
+      tags: [always, backup]
+
     - name: Create backup directory
       ansible.builtin.file:
         path: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ backup_timestamp }}"
