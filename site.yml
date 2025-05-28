@@ -20,9 +20,9 @@
 
     - name: Create backup directory
       ansible.builtin.file:
-        path: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ ansible_date_time.epoch }}"
+        path: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ backup_timestamp }}"
         state: directory
-        mode: '0755'
+        mode: "0755"
       when: not skip_backup | default(false)
       tags: [always, backup]
 
@@ -34,17 +34,33 @@
     - { role: common, tags: [common, foundation] }
 
     # Platform-specific package managers
-    - { role: homebrew, when: ansible_os_family == "Darwin", tags: [homebrew, packages, macos] }
-    - { role: linux, when: ansible_os_family != "Darwin", tags: [linux, packages] }
+    - {
+        role: homebrew,
+        when: ansible_os_family == "Darwin",
+        tags: [homebrew, packages, macos],
+      }
+    - {
+        role: linux,
+        when: ansible_os_family != "Darwin",
+        tags: [linux, packages],
+      }
 
     # Platform-specific configurations
-    - { role: macos, when: ansible_os_family == "Darwin", tags: [macos, system] }
+    - {
+        role: macos,
+        when: ansible_os_family == "Darwin",
+        tags: [macos, system],
+      }
 
     # Development tools (mise provides tool runtime management)
     - { role: mise, tags: [mise, development, tools] }
 
     # Python environment (only when explicitly enabled)
-    - { role: python, when: use_uv_python | default(true), tags: [python, development, tools] }
+    - {
+        role: python,
+        when: use_uv_python | default(true),
+        tags: [python, development, tools],
+      }
 
     # Version control (depends on mise for delta)
     - { role: git, tags: [git, development, version-control] }
