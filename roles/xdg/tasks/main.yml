@@ -1,4 +1,12 @@
 ---
+- name: Create backup directory
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ ansible_date_time.epoch }}"
+    state: directory
+    mode: "0755"
+  when: not skip_backup | default(false)
+  tags: [xdg, backup]
+
 - name: Detect existing dotfiles
   ansible.builtin.find:
     paths: "{{ ansible_env.HOME }}"
@@ -49,7 +57,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
   loop:
     - "{{ xdg_config_home }}"
     - "{{ xdg_data_home }}"
@@ -62,7 +70,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
   loop:
     - "{{ macos_app_support }}"
     - "{{ macos_preferences }}"
@@ -73,7 +81,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
   loop:
     - "{{ ansible_env.HOME }}/Desktop"
     - "{{ ansible_env.HOME }}/Documents"
@@ -92,7 +100,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
   loop: "{{ xdg_additional_dirs | default([]) }}"
   tags: [xdg, directories]
 
@@ -100,7 +108,7 @@
   ansible.builtin.file:
     path: "{{ xdg_config_home }}/environment.d"
     state: directory
-    mode: '0755'
+    mode: "0755"
   when:
     - ansible_os_family != "Darwin"
     - ansible_service_mgr == "systemd"
@@ -110,7 +118,7 @@
   ansible.builtin.template:
     src: xdg_environment.j2
     dest: "{{ xdg_config_home }}/environment.d/xdg.conf"
-    mode: '0644'
+    mode: "0644"
     backup: true
   when:
     - ansible_os_family != "Darwin"
@@ -140,7 +148,7 @@
       export MACOS_PREFERENCES="{{ macos_preferences }}"
       {% endif %}
     create: true
-    mode: '0644'
+    mode: "0644"
     backup: true
   when: setup_shell_profile | default(true)
   tags: [xdg, shell, environment]
@@ -149,7 +157,7 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
   loop:
     # Version control
     - "{{ xdg_config_home }}/git"
@@ -187,7 +195,7 @@
   ansible.builtin.file:
     path: "{{ xdg_config_home }}/systemd/user"
     state: directory
-    mode: '0755'
+    mode: "0755"
   when:
     - create_app_dirs | default(true)
     - ansible_os_family != "Darwin"
@@ -198,7 +206,7 @@
   ansible.builtin.file:
     path: "{{ xdg_runtime_dir }}"
     state: directory
-    mode: '0700'
+    mode: "0700"
     owner: "{{ ansible_user_id }}"
     group: "{{ ansible_user_gid }}"
   when:
@@ -222,8 +230,14 @@
     state: link
     force: "{{ force_overwrite | default(false) }}"
   loop:
-    - { src: "{{ xdg_config_home }}/zsh/zshrc", dest: "{{ ansible_env.HOME }}/.zshrc" }
-    - { src: "{{ xdg_config_home }}/git/config", dest: "{{ ansible_env.HOME }}/.gitconfig" }
+    - {
+        src: "{{ xdg_config_home }}/zsh/zshrc",
+        dest: "{{ ansible_env.HOME }}/.zshrc",
+      }
+    - {
+        src: "{{ xdg_config_home }}/git/config",
+        dest: "{{ ansible_env.HOME }}/.gitconfig",
+      }
   when:
     - create_legacy_symlinks | default(true)
     - not ansible_check_mode
