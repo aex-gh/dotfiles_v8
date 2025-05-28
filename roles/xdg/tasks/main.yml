@@ -1,15 +1,4 @@
 ---
-- name: Create backup directory if needed
-  ansible.builtin.file:
-    path: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ backup_timestamp | default(ansible_date_time.epoch) }}"
-    state: directory
-    mode: "0755"
-  when:
-    - not skip_backup | default(false)
-    - existing_dotfiles is defined
-    - existing_dotfiles.files | length > 0
-  tags: [xdg, backup]
-
 - name: Detect existing dotfiles
   ansible.builtin.find:
     paths: "{{ ansible_env.HOME }}"
@@ -22,7 +11,7 @@
 - name: Backup existing dotfiles
   ansible.builtin.copy:
     src: "{{ item.path }}"
-    dest: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ backup_timestamp | default(ansible_date_time.epoch) }}/{{ item.path | basename }}"
+    dest: "{{ ansible_env.HOME }}/.dotfiles_backup/{{ backup_timestamp }}/{{ item.path | basename }}"
     mode: preserve
     remote_src: true
   loop: "{{ existing_dotfiles.files }}"
